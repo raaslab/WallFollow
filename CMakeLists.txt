@@ -169,18 +169,18 @@ include_directories(
 
 add_executable(${PROJECT_NAME}_pc_subscriber src/pc_subscriber.cpp)
 target_link_libraries(${PROJECT_NAME}_pc_subscriber ${catkin_LIBRARIES} ${PCL_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_pc_subscriber ${catkin_LIBRARIES} ${PCL_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_pc_subscriber ${PROJECT_NAME}_gencpp)
+add_dependencies(${PROJECT_NAME}_pc_subscriber ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
+add_dependencies(${PROJECT_NAME}_pc_subscriber ${PROJECT_NAME}_gencpp ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 add_definitions(${PCL_DEFINITIONS})
 
 add_executable(${PROJECT_NAME}_velocity_publisher src/velocity_publisher.cpp)
 target_link_libraries(${PROJECT_NAME}_velocity_publisher ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_velocity_publisher ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_velocity_publisher ${PROJECT_NAME}_gencpp)
+add_dependencies(${PROJECT_NAME}_velocity_publisher ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
+add_dependencies(${PROJECT_NAME}_velocity_publisher ${PROJECT_NAME}_gencpp ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 add_executable(${PROJECT_NAME}_scan_to_pc src/scan_to_pc.cpp)
 target_link_libraries(${PROJECT_NAME}_scan_to_pc ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_scan_to_pc ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_scan_to_pc ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 #add_executable(${PROJECT_NAME}_offb_node src/offb_node.cpp)
 #target_link_libraries(${PROJECT_NAME}_offb_node ${catkin_LIBRARIES})
@@ -188,7 +188,7 @@ add_dependencies(${PROJECT_NAME}_scan_to_pc ${catkin_LIBRARIES})
 
 add_executable(${PROJECT_NAME}_offboard_velocity_test src/offboard_velocity_test.cpp)
 target_link_libraries(${PROJECT_NAME}_offboard_velocity_test ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_offboard_velocity_test ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_offboard_velocity_test ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 #add_executable(${PROJECT_NAME}_offboard_altitude_hold src/offboard_altitude_hold.cpp)
 #target_link_libraries(${PROJECT_NAME}_offboard_altitude_hold ${catkin_LIBRARIES})
@@ -196,17 +196,17 @@ add_dependencies(${PROJECT_NAME}_offboard_velocity_test ${catkin_LIBRARIES})
 
 add_executable(${PROJECT_NAME}_maintain_distance src/maintain_distance.cpp)
 target_link_libraries(${PROJECT_NAME}_maintain_distance ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_maintain_distance ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_maintain_distance ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 
 add_executable(${PROJECT_NAME}_nominal_velocity src/nominal_velocity.cpp)
 target_link_libraries(${PROJECT_NAME}_nominal_velocity ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_nominal_velocity ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_nominal_velocity ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 
 add_executable(${PROJECT_NAME}_discover_follow_wall src/discover_follow_wall.cpp)
 target_link_libraries(${PROJECT_NAME}_discover_follow_wall ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_discover_follow_wall ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_discover_follow_wall ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 
 #add_executable(${PROJECT_NAME}_discover_follow_wall_from_below src/discover_follow_wall_from_below.cpp)
@@ -215,20 +215,20 @@ add_dependencies(${PROJECT_NAME}_discover_follow_wall ${catkin_LIBRARIES})
 
 add_executable(${PROJECT_NAME}_offboard_position_test src/offboard_position_test.cpp)
 target_link_libraries(${PROJECT_NAME}_offboard_position_test ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_offboard_position_test ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_offboard_position_test ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 add_executable(${PROJECT_NAME}_besideWall src/besideWall.cpp)
 target_link_libraries(${PROJECT_NAME}_besideWall ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_besideWall ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_besideWall ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 
 add_executable(${PROJECT_NAME}_columnLoop src/columnLoop.cpp)
 target_link_libraries(${PROJECT_NAME}_columnLoop ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_columnLoop ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_columnLoop ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 add_executable(${PROJECT_NAME}_marker_fix src/marker_fix.cpp)
 target_link_libraries(${PROJECT_NAME}_marker_fix ${catkin_LIBRARIES})
-add_dependencies(${PROJECT_NAME}_marker_fix ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME}_marker_fix ${catkin_LIBRARIES} ${${PROJECT_NAME}_EXPORTED_TARGETS}})
 
 
 
