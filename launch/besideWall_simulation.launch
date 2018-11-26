@@ -2,12 +2,12 @@
 	
 	<rosparam command="load" file="$(find wall_follow)/launch/besideWall_params.yaml"/>
 	<param name="control/max_velocity"	type="double"	value="2.0"/>
-	
+	<arg name="freq" default="3" />
+
+
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch"/>
 	<include file="$(find wall_follow)/launch/besideWall.launch"/>
-	<include file="$(find sweep_ros)/launch/sweep.launch">
-		<arg name="freq" value="$(arg freq)" />
-	</include>
+
 
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="hor" />	
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="vert"/>
