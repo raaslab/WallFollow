@@ -26,6 +26,9 @@ Edit ~/src/Firmware/launch/mavros_posix_sitl.launch and ensure the below line to
 
 `<arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/2_wall_new.world"/>`
 
+Get Model Working:
+Add "rplidar_vert" folder to the location Firmware/Tools/sitl_gazebo/models
+
 ## Launch files
 ### Flight beside bridge girder
 Simulation: `roslaunch wall_follow besideWall_simulation.launch`
