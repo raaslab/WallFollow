@@ -53,7 +53,3 @@ flight:
   move_threshold_vertical: 0.7
   move_threshold_horizontal: 1.0
   TAKEOFF_BUFFER: 1.0
-
-
-
-
