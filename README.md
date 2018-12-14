@@ -27,7 +27,8 @@ Edit ~/src/Firmware/launch/mavros_posix_sitl.launch and ensure the below line to
 `<arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/2_wall_new.world"/>`
 
 Get Model Working:
-Add "rplidar_vert" folder to the location Firmware/Tools/sitl_gazebo/models
+
+Add "rplidar_vert" folder to the location Firmware/Tools/sitl_gazebo/models and replace "rplidar" with the one in this repository. By doing this you change the lidar from a GPU based lidar to a CPU based lidar. The GPU based lidar does not always work correctly and potentially sees through objects, giving incorrect data.
 
 ## Launch files
 ### Flight beside bridge girder
