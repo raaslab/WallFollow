@@ -325,7 +325,7 @@ int main(int argc, char **argv){
 
     while(ros::ok()){
         ros::spinOnce();
-	velocity_pub.publish(computeTargetVel());
+		velocity_pub.publish(computeTargetVel());
         rate.sleep();
     }
 

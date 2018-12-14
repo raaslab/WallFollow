@@ -4,7 +4,6 @@
 
 	
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch"/>
-	<include file="$(find wall_follow)/launch/besideWall.launch"/>
 
 
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="hor">
@@ -14,6 +13,5 @@
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="vert">
 		<remap from="/vert/laser/scan" to="/laser/scan_vert"/>
 	</node>
-	
 
 </launch>

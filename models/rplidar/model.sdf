@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
-  <model name="rplidar_vert">
+  <model name="rplidar">
     <link name="link">
 
       <inertial>
@@ -47,7 +47,7 @@
         </ray>
         <plugin name="laser" filename="libgazeboroslaser.so" />
         <plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_laser.so">
-          <topicName>laser/scan_vert</topicName>
+          <topicName>laser/scan</topicName>
           <frameName>rplidar_link</frameName>
         </plugin>
         <always_on>1</always_on>
