@@ -6,6 +6,16 @@
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch"/>
 
 
+	<!-- check if these two work seperately and then together -->
+	<!-- girder flight-->
+	<include file="$(find wall_follow)/launch/besideWall.launch"/>
+
+	<!-- column flight-->
+	<include file="$(find wall_follow)/launch/columnLoop.launch"/>
+
+
+
+
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="hor">
 		<remap from="/hor/laser/scan" to="/laser/scan"/>
 	</node>
