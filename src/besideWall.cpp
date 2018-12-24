@@ -85,13 +85,13 @@ void local_pose_cb(const geometry_msgs::PoseStamped::ConstPtr& msg){
 }
 
 void hor_lines_cb(const wall_follow::Lines::ConstPtr& lines){
-	//ROS_INFO("first line: dist:%2.4f, angle:%d, confidence:%d",lines->dist[0], lines->angle[0], lines->confidence[0]);
+	ROS_INFO("first line: dist:%2.4f, angle:%d, confidence:%d",lines->dist[0], lines->angle[0], lines->confidence[0]);
 	hor_lines = *lines;
 	new_hor_data = 1;
 }
 
 void vert_lines_cb(const wall_follow::Lines::ConstPtr& lines){
-	//ROS_INFO("first line: dist:%2.4f, angle:%d, confidence:%d",lines->dist[0], lines->angle[0], lines->confidence[0]);
+	ROS_INFO("first line: dist:%2.4f, angle:%d, confidence:%d",lines->dist[0], lines->angle[0], lines->confidence[0]);
 	vert_lines = *lines;
 	new_vert_data = 1;
 }
