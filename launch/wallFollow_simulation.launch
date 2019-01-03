@@ -1,18 +1,20 @@
 <launch>
+	<!-- parameter file -->
 	<rosparam command="load" file="$(find wall_follow)/launch/wallFollow_params.yaml"/>
 	<param name="control/max_velocity"	type="double"	value="-10.0"/>
 
-	
+	<!-- launches mavros for talking to UAV -->
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch"/>
 
+	<!-- publishes /ho/li with namespaces -->
 	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="hor"/>
 	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="vert"/>
 
 
+	<!-- obtaines data from the laser scanners on UAV -->
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="hor">
 		<remap from="/hor/laser/scan" to="/laser/scan"/>
 	</node>
-
 	<node pkg="wall_follow" type="wall_follow_scan_to_pc" name="scan_to_pc" ns="vert">
 		<remap from="/vert/laser/scan" to="/laser/scan_vert"/>
 	</node>
