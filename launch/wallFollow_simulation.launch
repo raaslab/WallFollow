@@ -6,6 +6,7 @@
 	<!-- launches mavros for talking to UAV -->
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch"/>
 
+
 	<!-- publishes /ho/li with namespaces -->
 	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="hor"/>
 	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="vert"/>
