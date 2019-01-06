@@ -12,6 +12,7 @@ void scan_Callback(const sensor_msgs::LaserScan::ConstPtr& in_scan){
 
 
 int main(int argc, char **argv){
+	ROS_DEBUG_STREAM("Hello " << "scan_to_pc");
 	ros::init(argc, argv, "scan_to_pc");
 	ros::NodeHandle n;
 	ros::Subscriber scan_sub = n.subscribe("laser/scan", 10, scan_Callback);
@@ -22,6 +23,7 @@ int main(int argc, char **argv){
 		cloud_pub.publish(out_cloud);
 		rate.sleep();
 	}
+	ROS_DEBUG("Hello");
 	return 0;
 }
 

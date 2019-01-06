@@ -398,6 +398,7 @@ void getAllParams(ros::NodeHandle n){
 }
 
 int main(int argc, char **argv){
+	ROS_DEBUG_STREAM("Hello " << "pc_subscriber");
 	ros::init(argc, argv, "pc_subscriber");
 	ros::NodeHandle n;
 	getAllParams(n);

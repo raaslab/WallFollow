@@ -278,6 +278,8 @@ void getAllParams(ros::NodeHandle n){
 
 int main(int argc, char **argv){
 //_____________________________________________________________________________________________________#InitializeNodePubSubAndRate
+	ROS_DEBUG_STREAM("Hello " << "besideWall");
+
 
 	ros::init(argc, argv, "offb_node");
 	ros::NodeHandle nh;
@@ -296,7 +298,7 @@ int main(int argc, char **argv){
 	while(ros::ok() && current_state.connected){	// wait for FCU connection	
 	ros::spinOnce();
 
-	ROS_INFO("while: waiting for FCU connection");
+	ROS_DEBUG("while: waiting for FCU connection");
 
 	rate.sleep();
 	}
@@ -319,7 +321,7 @@ int main(int argc, char **argv){
 
 	for(int i = 100; ros::ok() && i > 0; --i){
 		velocity_pub.publish(target_vel);
-		ROS_INFO("for: publishing velocity");
+		ROS_DEBUG("for: publishing velocity");
 
 		rate.sleep();
 	}
@@ -331,7 +333,7 @@ int main(int argc, char **argv){
     while(ros::ok()){
         ros::spinOnce();
 		velocity_pub.publish(computeTargetVel());
-		ROS_INFO("while: publishing velocity?");
+		ROS_DEBUG("while: publishing velocity?");
         rate.sleep();
     }
 
