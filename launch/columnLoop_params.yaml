@@ -50,7 +50,7 @@ control:
   Z_Ki: 0
 
 flight:
-  desired_wall_dist: 4.5
+  desired_wall_dist: 2
   desired_buffer: 2.0         
   move_threshold_vertical: 0.7 #unused
   move_threshold_horizontal: 0.7 #unused
