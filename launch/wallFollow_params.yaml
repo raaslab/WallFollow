@@ -33,9 +33,9 @@ vert:
 control:
   laser_rf_offset: 0 # horizontal lidar leads robot x axis (east) by 0 degrees in simulation and 0 degrees on the actual hex
 
-  max_vel_h: 1.0
-  max_vel_z: 0.5
-  nominal_vel: 1
+  max_vel_h: 1.0 # max hold (compensation) velocity in hor direction
+  max_vel_z: 0.5 # max compensation velocity in Z direction
+  nominal_vel: 1 # nominal velocity independent   of compensation velocity
 
   NOMINAL_Z: 0.5    # might not be used
   TAKEOFF_VEL: 0.5  # might not be used

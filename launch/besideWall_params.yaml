@@ -1,41 +1,48 @@
 hor:
-  sensing: #		Sim: [-10 10 1 10]	Real: [-10 -1 -10 10]
+  sensing:    # Sim:[-10 10 1 10]  Real:[-10 -1 -10 10]
     xmin: -10
     xmax: 10
     ymin: 1
     ymax: 10
 
-  line:
-    theta_min: 50 # specify lower to higher	w.r.t laser frame 	sim (wall in front): [50  130]; 	real (wall to the left): [140 220]
+  line:       # Sim (wall in front):[50  130]; Real (wall to the left):[140 220]
+    theta_min: 50 # specify lower to higher w.r.t laser frame
     theta_max: 130
+
+
     resolution: 0.1 # currently hardcoded in code
     threshold: 10
-
     min_line_separation_dist: 2 # (metres)
     min_line_separation_angle: 45 # (degrees)
 
 vert:
-  sensing: #		Sim:[-3 3 1 10]		Real: [-3 3 1 10]
-    xmin: -2 # X-axis is the interesting vertical axis (Z) in the real world
+  sensing:    # Sim:[-3 3 1 10]; Real:[-3 3 1 10]
+    xmin: -2  # X-axis is the interesting vertical axis (Z) in the real world
     xmax: 4 
-    ymin: 1 # Y-axis is the distance to the bridge (to the left)
+    ymin: 1   # Y-axis is the distance to the bridge (to the left)
     ymax: 10
-  line:
+  
 
-    theta_min: 60 # specify specify lower to higher	w.r.t laser frame	
+
+
+
+  line:
+    theta_min: 60 # specify specify lower to higher w.r.t laser frame 
     theta_max: 120
+
+
     resolution: 0.1 
     threshold: 7
-
     min_line_separation_dist: 2 #  (metres)
     min_line_separation_angle: 45 #  (degrees)
 
 control:
   laser_rf_offset: 0 # horizontal lidar leads robot x axis (east) by 0 degrees in simulation and 0 degrees on the actual hex
-
-  max_vel_h: 0.5 # max hold (compensation) velocity in hor direction
-  max_vel_z: 0.4 # max compensation velocity in Z direction
-  nominal_vel: 0.0 # nominal velocity independent 	of compensation velocity
+  max_vel_h: 1.0 # max hold (compensation) velocity in hor direction
+  max_vel_z: 0.5 # max compensation velocity in Z direction
+  nominal_vel: 1 # nominal velocity independent   of compensation velocity
+  NOMINAL_Z: 0.5    # might not be used
+  TAKEOFF_VEL: 0.5  # might not be used
 
   Kp: 0.4
   Kd: 0.2
@@ -45,13 +52,17 @@ control:
   Z_Ki: 0
 
 flight:
-  desired_wall_dist: 4.5
-  desired_buffer: 2.5         
-
+  desired_wall_dist: 4          # for simulation make sure you can see the wall. Below 5 should be okay.
+  desired_altitude: 8           # overwritten in code when wall found
+  altitude_entry_tolerance: 0.2 # currently unused
+  altitude_exit_tolerance: 1    # currently unused
+  NO_WALL_THRESHOLD: 5          # number of LIDAR scans without wall that can be tolerated before we switch to discover wall (potentially problematic)
+  DESIRED_MOVE_SECONDS: 4
+  DESIRED_BUFFER: 3.0           # metres
+  LOWER_ALTITUDE_LIMIT: 1.0     # metres
+  UPPER_ALTITUDE_LIMIT: 10
   move_threshold_vertical: 0.7
-  move_threshold_horizontal: 0.7
+  move_threshold_horizontal: 1.0
+  TAKEOFF_BUFFER: 1.0
 
-
-
-
-
+  

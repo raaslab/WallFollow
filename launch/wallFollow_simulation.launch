@@ -1,7 +1,7 @@
 <launch>
 	<!-- parameter file -->
-	<rosparam command="load" file="$(find wall_follow)/launch/wallFollow_params.yaml"/>
-	<param name="control/max_velocity"	type="double"	value="-10.0"/>
+	<!-- rosparam command="load" file="$(find wall_follow)/launch/wallFollow_params.yaml"/-->
+	<!-- param name="control/max_velocity"	type="double"	value="-10.0"/-->
 
 	<!-- launches mavros for talking to UAV -->
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch"/>
