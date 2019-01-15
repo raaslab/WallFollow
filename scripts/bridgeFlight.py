@@ -40,8 +40,9 @@ def main():
 
 	rospy.Subscriber("/hor/ho/li",Lines,horLineCB)
 	rospy.Subscriber("/vert/ho/li",Lines,vertLineCB)
-	rospy.Subscriber("/besideWallPub",PositionTarget,besideWallPubCB)
-	rospy.Subscriber("/columnLoopPub",PositionTarget,columnLoopPubCB)
+	rospy.Subscriber("/besideWallPub",PositionTarget,besideWallPubCB) # besidewall output
+	rospy.Subscriber("/columnLoopPub",PositionTarget,columnLoopPubCB) # columnloop output
+	rospy.Publisher("/mavros/setpoint_raw/local",PositionTarget,queue_size=10) # mavros topic
 	#ros::Subscriber hor_lines_sub = nh.subscribe<wall_follow::Lines>("/hor/ho/li",10,hor_lines_cb);
 	#ros::Subscriber vert_lines_sub = nh.subscribe<wall_follow::Lines>("/vert/ho/li",10,vert_lines_cb);
 	
