@@ -24,8 +24,8 @@
 	<!-- check if these two work seperately and then together -->
 	<!-- girder flight-->
 	<!-- include file="$(find wall_follow)/launch/besideWall.launch"/-->
-	<!-- include file="$(find wall_follow)/launch/besideWallRight.launch"/-->
-	<!-- include file="$(find wall_follow)/launch/besideWallLeft.launch"/-->
+	<include file="$(find wall_follow)/launch/besideWallRight.launch"/>
+	<include file="$(find wall_follow)/launch/besideWallLeft.launch"/>
 
 	<!-- column flight-->
 	<!-- include file="$(find wall_follow)/launch/columnLoop.launch"/-->

@@ -21,16 +21,23 @@ def horLineCB(data):
 	data
 
 def vertLineCB(data):
-	# print("\n----------vertLineCB----------")
 	data
 
-def besideWallPubCB(data):
-	global besideTopic
-	besideTopic = data
+def rightBesideWallPubCB(data):
+	global rightBesideTopic
+	rightBesideTopic = data
 
-def columnLoopPubCB(data):
-	global columnTopic
-	columnTopic = data
+def leftBesideWallPubCB(data):
+	global leftBesideTopic
+	leftBesideTopic = data	
+
+def upColumnLoopPubCB(data):
+	global upColumnTopic
+	upColumnTopic = data
+
+def downColumnLoopPubCB(data):
+	global downColumnTopic
+	downColumnTopic = data
 
 def horLaserCB(data):
 	global horTopic
@@ -48,43 +55,55 @@ def main():
 	rospy.init_node('bridgeFlight')
 	rospy.Subscriber("/hor/ho/li",Lines,horLineCB)
 	rospy.Subscriber("/vert/ho/li",Lines,vertLineCB)
-	rospy.Subscriber("/besideWallPub",PositionTarget,besideWallPubCB) # besidewall output
-	rospy.Subscriber("/columnLoopPub",PositionTarget,columnLoopPubCB) # columnloop output
+	rospy.Subscriber("/right/besideWallPub",PositionTarget,rightBesideWallPubCB) # besidewall output going right
+	rospy.Subscriber("/left/besideWallPub",PositionTarget,leftBesideWallPubCB) # besidewall output going left
+	rospy.Subscriber("/up/columnLoopPub",PositionTarget,upColumnLoopPubCB) # columnloop output going up
+	rospy.Subscriber("/down/columnLoopPub",PositionTarget,downColumnLoopPubCB) # columnloop output going down
 	rospy.Subscriber("/laser/scan",LaserScan,horLaserCB)
 	rospy.Subscriber("/laser/scan_vert",LaserScan,vertLaserCB)
 	outputData = rospy.Publisher("/mavros/setpoint_raw/local",PositionTarget,queue_size=10) # mavros topic
-	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girder = 0 or column =1 flight
+	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
 
 	okayMode = 0
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
-		print("Which mode would you like to start with? (girder == 0, column == 1)")
+		print("Which mode would you like to start with?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3)")
 		gcmode = int(input()) # get the start input mode from user
 		GCmode.publish(gcmode) # publishing starting mode
-		if gcmode == 0:	# starting girder flight
+		if gcmode == 0:	# starting girderRight flight
 			okayMode = 1
-			print("girder flight choosen.")
-		elif gcmode == 1: # starting column flight
+			print("girderRight flight choosen.")
+		elif gcmode == 1: # starting girderLeft flight
 			okayMode = 1
-			print("column flight choosen.")
+			print("girderLeft flight choosen.")
+		elif gcmode == 2: # starting columnUp flight
+			okayMode = 1
+			print("columnUp flight choosen.")
+		elif gcmode == 3: # starting columnDown flight
+			okayMode = 1
+			print("columnDown flight choosen.")
 		else:
 			print("Not a valid choice. Re-choose.")
 
 
 		while okayMode == 1:
-			if gcmode == 0:	# starting girder flight
+			if gcmode == 0:	# starting girderRight flight
 				cleanedList = [x for x in horTopic if x != np.inf]
-				outputData.publish(besideTopic)
-				print(len(cleanedList))
-				print(len(horTopic))
-				print("Works!")
-			else: # starting column flight. gcmode == 1
+				outputData.publish(rightBesideTopic)
+				print("Works! Right.")
+			elif gcmode == 1: # starting girderLeft flight
+				cleanedList = [x for x in horTopic if x != np.inf]
+				outputData.publish(leftBesideTopic)
+				print("Works! Left.")
+			elif gcmode == 2: # starting columnUp flight
 				cleanedList = [x for x in vertTopic if x != np.inf]
-				outputData.publish(columnTopic)
-				print(len(cleanedList))
-				print(len(vertTopic))
-				print("Works!")
+				outputData.publish(upColumnTopic)
+				print("Works! Up.")
+			else: # starting columnDown flight. gcmode == 3
+				cleanedList = [x for x in vertTopic if x != np.inf]
+				outputData.publish(downColumnTopic)
+				print("Works! Down.")
 
 			# start which ever node is chosen by "gcmode"
 			# get hor and vert laser data
