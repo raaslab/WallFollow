@@ -1,7 +1,7 @@
 <launch>
 	
-	<rosparam command="load" file="$(find wall_follow)/launch/besideWallLeft_params.yaml"/>
-	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall" ns="left">
+	<rosparam command="load" file="$(find wall_follow)/launch/besideWall_params.yaml"/>
+	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall">
 		<remap from="/mavros/setpoint_raw/local" to="/besideWallPub"/>
 	</node>
 
