@@ -105,12 +105,12 @@ def main():
 				outputData.publish(downColumnTopic)
 				print("Works! Down.")
 
-			# start which ever node is chosen by "gcmode"
-			# get hor and vert laser data
 				# we want to check then number of laser data we are getting from each laser
 				# compare the two and see which one has more
 					# more along the lines of check which one has drastically increased from previous time steps
 				# if it has more then switch modes
+				# figure out how to manually switch modes
+				
 			rospy.sleep(1)
 
 	
