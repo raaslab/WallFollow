@@ -65,6 +65,9 @@ def main():
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
 
 	okayMode = 0
+	listBuffer = 0
+	timeOfBuffer = 5
+
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
@@ -86,10 +89,33 @@ def main():
 		else:
 			print("Not a valid choice. Re-choose.")
 
+		cleanedListHor = [x for x in horTopic if x != np.inf]
+		cleanedListVert = [x for x in vertTopic if x != np.inf]
+		preCLH = cleanedListHor
+		preCLV = cleanedListVert
+
+		rospy.sleep(1)
 
 		while okayMode == 1:
 			cleanedListHor = [x for x in horTopic if x != np.inf]
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
+
+			if cleanedListHor > cleanedListVert: # printing information
+				print("Girder flight better.")
+			else:
+				print("Column flight better.")
+
+			# need to add buffer for below variables
+			# need to add the assigning of preCLH and preCLV
+			if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
+
+			elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
+
+			else: # no change in type
+
+
+
+			
 			if gcmode == 0:	# starting girderRight flight
 				outputData.publish(rightBesideTopic)
 				print("Right.")
@@ -108,7 +134,13 @@ def main():
 					# more along the lines of check which one has drastically increased from previous time steps
 				# if it has more then switch modes
 				# figure out how to manually switch modes
-				
+			
+
+
+
+			preCLH = cleanedListHor
+			preCLV = cleanedListVert
+			GCmode.publish(gcmode)
 			rospy.sleep(1)
 
 	
