@@ -88,22 +88,20 @@ def main():
 
 
 		while okayMode == 1:
+			cleanedListHor = [x for x in horTopic if x != np.inf]
+			cleanedListVert = [x for x in vertTopic if x != np.inf]
 			if gcmode == 0:	# starting girderRight flight
-				cleanedList = [x for x in horTopic if x != np.inf]
 				outputData.publish(rightBesideTopic)
-				print("Works! Right.")
+				print("Right.")
 			elif gcmode == 1: # starting girderLeft flight
-				cleanedList = [x for x in horTopic if x != np.inf]
 				outputData.publish(leftBesideTopic)
-				print("Works! Left.")
+				print("Left.")
 			elif gcmode == 2: # starting columnUp flight
-				cleanedList = [x for x in vertTopic if x != np.inf]
 				outputData.publish(upColumnTopic)
-				print("Works! Up.")
+				print("Up.")
 			else: # starting columnDown flight. gcmode == 3
-				cleanedList = [x for x in vertTopic if x != np.inf]
 				outputData.publish(downColumnTopic)
-				print("Works! Down.")
+				print("Down.")
 
 				# we want to check then number of laser data we are getting from each laser
 				# compare the two and see which one has more
