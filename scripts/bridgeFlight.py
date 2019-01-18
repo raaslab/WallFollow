@@ -63,6 +63,7 @@ def main():
 	rospy.Subscriber("/laser/scan_vert",LaserScan,vertLaserCB)
 	outputData = rospy.Publisher("/mavros/setpoint_raw/local",PositionTarget,queue_size=10) # mavros topic
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
+	rate = rospy.Rate(10) # 10hz
 
 	okayMode = 0
 	listBufferTime = 0
@@ -101,20 +102,20 @@ def main():
 		else:
 			print("Column flight better.")
 
-		rospy.sleep(timeOfBuffer)
+		rospy.sleep(timeOfBuffer) # long pause
 
-		while okayMode == 1:
+		while okayMode == 1: # autonomous mode
 			cleanedListHor = [x for x in horTopic if x != np.inf]
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
 
 			# need to add buffer for below variables
-			if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
-				gcmode = 0
-				print("Switching to Right.")
-			elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
-				gcmode = 3
-				print("Switching to Down.")
-			else: # no change in type
+#				if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
+#				gcmode = 0
+#				print("Switching to Right.")
+#			elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
+#				gcmode = 3
+#				print("Switching to Down.")
+#			else: # no change in type
 
 
 
@@ -147,6 +148,51 @@ def main():
 			rospy.sleep(1)
 
 		while okayMode == 2: # manual mode
+			try:
+				if gcmode == 0:	# starting girderRight flight
+					topic = rightBesideTopic
+					outputData.publish(rightBesideTopic)
+					print("girderRight flight choosen.")
+				elif gcmode == 1: # starting girderLeft flight
+					topic = leftBesideTopic
+					outputData.publish(leftBesideTopic)
+					print("girderLeft flight choosen.")
+				elif gcmode == 2: # starting columnUp flight
+					topic = upColumnTopic
+					outputData.publish(upColumnTopic)
+					print("columnUp flight choosen.")
+				elif gcmode == 3: # starting columnDown flight
+					topic = downColumnTopic
+					outputData.publish(downColumnTopic)
+					print("columnDown flight choosen.")
+				else:
+					print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
+					gcmode = int(input()) # get the start input mode from user
+					GCmode.publish(gcmode)
+					if gcmode == 0:	# starting girderRight flight
+						topic = rightBesideTopic
+						outputData.publish(rightBesideTopic)
+						print("girderRight flight choosen.")
+					elif gcmode == 1: # starting girderLeft flight
+						topic = leftBesideTopic
+						outputData.publish(leftBesideTopic)
+						print("girderLeft flight choosen.")
+					elif gcmode == 2: # starting columnUp flight
+						topic = upColumnTopic
+						outputData.publish(upColumnTopic)
+						print("columnUp flight choosen.")
+					else: # starting columnDown flight
+						topic = downColumnTopic
+						outputData.publish(downColumnTopic)
+						print("columnDown flight choosen.")
+				while True:
+					print("outputTopic")
+					outputData.publish(topic)
+					rospy.sleep(0.1)
+
+			except KeyboardInterrupt:
+				print("New mode?\n")
+
 			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 			gcmode = int(input()) # get the start input mode from user
 			GCmode.publish(gcmode) # publishing starting mode
