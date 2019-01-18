@@ -65,13 +65,13 @@ def main():
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
 
 	okayMode = 0
-	listBuffer = 0
+	listBufferTime = 0
 	timeOfBuffer = 5
 
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
-		print("Which mode would you like to start with?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3)")
+		print("Which mode would you like to start with?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3, manualMode = 4)")
 		gcmode = int(input()) # get the start input mode from user
 		GCmode.publish(gcmode) # publishing starting mode
 		if gcmode == 0:	# starting girderRight flight
@@ -86,31 +86,34 @@ def main():
 		elif gcmode == 3: # starting columnDown flight
 			okayMode = 1
 			print("columnDown flight choosen.")
+		elif gcmode == 4: # starting manual mode
+			okayMode = 2
 		else:
 			print("Not a valid choice. Re-choose.")
 
 		cleanedListHor = [x for x in horTopic if x != np.inf]
 		cleanedListVert = [x for x in vertTopic if x != np.inf]
-		preCLH = cleanedListHor
-		preCLV = cleanedListVert
+		preCLH = cleanedListHor	# previousCleanedListHor
+		preCLV = cleanedListVert # previousCleanedListVert
 
-		rospy.sleep(1)
+		if cleanedListHor > cleanedListVert: # printing information
+			print("Girder flight better.")
+		else:
+			print("Column flight better.")
+
+		rospy.sleep(timeOfBuffer)
 
 		while okayMode == 1:
 			cleanedListHor = [x for x in horTopic if x != np.inf]
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
 
-			if cleanedListHor > cleanedListVert: # printing information
-				print("Girder flight better.")
-			else:
-				print("Column flight better.")
-
 			# need to add buffer for below variables
-			# need to add the assigning of preCLH and preCLV
 			if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
-
+				gcmode = 0
+				print("Switching to Right.")
 			elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
-
+				gcmode = 3
+				print("Switching to Down.")
 			else: # no change in type
 
 
@@ -143,7 +146,26 @@ def main():
 			GCmode.publish(gcmode)
 			rospy.sleep(1)
 
-	
+		while okayMode == 2: # manual mode
+			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
+			gcmode = int(input()) # get the start input mode from user
+			GCmode.publish(gcmode) # publishing starting mode
+			if gcmode == 0:	# starting girderRight flight
+				outputData.publish(rightBesideTopic)
+				print("girderRight flight choosen.")
+			elif gcmode == 1: # starting girderLeft flight
+				outputData.publish(leftBesideTopic)
+				print("girderLeft flight choosen.")
+			elif gcmode == 2: # starting columnUp flight
+				outputData.publish(upColumnTopic)
+				print("columnUp flight choosen.")
+			elif gcmode == 3: # starting columnDown flight
+				outputData.publish(downColumnTopic)
+				print("columnDown flight choosen.")
+			else:
+				print("Not a valid choice. Re-choose.")
+
+
 
 
 if __name__ == '__main__':
