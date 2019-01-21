@@ -1,58 +1,50 @@
 #!/usr/bin/env python
 
-import rospy
-from pynput import keyboard
-import threading
-
-
-
-
-
-# The key combination to check
-COMBINATIONS = [
-	{keyboard.KeyCode(char='1')}
-]
-
-# The currently active modifiers
-current = set()
-
-def execute():
-	print ("Do Something")
-
-def on_press(key):
-	if any([key in COMBO for COMBO in COMBINATIONS]):
-		current.add(key)
-		if any(all(k in current for k in COMBO) for COMBO in COMBINATIONS):
-			execute()
-	pass
-
-def on_release(key):
-	if any([key in COMBO for COMBO in COMBINATIONS]):
-		current.remove(key)
-	pass
-
-
+from __future__ import absolute_import, division, unicode_literals, print_function
+ 
+import tty, termios
+import sys
+import thread as _thread
+import time
+ 
+ 
+try:
+    from msvcrt import getch  # try to import Windows version
+except ImportError:
+    def getch():   # define non-Windows version
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(sys.stdin.fileno())
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+ 
+def keypress():
+    global char
+    char = getch()
+ 
 def main():
-	try:
-		while True:
-			with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-				listener.join()
-
-			timerThread = threading.Thread(target= <your-function> )
-			timerThread.daemon = False # Is this a background process?
-			timerThread.start()
-
-
-	except KeyboardInterrupt:
-		print('interrupted!')
-		
-
-
-
-
-if __name__ == '__main__':
-	try:
-		main()
-	except rospy.ROSInterruptException:
-		pass
-	
+    global char
+    char = None
+    _thread.start_new_thread(keypress, ())
+ 
+    while True:
+        if char is not None:
+            if char == 'q' or char == '\x1b':  # x1b is ESC
+                exit()
+            char = None
+            try:
+                print("Key pressed is " + char.decode('utf-8'))
+            except UnicodeDecodeError:
+                print("character can not be decoded, sorry!")
+                char = None
+            _thread.start_new_thread(keypress, ())
+            
+        print("Program is running\n")
+        time.sleep(1)
+ 
+if __name__ == "__main__":
+    main()
+ 

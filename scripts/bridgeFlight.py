@@ -13,8 +13,23 @@ from sensor_msgs.msg import *
 from roslaunch.parent import ROSLaunchParent
 from wall_follow.msg import Lines
 from pynput import keyboard
-
-
+import tty, termios
+import sys
+import thread as _thread
+import time
+try:
+    from msvcrt import getch  # try to import Windows version
+except ImportError:
+    def getch():   # define non-Windows version
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(sys.stdin.fileno())
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+ 
 
 
 def horLineCB(data):
@@ -48,8 +63,12 @@ def horLaserCB(data):
 def vertLaserCB(data):
 	global vertTopic
 	vertTopic = data.ranges
-	
 
+def keypress():
+	global char
+	print("KP")
+
+	char = getch()
 
 
 
@@ -70,6 +89,8 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	timeOfBuffer = 5
+	global char
+
 
 
 	while not rospy.is_shutdown():
@@ -141,24 +162,30 @@ def main():
 				# if it has more then switch modes
 				# figure out how to manually switch modes
 			
-
-
-
 			preCLH = cleanedListHor
 			preCLV = cleanedListVert
 			GCmode.publish(gcmode)
 			rospy.sleep(1)
 
 		while okayMode == 2: # manual mode
-			if keyboard.is_pressed('0'):
-				gcmode = 0
-			elif keyboard.is_pressed('1'):
-				gcmode = 1
-			elif keyboard.is_pressed('2'):
-				gcmode = 2
-			elif keyboard.is_pressed('3'):
-				gcmode = 3
-			else:
+			print("start")
+			char = None
+			_thread.start_new_thread(keypress, ())
+
+			while True:
+				if char is not None: # gets keypress
+					try:
+						print(char)
+						print("Key pressed is " + char.decode('utf-8'))
+						# gcmode = char
+					except UnicodeDecodeError:
+						print("character can not be decoded, sorry!")
+						char = None
+					_thread.start_new_thread(keypress, ())
+					if char == '\x1b':  # x1b is ESC
+						exit()
+					char = None
+
 				if gcmode == 0:	# starting girderRight flight
 					topic = rightBesideTopic
 					outputData.publish(rightBesideTopic)
@@ -187,8 +214,9 @@ def main():
 					print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 					gcmode = int(input()) # get the start input mode from user
 					GCmode.publish(gcmode)
-				rospy.sleep(0.1)
+					print("start")
 
+				rospy.sleep(1)
 
 
 if __name__ == '__main__':
