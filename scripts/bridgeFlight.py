@@ -12,6 +12,8 @@ from std_msgs.msg import Int64
 from sensor_msgs.msg import *
 from roslaunch.parent import ROSLaunchParent
 from wall_follow.msg import Lines
+from pynput import keyboard
+
 
 
 
@@ -148,69 +150,44 @@ def main():
 			rospy.sleep(1)
 
 		while okayMode == 2: # manual mode
-			try:
+			if keyboard.is_pressed('0'):
+				gcmode = 0
+			elif keyboard.is_pressed('1'):
+				gcmode = 1
+			elif keyboard.is_pressed('2'):
+				gcmode = 2
+			elif keyboard.is_pressed('3'):
+				gcmode = 3
+			else:
 				if gcmode == 0:	# starting girderRight flight
 					topic = rightBesideTopic
 					outputData.publish(rightBesideTopic)
 					print("girderRight flight choosen.")
+					GCmode.publish(gcmode)
+
 				elif gcmode == 1: # starting girderLeft flight
 					topic = leftBesideTopic
 					outputData.publish(leftBesideTopic)
 					print("girderLeft flight choosen.")
+					GCmode.publish(gcmode)
+
 				elif gcmode == 2: # starting columnUp flight
 					topic = upColumnTopic
 					outputData.publish(upColumnTopic)
 					print("columnUp flight choosen.")
+					GCmode.publish(gcmode)
+
 				elif gcmode == 3: # starting columnDown flight
 					topic = downColumnTopic
 					outputData.publish(downColumnTopic)
 					print("columnDown flight choosen.")
+					GCmode.publish(gcmode)
+
 				else:
 					print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 					gcmode = int(input()) # get the start input mode from user
 					GCmode.publish(gcmode)
-					if gcmode == 0:	# starting girderRight flight
-						topic = rightBesideTopic
-						outputData.publish(rightBesideTopic)
-						print("girderRight flight choosen.")
-					elif gcmode == 1: # starting girderLeft flight
-						topic = leftBesideTopic
-						outputData.publish(leftBesideTopic)
-						print("girderLeft flight choosen.")
-					elif gcmode == 2: # starting columnUp flight
-						topic = upColumnTopic
-						outputData.publish(upColumnTopic)
-						print("columnUp flight choosen.")
-					else: # starting columnDown flight
-						topic = downColumnTopic
-						outputData.publish(downColumnTopic)
-						print("columnDown flight choosen.")
-				while True:
-					print("outputTopic")
-					outputData.publish(topic)
-					rospy.sleep(0.1)
-
-			except KeyboardInterrupt:
-				print("New mode?\n")
-
-			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
-			gcmode = int(input()) # get the start input mode from user
-			GCmode.publish(gcmode) # publishing starting mode
-			if gcmode == 0:	# starting girderRight flight
-				outputData.publish(rightBesideTopic)
-				print("girderRight flight choosen.")
-			elif gcmode == 1: # starting girderLeft flight
-				outputData.publish(leftBesideTopic)
-				print("girderLeft flight choosen.")
-			elif gcmode == 2: # starting columnUp flight
-				outputData.publish(upColumnTopic)
-				print("columnUp flight choosen.")
-			elif gcmode == 3: # starting columnDown flight
-				outputData.publish(downColumnTopic)
-				print("columnDown flight choosen.")
-			else:
-				print("Not a valid choice. Re-choose.")
-
+				rospy.sleep(0.1)
 
 
 
