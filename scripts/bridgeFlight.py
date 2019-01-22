@@ -66,10 +66,7 @@ def vertLaserCB(data):
 
 def keypress():
 	global char
-	print("KP")
-
 	char = getch()
-
 
 
 def main():
@@ -86,10 +83,18 @@ def main():
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
 	rate = rospy.Rate(10) # 10hz
 
+	global rightBesideTopic
+	global leftBesideTopic
+	global upColumnTopic
+	global downColumnTopic
+	global horTopic
+	global vertTopic
+	global char
+
+
 	okayMode = 0
 	listBufferTime = 0
 	timeOfBuffer = 5
-	global char
 
 
 
@@ -170,14 +175,17 @@ def main():
 		while okayMode == 2: # manual mode
 			print("start")
 			char = None
+			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
+			gcmode = int(input()) # get the start input mode from user
+			GCmode.publish(gcmode)
+			print("start")
 			_thread.start_new_thread(keypress, ())
 
 			while True:
 				if char is not None: # gets keypress
 					try:
-						print(char)
 						print("Key pressed is " + char.decode('utf-8'))
-						# gcmode = char
+						gcmode = int(char)
 					except UnicodeDecodeError:
 						print("character can not be decoded, sorry!")
 						char = None
@@ -211,11 +219,9 @@ def main():
 					GCmode.publish(gcmode)
 
 				else:
-					print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
-					gcmode = int(input()) # get the start input mode from user
+					print("ERROR!!! No mode selected. \nPrevious mode kept.\n")
+					outputData.publish(topic)
 					GCmode.publish(gcmode)
-					print("start")
-
 				rospy.sleep(1)
 
 
