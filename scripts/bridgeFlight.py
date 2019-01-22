@@ -169,7 +169,7 @@ def main():
 				preCLH = cleanedListHor
 				preCLV = cleanedListVert
 				GCmode.publish(gcmode)
-				rospy.sleep(0.2)
+				rospy.sleep(0.1)
 
 		while okayMode == 2: # manual mode
 			char = None
@@ -219,7 +219,7 @@ def main():
 					print("ERROR!!!\nNo mode selected.\nPrevious mode kept.\n")
 					outputData.publish(topic)
 					GCmode.publish(gcmode)
-				rospy.sleep(0.2)
+				rospy.sleep(0.1)
 
 
 if __name__ == '__main__':
