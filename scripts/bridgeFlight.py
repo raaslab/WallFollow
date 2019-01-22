@@ -32,15 +32,15 @@ except ImportError:
  
 
 
-def horLineCB(data):
-	# print("\n----------horLineCB----------")
-	# rospy.loginfo(data)
-	data
+#def horLineCB(data):
+#	data
 
-def vertLineCB(data):
-	data
+#def vertLineCB(data):
+#	data
 
 def rightBesideWallPubCB(data):
+	# print("\n----------rightBesideWallPubCB----------")
+	# rospy.loginfo(data)
 	global rightBesideTopic
 	rightBesideTopic = data
 
@@ -71,8 +71,8 @@ def keypress():
 
 def main():
 	rospy.init_node('bridgeFlight')
-	rospy.Subscriber("/hor/ho/li",Lines,horLineCB)
-	rospy.Subscriber("/vert/ho/li",Lines,vertLineCB)
+	#rospy.Subscriber("/hor/ho/li",Lines,horLineCB)
+	#rospy.Subscriber("/vert/ho/li",Lines,vertLineCB)
 	rospy.Subscriber("/right/besideWallPub",PositionTarget,rightBesideWallPubCB) # besidewall output going right
 	rospy.Subscriber("/left/besideWallPub",PositionTarget,leftBesideWallPubCB) # besidewall output going left
 	rospy.Subscriber("/up/columnLoopPub",PositionTarget,upColumnLoopPubCB) # columnloop output going up
@@ -91,12 +91,9 @@ def main():
 	global vertTopic
 	global char
 
-
 	okayMode = 0
 	listBufferTime = 0
 	timeOfBuffer = 5
-
-
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
@@ -133,52 +130,52 @@ def main():
 		rospy.sleep(timeOfBuffer) # long pause
 
 		while okayMode == 1: # autonomous mode
-			cleanedListHor = [x for x in horTopic if x != np.inf]
-			cleanedListVert = [x for x in vertTopic if x != np.inf]
+			char = None
+			_thread.start_new_thread(keypress, ())
+			while True:
+				if char == '\x1b':  # x1b is ESC
+					exit()
+				cleanedListHor = [x for x in horTopic if x != np.inf]
+				cleanedListVert = [x for x in vertTopic if x != np.inf]
 
-			# need to add buffer for below variables
-#				if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
-#				gcmode = 0
-#				print("Switching to Right.")
-#			elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
-#				gcmode = 3
-#				print("Switching to Down.")
-#			else: # no change in type
+				# need to add buffer for below variables
+				#if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
+				#	gcmode = 0
+				#	print("Switching to Right.")
+				#elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
+				#	gcmode = 3
+				#	print("Switching to Down.")
+				#else: # no change in type
 
+				if gcmode == 0:	# starting girderRight flight
+					outputData.publish(rightBesideTopic)
+					print("Right.")
+				elif gcmode == 1: # starting girderLeft flight
+					outputData.publish(leftBesideTopic)
+					print("Left.")
+				elif gcmode == 2: # starting columnUp flight
+					outputData.publish(upColumnTopic)
+					print("Up.")
+				else: # starting columnDown flight. gcmode == 3
+					outputData.publish(downColumnTopic)
+					print("Down.")
 
-
-			
-			if gcmode == 0:	# starting girderRight flight
-				outputData.publish(rightBesideTopic)
-				print("Right.")
-			elif gcmode == 1: # starting girderLeft flight
-				outputData.publish(leftBesideTopic)
-				print("Left.")
-			elif gcmode == 2: # starting columnUp flight
-				outputData.publish(upColumnTopic)
-				print("Up.")
-			else: # starting columnDown flight. gcmode == 3
-				outputData.publish(downColumnTopic)
-				print("Down.")
-
-				# we want to check then number of laser data we are getting from each laser
-				# compare the two and see which one has more
-					# more along the lines of check which one has drastically increased from previous time steps
-				# if it has more then switch modes
-				# figure out how to manually switch modes
-			
-			preCLH = cleanedListHor
-			preCLV = cleanedListVert
-			GCmode.publish(gcmode)
-			rospy.sleep(1)
+					# we want to check then number of laser data we are getting from each laser
+					# compare the two and see which one has more
+						# more along the lines of check which one has drastically increased from previous time steps
+					# if it has more then switch modes
+					# figure out how to manually switch modes
+				
+				preCLH = cleanedListHor
+				preCLV = cleanedListVert
+				GCmode.publish(gcmode)
+				rospy.sleep(0.2)
 
 		while okayMode == 2: # manual mode
-			print("start")
 			char = None
 			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 			gcmode = int(input()) # get the start input mode from user
 			GCmode.publish(gcmode)
-			print("start")
 			_thread.start_new_thread(keypress, ())
 
 			while True:
@@ -197,32 +194,32 @@ def main():
 				if gcmode == 0:	# starting girderRight flight
 					topic = rightBesideTopic
 					outputData.publish(rightBesideTopic)
-					print("girderRight flight choosen.")
 					GCmode.publish(gcmode)
+					print("girderRight flight choosen.")
 
 				elif gcmode == 1: # starting girderLeft flight
 					topic = leftBesideTopic
 					outputData.publish(leftBesideTopic)
-					print("girderLeft flight choosen.")
 					GCmode.publish(gcmode)
+					print("girderLeft flight choosen.")
 
 				elif gcmode == 2: # starting columnUp flight
 					topic = upColumnTopic
 					outputData.publish(upColumnTopic)
-					print("columnUp flight choosen.")
 					GCmode.publish(gcmode)
+					print("columnUp flight choosen.")
 
 				elif gcmode == 3: # starting columnDown flight
 					topic = downColumnTopic
 					outputData.publish(downColumnTopic)
-					print("columnDown flight choosen.")
 					GCmode.publish(gcmode)
+					print("columnDown flight choosen.")
 
 				else:
-					print("ERROR!!! No mode selected. \nPrevious mode kept.\n")
+					print("ERROR!!!\nNo mode selected.\nPrevious mode kept.\n")
 					outputData.publish(topic)
 					GCmode.publish(gcmode)
-				rospy.sleep(1)
+				rospy.sleep(0.2)
 
 
 if __name__ == '__main__':

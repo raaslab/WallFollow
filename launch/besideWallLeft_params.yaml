@@ -27,7 +27,7 @@ vert:
 
 
   line:
-    theta_min: 60 # specify specify lower to higher w.r.t laser frame 
+    theta_min: 60 # specify lower to higher w.r.t laser frame 
     theta_max: 120
 
 

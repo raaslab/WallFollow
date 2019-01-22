@@ -27,7 +27,7 @@ vert:
     ymax2: 4
 
   line:
-    theta_min: 150 # specify specify lower to higher	w.r.t laser frame	
+    theta_min: 150 # specify lower to higher	w.r.t laser frame	
     theta_max: 210
     theta_min2: -30
     theta_max2: 30
@@ -40,7 +40,7 @@ control:
   laser_rf_offset: 0 # horizontal lidar leads robot x axis (east) by 0 degrees in simulation and 0 degrees on the actual hex
   max_vel_h: 0.5 # max hold (compensation) velocity in hor direction
   max_vel_z: 0.3 # max compensation velocity in Z direction
-  nominal_vel: -0.5 # nominal velocity independent 	of compensation velocity (pos means go down, neg means going up)
+  nominal_vel: -0.5 # nominal velocity independent of compensation velocity (pos means go down, neg means going up)
 
 
 
@@ -52,7 +52,7 @@ control:
   Z_Ki: 0
 
 flight:
-  desired_wall_dist: 2
+  desired_wall_dist: 5
 
   
 
