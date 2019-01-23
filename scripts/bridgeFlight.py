@@ -93,7 +93,7 @@ def main():
 
 	okayMode = 0
 	listBufferTime = 0
-	timeOfBuffer = 5
+	counterOfBuffer = 5 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
@@ -117,26 +117,31 @@ def main():
 		else:
 			print("Not a valid choice. Re-choose.")
 
-		cleanedListHor = [x for x in horTopic if x != np.inf]
-		cleanedListVert = [x for x in vertTopic if x != np.inf]
-		preCLH = cleanedListHor	# previousCleanedListHor
-		preCLV = cleanedListVert # previousCleanedListVert
-
-		if cleanedListHor > cleanedListVert: # printing information
-			print("Girder flight better.")
-		else:
-			print("Column flight better.")
-
-		rospy.sleep(timeOfBuffer) # long pause
-
 		while okayMode == 1: # autonomous mode
 			char = None
 			_thread.start_new_thread(keypress, ())
+			cleanedListHor = [x for x in horTopic if x != np.inf]
+			cleanedListVert = [x for x in vertTopic if x != np.inf]
+			preCLH = cleanedListHor	# previousCleanedListHor
+			preCLV = cleanedListVert # previousCleanedListVert
+			listOfListHor = [[] for x in xrange(counterOfBuffer)]
+			listOfListVert = [[] for x in xrange(counterOfBuffer)]
+
+			rospy.sleep(counterOfBuffer) # long pause
+			counter = 0 # index of preCLH and preCLV
 			while True:
 				if char == '\x1b':  # x1b is ESC
 					exit()
 				cleanedListHor = [x for x in horTopic if x != np.inf]
 				cleanedListVert = [x for x in vertTopic if x != np.inf]
+				listOfListHor[counter] = cleanedListHor
+				listOfListVert[counter] = cleanedListVert
+				if counter == counterOfBuffer-1:
+					preCLH = listOfListHor[0]
+					preCLV = listOfListVert[0]
+				else:
+					preCLH = listOfListHor[counter+1]
+					preCLV = listOfListVert[counter+1]
 
 				# need to add buffer for below variables
 				#if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
@@ -165,10 +170,11 @@ def main():
 						# more along the lines of check which one has drastically increased from previous time steps
 					# if it has more then switch modes
 					# figure out how to manually switch modes
-				
-				preCLH = cleanedListHor
-				preCLV = cleanedListVert
+
 				GCmode.publish(gcmode)
+				counter = counter + 1
+				if counter == counterOfBuffer - 1:
+					counter = 0
 				rospy.sleep(0.1)
 
 		while okayMode == 2: # manual mode
@@ -184,7 +190,7 @@ def main():
 						print("Key pressed is " + char.decode('utf-8'))
 						gcmode = int(char)
 					except UnicodeDecodeError:
-						print("character can not be decoded, sorry!")
+						print("character can not be decoded, sorry!\n")
 						char = None
 					_thread.start_new_thread(keypress, ())
 					if char == '\x1b':  # x1b is ESC
@@ -195,25 +201,25 @@ def main():
 					topic = rightBesideTopic
 					outputData.publish(rightBesideTopic)
 					GCmode.publish(gcmode)
-					print("girderRight flight choosen.")
+					print("girderRight flight choosen.\n")
 
 				elif gcmode == 1: # starting girderLeft flight
 					topic = leftBesideTopic
 					outputData.publish(leftBesideTopic)
 					GCmode.publish(gcmode)
-					print("girderLeft flight choosen.")
+					print("girderLeft flight choosen.\n")
 
 				elif gcmode == 2: # starting columnUp flight
 					topic = upColumnTopic
 					outputData.publish(upColumnTopic)
 					GCmode.publish(gcmode)
-					print("columnUp flight choosen.")
+					print("columnUp flight choosen.\n")
 
 				elif gcmode == 3: # starting columnDown flight
 					topic = downColumnTopic
 					outputData.publish(downColumnTopic)
 					GCmode.publish(gcmode)
-					print("columnDown flight choosen.")
+					print("columnDown flight choosen.\n")
 
 				else:
 					print("ERROR!!!\nNo mode selected.\nPrevious mode kept.\n")
