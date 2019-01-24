@@ -143,14 +143,32 @@ def main():
 					preCLH = listOfListHor[counter+1]
 					preCLV = listOfListVert[counter+1]
 
+				NCLH = len(cleanedListHor)
+				NCLV = len(cleanedListVert)
+				NPCLH = len(preCLH)
+				NPCLV = len(preCLV)
+
 				# need to add buffer for below variables
-				#if cleanedListHor > preCLH && cleanedListVert < preCLV: # if hor is getting bigger and vert is getting smaller
-				#	gcmode = 0
-				#	print("Switching to Right.")
-				#elif cleanedListHor < preCLH && cleanedListVert > preCLV: # if hor is getting smaller and vert is getting bigger
-				#	gcmode = 3
-				#	print("Switching to Down.")
-				#else: # no change in type
+				if NCLH > NPCLH: # if hor is getting bigger and vert is getting smaller
+					if NCLV < NPCLV:
+						gcmode = 0 # go right
+						print("Switching to Right.")
+					elif NCLV > NPCLV:
+						gcmode = ???
+						print("")
+					else:
+						pring("")
+				elif NCLH < NPCLH and NCLV > NPCLV: # if hor is getting smaller and vert is getting bigger
+					if NCLV > NPCLV:
+						gcmode = 3 # go down
+						print("Switching to Down.")
+					elif NCLV < NPCLV:
+						gcmode = ???
+						print("")
+					else:
+						print("")
+				else: # no change in type
+					print("NCLH == NPCLH")
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
@@ -175,7 +193,7 @@ def main():
 				if counter == counterOfBuffer - 1:
 					counter = 0
 				counter = counter + 1
-				rospy.sleep(1)
+				rospy.sleep(0.1)
 
 		while okayMode == 2: # manual mode
 			char = None
