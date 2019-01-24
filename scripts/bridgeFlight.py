@@ -129,6 +129,7 @@ def main():
 
 			rospy.sleep(counterOfBuffer) # long pause
 			counter = 0 # index of preCLH and preCLV
+			switches = 0
 			while True:
 				if char == '\x1b':  # x1b is ESC
 					exit()
