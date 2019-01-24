@@ -157,7 +157,7 @@ def main():
 					elif NCLV > NPCLV:
 						gcmode = ???
 						print("")
-					else:
+					else: # No change in CLV but change in CLH
 						pring("")
 				elif NCLH < NPCLH and NCLV > NPCLV: # if hor is getting smaller and vert is getting bigger
 					if NCLV > NPCLV:
@@ -166,9 +166,9 @@ def main():
 					elif NCLV < NPCLV:
 						gcmode = ???
 						print("")
-					else:
+					else: # No change in CLV but change in CLH
 						print("")
-				else: # no change in type
+				else: # no change CLH but potential change in CLV
 					print("NCLH == NPCLH")
 
 				if gcmode == 0:	# starting girderRight flight
