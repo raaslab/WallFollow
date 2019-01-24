@@ -114,6 +114,8 @@ def main():
 			print("columnDown flight choosen.")
 		elif gcmode == 4: # starting manual mode
 			okayMode = 2
+		elif gcmode == 5: # starting assisted mode
+			okayMode = 3
 		else:
 			print("Not a valid choice. Re-choose.")
 
@@ -246,6 +248,8 @@ def main():
 					GCmode.publish(gcmode)
 				rospy.sleep(0.1)
 
+		while okayMode == 3: # assisted mode
+			# this mode should be exactly the same as autonomous mode, but should follow a predefined set of modes instead of picking on the fly
 
 if __name__ == '__main__':
 	try:
