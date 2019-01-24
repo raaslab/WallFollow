@@ -154,14 +154,6 @@ def main():
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
-					print("11111111111111111111111111111111111")
-					print(horTopic)
-					print("\n")
-					print("22222222222222222222222222222222222")
-					print(cleanedListHor)
-					print("\n")
-					print("33333333333333333333333333333333333")
-					print(preCLH)
 					print("Right.")
 				elif gcmode == 1: # starting girderLeft flight
 					outputData.publish(leftBesideTopic)
@@ -180,9 +172,9 @@ def main():
 					# figure out how to manually switch modes
 
 				GCmode.publish(gcmode)
-				counter = counter + 1
 				if counter == counterOfBuffer - 1:
 					counter = 0
+				counter = counter + 1
 				rospy.sleep(1)
 
 		while okayMode == 2: # manual mode
