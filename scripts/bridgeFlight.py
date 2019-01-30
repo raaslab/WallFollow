@@ -94,6 +94,7 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 5 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
+	listOfModes = [0,2,0,2,0]
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
@@ -282,29 +283,19 @@ def main():
 				NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
-				if NCLH > NPCLH: # if hor is getting bigger and vert is getting smaller
-					if NCLV < NPCLV:
-						gcmode = 0 # go right
-						print("Switching to Right.")
-					elif NCLV > NPCLV:
-						gcmode = ???
-						print("")
-					else: # No change in CLV but change in CLH
-						pring("")
-				elif NCLH < NPCLH and NCLV > NPCLV: # if hor is getting smaller and vert is getting bigger
-					if NCLV > NPCLV:
-						gcmode = 3 # go down
-						print("Switching to Down.")
-					elif NCLV < NPCLV:
-						gcmode = ???
-						print("")
-					else: # No change in CLV but change in CLH
-						print("")
-				else: # no change CLH but potential change in CLV
-					print("NCLH == NPCLH")
+				if NCLH >> NPCLH:
+					# going from column to girder
+					gcmode = listOfModes[counterOfModes]
+					counterOfNodes = counterOfNodes + 1
+				elif NCLV >> NPCLV:
+					# going from girder to column
+					gcmode = listOfModes[counterOfModes]
+					counterOfNodes = counterOfNodes + 1
+				else:
+					print("Need to check!!")
 
 				if gcmode == 0:	# starting girderRight flight
-					outputData.publish(rightBesideTopic)dd
+					outputData.publish(rightBesideTopic)
 					print("Right.")
 				elif gcmode == 1: # starting girderLeft flight
 					outputData.publish(leftBesideTopic)
