@@ -263,6 +263,7 @@ def main():
 			rospy.sleep(counterOfBuffer) # long pause
 			counter = 0 # index of preCLH and preCLV
 			switches = 0
+			counterOfModes = 0 # counter for what mode comes next
 			while True:
 				if char == '\x1b':  # x1b is ESC
 					exit()
@@ -317,6 +318,9 @@ def main():
 				if counter == counterOfBuffer - 1:
 					counter = 0
 				counter = counter + 1
+				if counterOfModes == len(listOfModes)-1:
+					print("DONE!!!")
+					exit()
 				rospy.sleep(0.1)
 
 
