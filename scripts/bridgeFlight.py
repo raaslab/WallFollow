@@ -153,29 +153,29 @@ def main():
 				NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
-				if NCLH > NPCLH: # if hor is getting bigger and vert is getting smaller
-					if NCLV < NPCLV:
-						gcmode = 0 # go right
-						print("Switching to Right.")
-					elif NCLV > NPCLV:
-						gcmode = ???
-						print("")
-					else: # No change in CLV but change in CLH
-						pring("")
-				elif NCLH < NPCLH and NCLV > NPCLV: # if hor is getting smaller and vert is getting bigger
-					if NCLV > NPCLV:
-						gcmode = 3 # go down
-						print("Switching to Down.")
-					elif NCLV < NPCLV:
-						gcmode = ???
-						print("")
-					else: # No change in CLV but change in CLH
-						print("")
-				else: # no change CLH but potential change in CLV
-					print("NCLH == NPCLH")
+				#if NCLH > NPCLH: # if hor is getting bigger and vert is getting smaller
+				#	if NCLV < NPCLV:
+				#		gcmode = 0 # go right
+				#		print("Switching to Right.")
+				#	elif NCLV > NPCLV:
+				#		gcmode = ???
+				#		print("")
+				#	else: # No change in CLV but change in CLH
+				#		print("")
+				#elif NCLH < NPCLH and NCLV > NPCLV: # if hor is getting smaller and vert is getting bigger
+				#	if NCLV > NPCLV:
+				#		gcmode = 3 # go down
+				#		print("Switching to Down.")
+				#	elif NCLV < NPCLV:
+				#		gcmode = ???
+				#		print("")
+				#	else: # No change in CLV but change in CLH
+				#		print("")
+				#else: # no change CLH but potential change in CLV
+				#	print("NCLH == NPCLH")
 
 				if gcmode == 0:	# starting girderRight flight
-					outputData.publish(rightBesideTopic)dd
+					outputData.publish(rightBesideTopic)
 					print("Right.")
 				elif gcmode == 1: # starting girderLeft flight
 					outputData.publish(leftBesideTopic)
@@ -287,11 +287,11 @@ def main():
 				if NCLH >> NPCLH:
 					# going from column to girder
 					gcmode = listOfModes[counterOfModes]
-					counterOfNodes = counterOfNodes + 1
+					counterOfModes = counterOfModes + 1
 				elif NCLV >> NPCLV:
 					# going from girder to column
 					gcmode = listOfModes[counterOfModes]
-					counterOfNodes = counterOfNodes + 1
+					counterOfModes = counterOfModes + 1
 				else:
 					print("Need to check!!")
 
@@ -307,12 +307,6 @@ def main():
 				else: # starting columnDown flight. gcmode == 3
 					outputData.publish(downColumnTopic)
 					print("Down.")
-
-					# we want to check then number of laser data we are getting from each laser
-					# compare the two and see which one has more
-						# more along the lines of check which one has drastically increased from previous time steps
-					# if it has more then switch modes
-					# figure out how to manually switch modes
 
 				GCmode.publish(gcmode)
 				if counter == counterOfBuffer - 1:
