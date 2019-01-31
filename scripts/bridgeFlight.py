@@ -284,16 +284,17 @@ def main():
 				NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
-				if NCLH >> NPCLH:
-					# going from column to girder
-					gcmode = listOfModes[counterOfModes]
-					counterOfModes = counterOfModes + 1
-				elif NCLV >> NPCLV:
-					# going from girder to column
-					gcmode = listOfModes[counterOfModes]
-					counterOfModes = counterOfModes + 1
-				else:
-					print("Need to check!!")
+				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
+					if NCLH > NPCLH+5:
+						# going from column to girder
+						gcmode = listOfModes[counterOfModes]
+						counterOfModes = counterOfModes + 1
+					elif NCLV > NPCLV+5:
+						# going from girder to column
+						gcmode = listOfModes[counterOfModes]
+						counterOfModes = counterOfModes + 1
+					else:
+						print("NC!")
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
@@ -314,6 +315,7 @@ def main():
 				counter = counter + 1
 				if counterOfModes == len(listOfModes)-1:
 					print("DONE!!!")
+					_thread.exit()
 					exit()
 				rospy.sleep(0.1)
 
