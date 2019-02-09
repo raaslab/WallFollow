@@ -294,7 +294,7 @@ def main():
 						gcmode = listOfModes[counterOfModes]
 						counterOfModes = counterOfModes + 1
 					else:
-						print("NC!")
+						gcmode = counterOfModes
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
