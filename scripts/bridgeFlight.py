@@ -284,6 +284,8 @@ def main():
 				NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
+				print("NCLH:" + NCLH)
+				print("NCLV:" + NCLV)
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
 					if NCLH > NPCLH+5:
 						# going from column to girder
