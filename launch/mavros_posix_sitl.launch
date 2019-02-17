@@ -3,7 +3,10 @@
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
     <!-- vehicle pose -->
-    <arg name="x" default="4"/>
+    <!-- world vtti.world -->
+    <!--arg name="x" default="4"/-->
+    <!-- world vtti8th.world -->
+    <arg name="x" default="0"/>
     <arg name="y" default="-2"/>
     <arg name="z" default="0"/>
     <arg name="R" default="0"/>
@@ -13,7 +16,7 @@
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <arg name="vehicle" default="iris"/>
-    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/vtti.world"/>
+    <arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/vtti8th.world"/>
     <arg name="sdf" default="$(find mavlink_sitl_gazebo)/models/iris_rplidar/iris_rplidar.sdf"/>
     <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
     <env name="PX4_ESTIMATOR" value="$(arg est)" />
@@ -29,7 +32,8 @@
     <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
     <arg name="respawn_mavros" default="false"/>
 
-    <!-- PX4 configs -->
+    <!-- PX4 configs -->sss
+    
     <arg name="interactive" default="true"/>
 
     <!-- PX4 SITL and Gazebo -->
