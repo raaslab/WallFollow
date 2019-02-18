@@ -284,32 +284,34 @@ def main():
 				NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
-				print("NCLH:" + NCLH)
-				print("NCLV:" + NCLV)
+				print("NCLH:" + str(NCLH))
+				# print("NCLV:" + str(NCLV))
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
-					if NCLH > NPCLH+5:
+					if NCLH > NPCLH+50:
 						# going from column to girder
 						gcmode = listOfModes[counterOfModes]
 						counterOfModes = counterOfModes + 1
-					elif NCLV > NPCLV+5:
+						print("change")
+					elif NCLV > NPCLV+50:
 						# going from girder to column
 						gcmode = listOfModes[counterOfModes]
 						counterOfModes = counterOfModes + 1
+						print("change")
 					else:
-						gcmode = counterOfModes
+						gcmode = listOfModes[counterOfModes]
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
-					print("Right.")
+					#print("Right.")
 				elif gcmode == 1: # starting girderLeft flight
 					outputData.publish(leftBesideTopic)
-					print("Left.")
+					#print("Left.")
 				elif gcmode == 2: # starting columnUp flight
 					outputData.publish(upColumnTopic)
-					print("Up.")
+					#print("Up.")
 				else: # starting columnDown flight. gcmode == 3
 					outputData.publish(downColumnTopic)
-					print("Down.")
+					#print("Down.")
 
 				GCmode.publish(gcmode)
 				if counter == counterOfBuffer - 1:
