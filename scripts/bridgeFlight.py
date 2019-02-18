@@ -94,7 +94,7 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 5 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [0,2,0,2,0]
+	listOfModes = [2,0,3,2,0]
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
