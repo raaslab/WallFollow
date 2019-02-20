@@ -29,7 +29,7 @@ float max_vel_h = 0.5;							// max velocities
 float max_vel_z = 0.5;
 float nominal_vel = 0.3;
 
-PID h_pid = {0.5,0.05,0.0};						// PID parameters	
+PID h_pid = {0.5,0.05,0.0};						// PID parameters
 PID z_pid = {0.5,0.05,0.0};						// kp = 1.0 ; kd = 0.15;
 
 float desired_wall_dist = 5.0;
@@ -41,10 +41,10 @@ int hor_conf_threshold = 5;
 int vert_conf_threshold = 4;
 float clearance_threshold = 2.0;
 int deck_threshold = 10;
-									
+
 
 // get rid of these
-float hold_error;				// hold errors 
+float hold_error;				// hold errors
 float centering_error;
 float altitude_error;
 
@@ -57,13 +57,13 @@ float hold_velocity;				// velocities 		(can be updated faster? because yaw upda
 float centering_velocity;
 float altitude_velocity;
 
-float x_rf_hold;				
+float x_rf_hold;
 float y_rf_hold;
 float x_rf_centering;
 float y_rf_centering;
 
 
-geometry_msgs::PoseStamped local_pose;		// mavros		
+geometry_msgs::PoseStamped local_pose;		// mavros
 mavros_msgs::State current_state;
 
 wall_follow::Lines hor_lines;			// lines
