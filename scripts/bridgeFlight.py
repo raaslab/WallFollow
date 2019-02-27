@@ -93,7 +93,7 @@ def main():
 
 	okayMode = 0
 	listBufferTime = 0
-	counterOfBuffer = 5 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
+	counterOfBuffer = 10 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
 	listOfModes = [2,0,3,2,0]
 
 	while not rospy.is_shutdown():
@@ -259,8 +259,10 @@ def main():
 			preCLV = cleanedListVert # previousCleanedListVert
 			listOfListHor = [[] for x in xrange(counterOfBuffer)]
 			listOfListVert = [[] for x in xrange(counterOfBuffer)]
+			NLH = [[] for x in xrange(counterOfBuffer)]
+			NLV = [[] for x in xrange(counterOfBuffer)]
 
-			rospy.sleep(counterOfBuffer) # long pause
+			rospy.sleep(5) # long pause
 			counter = 0 # index of preCLH and preCLV
 			switches = 0
 			counterOfModes = 0 # counter for what mode comes next
