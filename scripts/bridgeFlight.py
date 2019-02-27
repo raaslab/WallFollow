@@ -257,10 +257,10 @@ def main():
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
 			preCLH = cleanedListHor	# previousCleanedListHor
 			preCLV = cleanedListVert # previousCleanedListVert
-			listOfListHor = [[] for x in xrange(counterOfBuffer)]
-			listOfListVert = [[] for x in xrange(counterOfBuffer)]
-			NLH = [[] for x in xrange(counterOfBuffer)]
-			NLV = [[] for x in xrange(counterOfBuffer)]
+			listOfListHor = [[] for x in xrange(counterOfBuffer)] # list of cleaned hor
+			listOfListVert = [[] for x in xrange(counterOfBuffer)] # list of cleaned vert
+			NLH = [[] for x in xrange(counterOfBuffer)] # list of length of hor
+			NLV = [[] for x in xrange(counterOfBuffer)] # list of lenght of vert
 
 			rospy.sleep(5) # long pause
 			counter = 0 # index of preCLH and preCLV
