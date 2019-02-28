@@ -296,18 +296,15 @@ def main():
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
 					checkerCounter = 0
 					for i in range(0,counterOfBuffer-1):
-						if NCLH > NPCLH+50: # if current is larger than previous checkerH is 1 in list
+						if NCLH > NLH[checkerCounter]+50: # if current is larger than previous checkerH is 1 in list
 							checkerH[checkerCounter] = 1
-							# TODO: need to make it so that you check all NPCLH not just one
-							# TODO: make it so that you index the list NLH
-							# TODO: duplicate for vertical 
-						elif NCLH < NPCLH-50:
+						elif NCLH < NLH[checkerCounter]-50:
 							checkerH[checkerCounter] = -1
 						else:
 							checkerH[checkerCounter] = 0
-						if NCLV > NPCLV+50: # if current is larger than previous checkerV is 1 in list
+						if NCLV > NLV[checkerCounter]+50: # if current is larger than previous checkerV is 1 in list
 							checkerV[checkerCounter] = 1
-						elif NCLV < NPCLV-50:
+						elif NCLV < NLV[checkerCounter]-50:
 							checkerV[checkerCounter] = -1
 						else:
 							checkerV[checkerCounter] = 0
