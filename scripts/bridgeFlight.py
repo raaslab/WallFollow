@@ -296,28 +296,46 @@ def main():
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
 					checkerCounter = 0
 					for i in range(0,counterOfBuffer-1):
-						if NCLH > NPCLH+50:
+						if NCLH > NPCLH+50: # if current is larger than previous checkerH is 1 in list
 							checkerH[checkerCounter] = 1
-							checkerV[checkerCounter] = 1
-						elif NCLV > NPCLV+50:
-							checkerH[checkerCounter] = 0
-							checkerV[checkerCounter] = 0
+							# TODO: need to make it so that you check all NPCLH not just one
+							# TODO: make it so that you index the list NLH
+							# TODO: duplicate for vertical 
+						elif NCLH < NPCLH-50:
+							checkerH[checkerCounter] = -1
 						else:
-							# fill
-						checkerCounter = checkerCounter + 1
+							checkerH[checkerCounter] = 0
+						if NCLV > NPCLV+50: # if current is larger than previous checkerV is 1 in list
+							checkerV[checkerCounter] = 1
+						elif NCLV < NPCLV-50:
+							checkerV[checkerCounter] = -1
+						else:
+							checkerV[checkerCounter] = 0
 
-					if NCLH > NPCLH+50:
-						# going from column to girder
-						gcmode = listOfModes[counterOfModes]
-						counterOfModes = counterOfModes + 1
-						print("change")
-					elif NCLV > NPCLV+50:
-						# going from girder to column
-						gcmode = listOfModes[counterOfModes]
-						counterOfModes = counterOfModes + 1
-						print("change")
-					else:
-						gcmode = listOfModes[counterOfModes]
+						checkerCounter = checkerCounter + 1
+					# TODO:need to add the checker
+					CH1 = checkerH.counter(1)
+					CH0 = checkerH.counter(0)
+					CHn1 = checkerH.counter(-1)
+					CV1 = checkerV.counter(1)
+					CV0 = checkerV.counter(0)
+					CVn1 = checkerV.counter(-1)
+
+					if CH1 > 8:
+						# TODO: do something if NCLH is greater than NPCLH
+
+					#if NCLH > NPCLH+50:
+					#	# going from column to girder
+					#	gcmode = listOfModes[counterOfModes]
+					#	counterOfModes = counterOfModes + 1
+					#	print("change")
+					#elif NCLV > NPCLV+50:
+					#	# going from girder to column
+					#	gcmode = listOfModes[counterOfModes]
+					#	counterOfModes = counterOfModes + 1
+					#	print("change")
+					#else:
+					#	gcmode = listOfModes[counterOfModes]
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
