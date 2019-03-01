@@ -293,7 +293,7 @@ def main():
 				#NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
-				print("NLH:" + str(NLH))
+				# print("NLH:" + str(NLH))
 				# print("NCLV:" + str(NCLV))
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
 					checkerCounter = 0
@@ -314,13 +314,13 @@ def main():
 						checkerCounter = checkerCounter + 1
 
 					CH1 = checkerH.count(1)
-					print("CH1:" + str(CH1))
 					CH0 = checkerH.count(0)
 					CHn1 = checkerH.count(-1)
 					CV1 = checkerV.count(1)
 					CV0 = checkerV.count(0)
 					CVn1 = checkerV.count(-1)
 
+					# TODO: check this
 					if CH1 > confidenceNumber:
 						# going from column to girder
 						gcmode = listOfModes[counterOfModes]
@@ -333,6 +333,9 @@ def main():
 						print("change2")
 					else:
 						gcmode = listOfModes[counterOfModes-1]
+
+					print("counterOfModes:" + str(counterOfModes))
+
 
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
