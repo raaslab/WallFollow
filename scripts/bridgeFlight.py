@@ -313,12 +313,12 @@ def main():
 
 						checkerCounter = checkerCounter + 1
 
-					CH1 = checkerH.count(1)
-					CH0 = checkerH.count(0)
-					CHn1 = checkerH.count(-1)
-					CV1 = checkerV.count(1)
-					CV0 = checkerV.count(0)
-					CVn1 = checkerV.count(-1)
+					CH1 = checkerH.count(1) # if current is larger than previous number of laser scans
+					CH0 = checkerH.count(0) # if current is smaller than previous number of laser scans
+					CHn1 = checkerH.count(-1) # if current is similar to previous number of laser scans
+					CV1 = checkerV.count(1) # if current is larger than previous number of laser scans
+					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
+					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
 
 					# TODO: check this
 					if CH1 > confidenceNumber:
