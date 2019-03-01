@@ -252,15 +252,15 @@ def main():
 		while okayMode == 3: # assisted mode
 			# this mode should be exactly the same as autonomous mode, but should follow a predefined set of modes instead of picking on the fly
 			char = None
-			_thread.start_new_thread(keypress, ())
+			#_thread.start_new_thread(keypress, ())
 			cleanedListHor = [x for x in horTopic if x != np.inf]
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
 			preCLH = cleanedListHor	# previousCleanedListHor
 			preCLV = cleanedListVert # previousCleanedListVert
 			listOfListHor = [[] for x in xrange(counterOfBuffer)] # list of cleaned hor
 			listOfListVert = [[] for x in xrange(counterOfBuffer)] # list of cleaned vert
-			NLH = [[] for x in xrange(counterOfBuffer)] # list of length of hor
-			NLV = [[] for x in xrange(counterOfBuffer)] # list of lenght of vert
+			NLH = [0 for x in xrange(counterOfBuffer)] # list of length of hor
+			NLV = [0 for x in xrange(counterOfBuffer)] # list of lenght of vert
 			checkerH = [[] for x in xrange(counterOfBuffer)] # list of length of hor
 			checkerV = [[] for x in xrange(counterOfBuffer)] # list of lenght of vert
 
@@ -311,12 +311,12 @@ def main():
 
 						checkerCounter = checkerCounter + 1
 
-					CH1 = checkerH.counter(1)
-					CH0 = checkerH.counter(0)
-					CHn1 = checkerH.counter(-1)
-					CV1 = checkerV.counter(1)
-					CV0 = checkerV.counter(0)
-					CVn1 = checkerV.counter(-1)
+					CH1 = checkerH.count(1)
+					CH0 = checkerH.count(0)
+					CHn1 = checkerH.count(-1)
+					CV1 = checkerV.count(1)
+					CV0 = checkerV.count(0)
+					CVn1 = checkerV.count(-1)
 
 					if CH1 > 7:
 						# going from column to girder
