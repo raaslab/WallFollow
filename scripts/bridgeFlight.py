@@ -253,22 +253,24 @@ def main():
 			# this mode should be exactly the same as autonomous mode, but should follow a predefined set of modes instead of picking on the fly
 			char = None
 			#_thread.start_new_thread(keypress, ())
-			cleanedListHor = [x for x in horTopic if x != np.inf]
+			cleanedListHor = [x for x in horTopic if x != np.inf] # list of all datapoints that are not inf coming from the lidar
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
 			preCLH = cleanedListHor	# previousCleanedListHor
 			preCLV = cleanedListVert # previousCleanedListVert
-			listOfListHor = [[] for x in xrange(counterOfBuffer)] # list of cleaned hor
+			listOfListHor = [[] for x in xrange(counterOfBuffer)] # list of cleaned hor (list of lidar data after cleaned)
 			listOfListVert = [[] for x in xrange(counterOfBuffer)] # list of cleaned vert
-			NLH = [0 for x in xrange(counterOfBuffer)] # list of length of hor
-			NLV = [0 for x in xrange(counterOfBuffer)] # list of lenght of vert
-			checkerH = [[] for x in xrange(counterOfBuffer)] # list of length of hor
-			checkerV = [[] for x in xrange(counterOfBuffer)] # list of lenght of vert
+			NLH = [0 for x in xrange(counterOfBuffer)] # list of length of hor (filled with the length of the cleaned list)
+			NLV = [0 for x in xrange(counterOfBuffer)] # list of length of vert
+			checkerH = [[] for x in xrange(counterOfBuffer)] # list of length of hor (filled with -1,0,1 for if current is less,same,more than previous)
+			checkerV = [[] for x in xrange(counterOfBuffer)] # list of length of vert
 
 
 			rospy.sleep(5) # long pause
 			counter = 0 # index of preCLH and preCLV
-			switches = 0
+			switches = 0 # how many mode switches we have been through
 			counterOfModes = 0 # counter for what mode comes next
+			lidarBuffer = 20 # +- range we give to number of lidar lasers per scan difference
+			confidenceNumber = 7 # number of previous lidar scans that are less,same,more than current
 			while True:
 				if char == '\x1b':  # x1b is ESC
 					exit()
@@ -291,39 +293,40 @@ def main():
 				#NPCLV = len(preCLV)
 
 				# need to add buffer for below variables
-				print("NCLH:" + str(NCLH))
+				print("NLH:" + str(NLH))
 				# print("NCLV:" + str(NCLV))
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
 					checkerCounter = 0
 					for i in range(0,counterOfBuffer-1):
-						if NCLH > NLH[checkerCounter]+20:		# if current is larger than previous checkerH is 1 in list
+						if NCLH > NLH[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerH is 1 in list
 							checkerH[checkerCounter] = 1
-						elif NCLH < NLH[checkerCounter]-20:		# if current is smaller than previous checkerH is -1 in list
+						elif NCLH < NLH[checkerCounter]-lidarBuffer:	# if current is smaller than previous checkerH is -1 in list
 							checkerH[checkerCounter] = -1
-						else:									# if current is within +- 20 range of previous
+						else:											# if current is within +- lidarBuffer range of previous
 							checkerH[checkerCounter] = 0
-						if NCLV > NLV[checkerCounter]+20:		# if current is larger than previous checkerV is 1 in list
+						if NCLV > NLV[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerV is 1 in list
 							checkerV[checkerCounter] = 1
-						elif NCLV < NLV[checkerCounter]-20: 	# if current is smaller than previous checkerV is -1 in list
+						elif NCLV < NLV[checkerCounter]-lidarBuffer: 	# if current is smaller than previous checkerV is -1 in list
 							checkerV[checkerCounter] = -1
-						else:									# if current is within +- 20 range of previous
+						else:											# if current is within +- lidarBuffer range of previous
 							checkerV[checkerCounter] = 0
 
 						checkerCounter = checkerCounter + 1
 
 					CH1 = checkerH.count(1)
+					print("CH1:" + str(CH1))
 					CH0 = checkerH.count(0)
 					CHn1 = checkerH.count(-1)
 					CV1 = checkerV.count(1)
 					CV0 = checkerV.count(0)
 					CVn1 = checkerV.count(-1)
 
-					if CH1 > 7:
+					if CH1 > confidenceNumber:
 						# going from column to girder
 						gcmode = listOfModes[counterOfModes]
 						counterOfModes = counterOfModes + 1
 						print("change1")
-					elif CV1 > 7:
+					elif CV1 > confidenceNumber:
 						# going from girder to column
 						gcmode = listOfModes[counterOfModes]
 						counterOfModes = counterOfModes + 1
