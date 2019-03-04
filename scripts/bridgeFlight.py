@@ -204,7 +204,7 @@ def main():
 			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 			gcmode = int(input()) # get the start input mode from user
 			GCmode.publish(gcmode)
-			_thread.start_new_thread(keypress, ())
+			#_thread.start_new_thread(keypress, ())
 
 			while True:
 				if char is not None: # gets keypress
@@ -378,5 +378,5 @@ if __name__ == '__main__':
 		main()
 	except rospy.ROSInterruptException:
 		pass
-	
 
+	
