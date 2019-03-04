@@ -271,6 +271,8 @@ def main():
 			counterOfModes = 0 # counter for what mode comes next
 			lidarBuffer = 40 # +- range we give to number of lidar lasers per scan difference
 			confidenceNumber = 7 # number of previous lidar scans that are less,same,more than current
+			timeSwitchLock = 10 # time in seconds that we should wait to relook for a mode switch
+			lock = 0 # lock for mode switching
 			while True:
 				if char == '\x1b':  # x1b is ESC
 					exit()
@@ -320,19 +322,26 @@ def main():
 					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
 					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
 
-					# TODO: check this
-					if CH1 > confidenceNumber:
-						# going from column to girder
-						gcmode = listOfModes[counterOfModes]
-						counterOfModes = counterOfModes + 1
-						print("change1")
-					elif CV1 > confidenceNumber:
-						# going from girder to column
-						gcmode = listOfModes[counterOfModes]
-						counterOfModes = counterOfModes + 1
-						print("change2")
-					else:
-						gcmode = listOfModes[counterOfModes-1]
+					# TODO: add lock after certain amount of time
+					if lock <= 0:
+						if CH1 > confidenceNumber:
+							# going from column to girder
+							gcmode = listOfModes[counterOfModes]
+							counterOfModes = counterOfModes + 1
+							print("change1")
+							lock = timeSwitchLock
+						elif CV1 > confidenceNumber:
+							# going from girder to column
+							gcmode = listOfModes[counterOfModes]
+							counterOfModes = counterOfModes + 1
+							print("change2")
+							lock = timeSwitchLock
+						else:
+							gcmode = listOfModes[counterOfModes-1]
+
+					if lock > 0:
+						lock = lock-1
+
 
 					print("CH1:" + str(CH1))
 					print("CH0:" + str(CH0))
