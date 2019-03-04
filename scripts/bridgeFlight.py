@@ -269,7 +269,7 @@ def main():
 			counter = 0 # index of preCLH and preCLV
 			switches = 0 # how many mode switches we have been through
 			counterOfModes = 0 # counter for what mode comes next
-			lidarBuffer = 20 # +- range we give to number of lidar lasers per scan difference
+			lidarBuffer = 40 # +- range we give to number of lidar lasers per scan difference
 			confidenceNumber = 7 # number of previous lidar scans that are less,same,more than current
 			while True:
 				if char == '\x1b':  # x1b is ESC
@@ -334,6 +334,9 @@ def main():
 					else:
 						gcmode = listOfModes[counterOfModes-1]
 
+					print("CH1:" + str(CH1))
+					print("CH0:" + str(CH0))
+					print("CHn1:" + str(CHn1))
 					print("counterOfModes:" + str(counterOfModes))
 
 
