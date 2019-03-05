@@ -2,7 +2,7 @@
 
 	<rosparam command="load" file="$(find wall_follow)/launch/columnLoop_params.yaml"/>
 	<node pkg="wall_follow" type="wall_follow_columnLoop" name="columnLoop">
-		<remap from="/mavros/setpoint_raw/local" to="/columnLoopPub"/>
+		<!--remap from="/mavros/setpoint_raw/local" to="/columnLoopPub"/-->
 	</node>
 
 </launch>
