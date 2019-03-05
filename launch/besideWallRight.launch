@@ -4,7 +4,7 @@
 	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall" ns="right">
 		<remap from="/right/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/right/mavros/state" to="/mavros/state"/>
-		<!--remap from="/mavros/setpoint_raw/local" to="/right/besideWallPub"/-->
+		<remap from="/mavros/setpoint_raw/local" to="/right/besideWallPub"/>
 	</node>
 
 </launch>
