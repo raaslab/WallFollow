@@ -322,7 +322,6 @@ def main():
 					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
 					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
 
-					# TODO: add lock after certain amount of time
 					if lock <= 0:
 						if CH1 > confidenceNumber:
 							# going from column to girder
