@@ -64,6 +64,10 @@ def vertLaserCB(data):
 	global vertTopic
 	vertTopic = data.ranges
 
+def modeCB(data):
+	global myMode
+	myMode = data.data
+
 def keypress():
 	global char
 	char = getch()
@@ -79,6 +83,7 @@ def main():
 	rospy.Subscriber("/down/columnLoopPub",PositionTarget,downColumnLoopPubCB) # columnloop output going down
 	rospy.Subscriber("/laser/scan",LaserScan,horLaserCB)
 	rospy.Subscriber("/laser/scan_vert",LaserScan,vertLaserCB)
+	rospy.Subscriber("/manualSwitcher/flyMode",Int64,modeCB)
 	outputData = rospy.Publisher("/mavros/setpoint_raw/local",PositionTarget,queue_size=10) # mavros topic
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
 	rate = rospy.Rate(10) # 10hz
@@ -90,6 +95,7 @@ def main():
 	global horTopic
 	global vertTopic
 	global char
+	global myMode
 
 	okayMode = 0
 	listBufferTime = 0
@@ -122,7 +128,7 @@ def main():
 
 		while okayMode == 1: # autonomous mode
 			char = None
-			_thread.start_new_thread(keypress, ())
+			# _thread.start_new_thread(keypress, ())
 			cleanedListHor = [x for x in horTopic if x != np.inf]
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
 			preCLH = cleanedListHor	# previousCleanedListHor
@@ -203,6 +209,7 @@ def main():
 			char = None
 			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 			gcmode = int(input()) # get the start input mode from user
+			myMode = gcmode
 			GCmode.publish(gcmode)
 			#_thread.start_new_thread(keypress, ())
 
@@ -214,7 +221,7 @@ def main():
 					except UnicodeDecodeError:
 						print("character can not be decoded, sorry!\n")
 						char = None
-					_thread.start_new_thread(keypress, ())
+					#_thread.start_new_thread(keypress, ())
 					if char == '\x1b':  # x1b is ESC
 						exit()
 					char = None
@@ -247,6 +254,9 @@ def main():
 					print("ERROR!!!\nNo mode selected.\nPrevious mode kept.\n")
 					outputData.publish(topic)
 					GCmode.publish(gcmode)
+
+				print(str(myMode))
+				gcmode = int(myMode)
 				rospy.sleep(0.1)
 
 		while okayMode == 3: # assisted mode
