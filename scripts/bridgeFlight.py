@@ -123,6 +123,8 @@ def main():
 			okayMode = 2
 		elif gcmode == 5: # starting assisted mode
 			okayMode = 3
+		elif gcmode == 6:
+			okayMode = 4
 		else:
 			print("Not a valid choice. Re-choose.")
 
@@ -381,6 +383,28 @@ def main():
 					exit()
 				rospy.sleep(0.1)
 
+		while okayMode == 4:
+			char = None
+			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
+			gcmode = int(input()) # get the start input mode from user
+			myMode = gcmode
+			GCmode.publish(gcmode)
+			#_thread.start_new_thread(keypress, ())
+
+			while True:
+				if gcmode == 0:	# starting girderRight flight
+					topic = rightBesideTopic
+					outputData.publish(rightBesideTopic)
+					GCmode.publish(gcmode)
+					print("girderRight flight choosen.\n")
+				else:
+					print("ERROR!!!\nNo mode selected.\nPrevious mode kept.\n")
+					outputData.publish(topic)
+					GCmode.publish(gcmode)
+
+				print(str(myMode))
+				gcmode = int(myMode)
+				rospy.sleep(0.05)
 
 if __name__ == '__main__':
 	try:
@@ -388,4 +412,4 @@ if __name__ == '__main__':
 	except rospy.ROSInterruptException:
 		pass
 
-	
+
