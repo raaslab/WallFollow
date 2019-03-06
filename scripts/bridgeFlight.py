@@ -257,7 +257,7 @@ def main():
 
 				print(str(myMode))
 				gcmode = int(myMode)
-				rospy.sleep(0.1)
+				rospy.sleep(0.05)
 
 		while okayMode == 3: # assisted mode
 			# this mode should be exactly the same as autonomous mode, but should follow a predefined set of modes instead of picking on the fly
