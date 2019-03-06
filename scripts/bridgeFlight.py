@@ -383,7 +383,7 @@ def main():
 					exit()
 				rospy.sleep(0.1)
 
-		while okayMode == 4:
+		while okayMode == 4: # test mode for just pass through of topic data, currently testing girderRight
 			char = None
 			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
 			gcmode = int(input()) # get the start input mode from user
