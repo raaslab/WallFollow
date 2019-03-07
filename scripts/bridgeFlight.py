@@ -385,25 +385,18 @@ def main():
 
 		while okayMode == 4: # test mode for just pass through of topic data, currently testing girderRight
 			char = None
-			print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
-			gcmode = int(input()) # get the start input mode from user
-			myMode = gcmode
-			GCmode.publish(gcmode)
+			#print("Which mode would you like?\n(girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3)")
+			#gcmode = int(input()) # get the start input mode from user
+			#myMode = gcmode
+			#GCmode.publish(gcmode)
 			#_thread.start_new_thread(keypress, ())
 
 			while True:
-				if gcmode == 0:	# starting girderRight flight
-					topic = rightBesideTopic
-					outputData.publish(rightBesideTopic)
-					GCmode.publish(gcmode)
-					print("girderRight flight choosen.\n")
-				else:
-					print("ERROR!!!\nNo mode selected.\nPrevious mode kept.\n")
-					outputData.publish(topic)
-					GCmode.publish(gcmode)
+				#stopic = rightBesideTopic
+				outputData.publish(rightBesideTopic)
+				#GCmode.publish(gcmode)
+				#print("Special Mode\r\n")
 
-				print(str(myMode))
-				gcmode = int(myMode)
 				rospy.sleep(0.05)
 
 if __name__ == '__main__':
