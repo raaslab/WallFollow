@@ -287,7 +287,7 @@ int main(int argc, char **argv){
 	ros::Subscriber vert_lines_sub = nh.subscribe<wall_follow::Lines>("/vert/ho/li",10,vert_lines_cb);
 	ros::Subscriber hor_lines_sub = nh.subscribe<wall_follow::Lines>("/hor/ho/li",10,hor_lines_cb);
 
-	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("whateverWeWant",10);
+	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("whateverWeWant",10); // TODO: need to make it a use topic name
 	ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>("mavros/local_position/pose", 10, local_pose_cb);
 	ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
 

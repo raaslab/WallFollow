@@ -6,7 +6,6 @@
 		<remap from="/right/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/right/mavros/state" to="/mavros/state"/>
 		<!--remap from="/whateverWeWant" to="/right/besideWallPub"/-->
-
 	</node>
 	</group>
 
