@@ -86,7 +86,7 @@ def main():
 	rospy.Subscriber("/manualSwitcher/flyMode",Int64,modeCB)
 	outputData = rospy.Publisher("/mavros/setpoint_raw/local",PositionTarget,queue_size=10) # mavros topic
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
-	rate = rospy.Rate(10) # 10hz
+	# rate = rospy.Rate(10) # 10hz
 
 	global rightBesideTopic
 	global leftBesideTopic
