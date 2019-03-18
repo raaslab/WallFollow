@@ -237,7 +237,6 @@ void getAllParams(ros::NodeHandle n){
 	n.getParam("/control/Kp",h_pid.Kp);
 	n.getParam("/control/Kd",h_pid.Kd);
 	n.getParam("/control/Ki",h_pid.Ki);
-
 	n.getParam("/control/Z_Kp",z_pid.Kp);
 	n.getParam("/control/Z_Kd",z_pid.Kd);
 	n.getParam("/control/Z_Ki",z_pid.Ki);

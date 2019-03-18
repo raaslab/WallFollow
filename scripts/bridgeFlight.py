@@ -392,7 +392,7 @@ def main():
 			#_thread.start_new_thread(keypress, ())
 
 			while True: # TODO: check to make sure that the topics come through cleanly if there are two topics being published for left and right
-				#stopic = rightBesideTopic
+				#topic = rightBesideTopic
 				outputData.publish(rightBesideTopic)
 				#GCmode.publish(gcmode)
 				#print("Special Mode\r\n")

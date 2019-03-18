@@ -3,9 +3,9 @@
 	<group ns="right">
 	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall">
 		<rosparam command="load" file="$(find wall_follow)/launch/besideWallRight_params.yaml"/>
-		<remap from="/right/mavros/local_position/pose" to="/mavros/local_position/pose"/>
-		<remap from="/right/mavros/state" to="/mavros/state"/>
-		<remap from="/besideWall/vel" to="/right/besideWallPub"/>
+		<!--remap from="/right/mavros/local_position/pose" to="/mavros/local_position/pose"/-->
+		<!--remap from="/right/mavros/state" to="/mavros/state"/-->
+		<!--remap from="/besideWall/vel" to="/right/besideWallPub"/-->
 	</node>
 	</group>
 
