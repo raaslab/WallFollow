@@ -244,7 +244,7 @@ void getAllParams(ros::NodeHandle n){
 	
 	n.getParam("/control/max_vel_h",max_vel_h);
 	n.getParam("/control/max_vel_z",max_vel_z);
-	n.getParam("/control/nominal_vel",nominal_vel);
+	n.getParam("~control/nominal_vel",nominal_vel);
 
 	n.getParam("/control/laser_rf_offset",laser_rf_offset);
 
@@ -298,7 +298,7 @@ int main(int argc, char **argv){
 	ros::Subscriber vert_lines_sub = nh.subscribe<wall_follow::Lines>("/vert/ho/li",10,vert_lines_cb);
 	ros::Subscriber hor_lines_sub = nh.subscribe<wall_follow::Lines>("/hor/ho/li",10,hor_lines_cb);
 
-	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local",10);
+	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("columnLoop/vel",10);
 	ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>("mavros/local_position/pose", 10, local_pose_cb);
 	ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
 
