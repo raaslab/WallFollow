@@ -238,7 +238,7 @@ void getAllParams(ros::NodeHandle n){
 	
 	n.getParam("/control/max_vel_h",max_vel_h);
 	n.getParam("/control/max_vel_z",max_vel_z);
-	n.getParam("~control/nominal_vel",nominal_vel);
+	n.getParam("/control/nominal_vel",nominal_vel);
 
 	n.getParam("/control/laser_rf_offset",laser_rf_offset);
 
