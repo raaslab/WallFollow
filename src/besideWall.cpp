@@ -196,6 +196,7 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	if(vert_lines.confidence[0] > vert_conf_threshold && hor_lines.confidence[0] > hor_conf_threshold){
 		target_vel.velocity.x = x_rf_hold + x_rf_move;
 		target_vel.velocity.y = y_rf_hold + y_rf_move;
+		ROS_ERROR("nomianL_vel: %f", nominal_vel);
 	}
 	else{
 		if(hor_lines.confidence[0] > hor_conf_threshold){
@@ -223,54 +224,49 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	ROS_INFO("altitude_error %f",altitude_error);
 	ROS_INFO("dist_error %f", hold_error);
 	ROS_INFO("target vel x = %f,  y = %f,  z = %f", target_vel.velocity.x, target_vel.velocity.y, target_vel.velocity.z);
+
+
 	return target_vel;
 }
 
 
 void getAllParams(ros::NodeHandle n){
 
-	n.getParam("/control/Kp",h_pid.Kp);
-	n.getParam("/control/Kd",h_pid.Kd);
-	n.getParam("/control/Ki",h_pid.Ki);
-	n.getParam("/control/Z_Kp",z_pid.Kp);
-	n.getParam("/control/Z_Kd",z_pid.Kd);
-	n.getParam("/control/Z_Ki",z_pid.Ki);
-	
-	n.getParam("/control/max_vel_h",max_vel_h);
-	n.getParam("/control/max_vel_z",max_vel_z);
-	n.getParam("control/nominal_vel",nominal_vel);
+	ros::param::get("~control/Kp",h_pid.Kp);
+	ros::param::get("~control/Kd",h_pid.Kd);
+	ros::param::get("~control/Ki",h_pid.Ki);
+	ros::param::get("~control/Z_Kp",z_pid.Kp);
+	ros::param::get("~control/Z_Kd",z_pid.Kd);
+	ros::param::get("~control/Z_Ki",z_pid.Ki);
+	ros::param::get("~control/max_vel_h",max_vel_h);
+	ros::param::get("~control/max_vel_z",max_vel_z);
+	ros::param::get("~control/nominal_vel",nominal_vel);
 
-	n.getParam("/control/laser_rf_offset",laser_rf_offset);
-
-	n.getParam("/hor/line/threshold",hor_conf_threshold);
-	n.getParam("/vert/line/threshold",vert_conf_threshold);
-
-	n.getParam("/flight/desired_wall_dist", desired_wall_dist);
-	n.getParam("/flight/desired_buffer", desired_buffer);
-	n.getParam("/flight/move_threshold_vertical", move_threshold_vertical);
-	n.getParam("/flight/move_threshold_horizontal", move_threshold_horizontal);
+	ros::param::get("~control/laser_rf_offset",laser_rf_offset);
+	ros::param::get("~hor/line/threshold",hor_conf_threshold);
+	ros::param::get("~vert/line/threshold",vert_conf_threshold);
+	ros::param::get("~flight/desired_wall_dist", desired_wall_dist);
+	ros::param::get("~flight/desired_buffer", desired_buffer);
+	ros::param::get("~flight/move_threshold_vertical", move_threshold_vertical);
+	ros::param::get("~flight/move_threshold_horizontal", move_threshold_horizontal);
 
 
-	ROS_INFO("Kp: %f", h_pid.Kp);
-	ROS_INFO("Kd: %f", h_pid.Kd);
-	ROS_INFO("Ki: %f", h_pid.Ki);
-	ROS_INFO("z_Kp: %f", z_pid.Kp);
-	ROS_INFO("z_Kd: %f", z_pid.Kd);
-	ROS_INFO("z_Ki: %f", z_pid.Ki);
-
-	ROS_INFO("max_vel_h: %f",max_vel_h);
-	ROS_INFO("max_vel_z: %f",max_vel_z);
-	ROS_INFO("nominal_vel: %f",nominal_vel);
-
-	ROS_INFO("laser_rf_offset: %d",laser_rf_offset);
-	
-	ROS_INFO("hor line threshold: %d", hor_conf_threshold);
-	ROS_INFO("vert line threshold: %d", vert_conf_threshold);
-
-	ROS_INFO("desired_wall_dist: %f",desired_wall_dist);
-	ROS_INFO("desired_buffer: %f",desired_buffer);
-	ROS_INFO("move_threshold_horizontal: %f", move_threshold_horizontal);
-	ROS_INFO("move_threshold_vertical: %f", move_threshold_vertical);
+	ROS_ERROR("Kp: %f", h_pid.Kp);
+	ROS_ERROR("Kd: %f", h_pid.Kd);
+	ROS_ERROR("Ki: %f", h_pid.Ki);
+	ROS_ERROR("z_Kp: %f", z_pid.Kp);
+	ROS_ERROR("z_Kd: %f", z_pid.Kd);
+	ROS_ERROR("z_Ki: %f", z_pid.Ki);
+	ROS_ERROR("max_vel_h: %f",max_vel_h);
+	ROS_ERROR("max_vel_z: %f",max_vel_z);
+	ROS_ERROR("nominal_vel: %f",nominal_vel);
+	ROS_ERROR("laser_rf_offset: %d",laser_rf_offset);
+	ROS_ERROR("hor line threshold: %d", hor_conf_threshold);
+	ROS_ERROR("vert line threshold: %d", vert_conf_threshold);
+	ROS_ERROR("desired_wall_dist: %f",desired_wall_dist);
+	ROS_ERROR("desired_buffer: %f",desired_buffer);
+	ROS_ERROR("move_threshold_horizontal: %f", move_threshold_horizontal);
+	ROS_ERROR("move_threshold_vertical: %f", move_threshold_vertical);
 
 }
 

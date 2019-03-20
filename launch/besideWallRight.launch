@@ -1,7 +1,7 @@
 <launch>
 	
 	<group ns="right">
-	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall">
+	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall" output="screen">
 		<rosparam command="load" file="$(find wall_follow)/launch/besideWallRight_params.yaml"/>
 		<remap from="/right/besideWall/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/right/besideWall/mavros/state" to="/mavros/state"/>
