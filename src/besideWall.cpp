@@ -276,7 +276,7 @@ int main(int argc, char **argv){
 //_____________________________________________________________________________________________________#InitializeNodePubSubAndRate
 
 	ros::init(argc, argv, "offb_node");
-	ros::NodeHandle nh("~");
+	ros::NodeHandle nh;
 
 	getAllParams(nh);
 
