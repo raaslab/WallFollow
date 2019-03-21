@@ -6,7 +6,7 @@
 		<rosparam command="load" file="$(find wall_follow)/launch/besideWallRight_params.yaml"/>
 		<remap from="/right/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/right/mavros/state" to="/mavros/state"/>
-		<remap from="/right/besideWall/vel" to="/mavros/setpoint_raw/local"/>
+		<!--remap from="/right/besideWall/vel" to="/mavros/setpoint_raw/local"/-->
 	</node>
 	</group>
 
