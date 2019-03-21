@@ -22,7 +22,7 @@
 
 
 	<!-- girder flight-->
-	<include file="$(find wall_follow)/launch/besideWall.launch"/>
+	<!--include file="$(find wall_follow)/launch/besideWall.launch"/-->
 	<!--include file="$(find wall_follow)/launch/besideWallRight.launch"/-->
 	<!--include file="$(find wall_follow)/launch/besideWallLeft.launch"/-->
 	<!-- TODO: need to check if usage of namespace, remapping, and parameter files are used correclty -->

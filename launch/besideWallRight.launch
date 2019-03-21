@@ -1,5 +1,6 @@
 <launch>
-	
+
+	<rosparam command="load" file="$(find wall_follow)/launch/besideWallRight_params.yaml"/>
 	<group ns="right">
 	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall" output="screen">
 		<rosparam command="load" file="$(find wall_follow)/launch/besideWallRight_params.yaml"/>
