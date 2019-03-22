@@ -259,7 +259,6 @@ void getAllParams(ros::NodeHandle n){
 }
 
 
-
 int main(int argc, char **argv){
 //_____________________________________________________________________________________________________#InitializeNodePubSubAndRate
 
@@ -272,7 +271,6 @@ int main(int argc, char **argv){
 	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("columnLoop/vel",10);
 	ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>("mavros/local_position/pose", 10, local_pose_cb);
 	ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
-
 	ros::Rate rate(20.0);		//the setpoint publishing rate MUST be faster than 2Hz
 								
 	while(ros::ok() && current_state.connected){	// wait for FCU connection	
@@ -281,7 +279,6 @@ int main(int argc, char **argv){
 	}
 
 //___________________________________________________________________________________________________________________#dummysetpoints
-
 													// body: yaw is relative
 													// offset: translation is relative
 													// local frame: whereever we entered offboard? When system switched on?
@@ -304,7 +301,7 @@ int main(int argc, char **argv){
 
     while(ros::ok()){
         ros::spinOnce();
-	velocity_pub.publish(computeTargetVel());
+		velocity_pub.publish(computeTargetVel());
         rate.sleep();
     }
 
