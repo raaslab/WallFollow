@@ -394,7 +394,7 @@ def main():
 
 			while True: # TODO: check to make sure that the topics come through cleanly if there are two topics being published for left and right
 				#topic = rightBesideTopic
-				outputData.publish(rightBesideTopic)
+				outputData.publish(downColumnTopic)
 				#GCmode.publish(gcmode)
 				#print("Special Mode\r\n")
 

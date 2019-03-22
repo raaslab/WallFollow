@@ -238,24 +238,24 @@ void getAllParams(ros::NodeHandle n){
 	ros::param::get("~flight/clearance_threshold", clearance_threshold);
 
 
-	ROS_INFO("Kp: %f", h_pid.Kp);
-	ROS_INFO("Kd: %f", h_pid.Kd);
-	ROS_INFO("Ki: %f", h_pid.Ki);
-	ROS_INFO("z_Kp: %f", z_pid.Kp);
-	ROS_INFO("z_Kd: %f", z_pid.Kd);
-	ROS_INFO("z_Ki: %f", z_pid.Ki);
-	ROS_INFO("max_vel_h: %f",max_vel_h);
-	ROS_INFO("max_vel_z: %f",max_vel_z);
-	ROS_INFO("nominal_vel: %f",nominal_vel);
-	ROS_INFO("laser_rf_offset: %d",laser_rf_offset);
-	ROS_INFO("hor line threshold: %d", hor_conf_threshold);
-	ROS_INFO("vert line threshold: %d", vert_conf_threshold);
-	ROS_INFO("desired_wall_dist: %f",desired_wall_dist);
-	ROS_INFO("desired_buffer: %f",desired_buffer);
-	ROS_INFO("move_threshold_horizontal: %f", move_threshold_horizontal);
-	ROS_INFO("move_threshold_vertical: %f", move_threshold_vertical);
-	ROS_INFO("deck threshold: %d", deck_threshold);
-	ROS_INFO("clearance threshold: %f", clearance_threshold);
+	ROS_ERROR("Kp: %f", h_pid.Kp);
+	ROS_ERROR("Kd: %f", h_pid.Kd);
+	ROS_ERROR("Ki: %f", h_pid.Ki);
+	ROS_ERROR("z_Kp: %f", z_pid.Kp);
+	ROS_ERROR("z_Kd: %f", z_pid.Kd);
+	ROS_ERROR("z_Ki: %f", z_pid.Ki);
+	ROS_ERROR("max_vel_h: %f",max_vel_h);
+	ROS_ERROR("max_vel_z: %f",max_vel_z);
+	ROS_ERROR("nominal_vel: %f",nominal_vel);
+	ROS_ERROR("laser_rf_offset: %d",laser_rf_offset);
+	ROS_ERROR("hor line threshold: %d", hor_conf_threshold);
+	ROS_ERROR("vert line threshold: %d", vert_conf_threshold);
+	ROS_ERROR("desired_wall_dist: %f",desired_wall_dist);
+	ROS_ERROR("desired_buffer: %f",desired_buffer);
+	ROS_ERROR("move_threshold_horizontal: %f", move_threshold_horizontal);
+	ROS_ERROR("move_threshold_vertical: %f", move_threshold_vertical);
+	ROS_ERROR("deck threshold: %d", deck_threshold);
+	ROS_ERROR("clearance threshold: %f", clearance_threshold);
 }
 
 
