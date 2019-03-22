@@ -16,7 +16,6 @@ float Kd;
 float Ki;
 };
 
-
 enum Prev{Initial,Below,Above};
 Prev prev = Initial;
 
@@ -39,8 +38,6 @@ float move_threshold_horizontal = 0.7;
 	
 int vert_conf_threshold = 5;
 int hor_conf_threshold = 5;
-
-									
 
 // get rid of these
 float hold_error;				// hold errors 
@@ -73,7 +70,6 @@ bool new_hor_data = 0;
 bool new_vert_data = 0;				// flags
 
 using namespace std;
-
 
 
 void state_cb(const mavros_msgs::State::ConstPtr& msg){
@@ -123,7 +119,6 @@ float computePID(float error, float prev_error[], PID pid, float max_vel){
 }
 
 
-
 mavros_msgs::PositionTarget computeTargetVel(){
 	mavros_msgs::PositionTarget target_vel;
 	target_vel.header.stamp = ros::Time::now();
@@ -154,8 +149,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 		}
 		new_hor_data = 0;
 	}
-		
-
 
 	// altitude control:
 
@@ -265,9 +258,7 @@ void getAllParams(ros::NodeHandle n){
 	ROS_ERROR("desired_buffer: %f",desired_buffer);
 	ROS_ERROR("move_threshold_horizontal: %f", move_threshold_horizontal);
 	ROS_ERROR("move_threshold_vertical: %f", move_threshold_vertical);
-
 }
-
 
 
 int main(int argc, char **argv){
@@ -275,16 +266,13 @@ int main(int argc, char **argv){
 
 	ros::init(argc, argv, "offb_node");
 	ros::NodeHandle nh;
-
 	getAllParams(nh);
 
 	ros::Subscriber vert_lines_sub = nh.subscribe<wall_follow::Lines>("/vert/ho/li",10,vert_lines_cb);
 	ros::Subscriber hor_lines_sub = nh.subscribe<wall_follow::Lines>("/hor/ho/li",10,hor_lines_cb);
-
 	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("besideWall/vel",10);
 	ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>("mavros/local_position/pose", 10, local_pose_cb);
 	ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
-
 	ros::Rate rate(20.0);		//the setpoint publishing rate MUST be faster than 2Hz
 								
 	while(ros::ok() && current_state.connected){	// wait for FCU connection	
@@ -292,9 +280,7 @@ int main(int argc, char **argv){
 	rate.sleep();
 	}
 
-
 //___________________________________________________________________________________________________________________#dummysetpoints
-
 													// body: yaw is relative
 													// offset: translation is relative
 													// local frame: whereever we entered offboard? When system switched on?
@@ -312,8 +298,6 @@ int main(int argc, char **argv){
 		velocity_pub.publish(target_vel);
 		rate.sleep();
 	}
-
-
 
 //__________________________________________________________________________________________________________________ #mainloop
 
