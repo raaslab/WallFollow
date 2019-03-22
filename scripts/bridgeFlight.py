@@ -88,6 +88,7 @@ def main():
 	GCmode = rospy.Publisher("/bridgeFlight/GCmode", Int64, queue_size=10) # publishes flag to tell either girderRight = 0, girderLeft = 1, columnUp = 2, columnDown =3
 	# rate = rospy.Rate(10) # 10hz
 
+	# VARIABLES
 	global rightBesideTopic
 	global leftBesideTopic
 	global upColumnTopic
