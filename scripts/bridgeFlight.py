@@ -79,8 +79,8 @@ def main():
 	#rospy.Subscriber("/vert/ho/li",Lines,vertLineCB)
 	rospy.Subscriber("/right/besideWall/vel",PositionTarget,rightBesideWallPubCB) # besidewall output going right
 	rospy.Subscriber("/left/besideWall/vel",PositionTarget,leftBesideWallPubCB) # besidewall output going left
-	rospy.Subscriber("/up/columnLoop",PositionTarget,upColumnLoopPubCB) # columnloop output going up
-	rospy.Subscriber("/down/columnLoop",PositionTarget,downColumnLoopPubCB) # columnloop output going down
+	rospy.Subscriber("/up/columnLoop/vel",PositionTarget,upColumnLoopPubCB) # columnloop output going up
+	rospy.Subscriber("/down/columnLoop/vel",PositionTarget,downColumnLoopPubCB) # columnloop output going down
 	rospy.Subscriber("/laser/scan",LaserScan,horLaserCB)
 	rospy.Subscriber("/laser/scan_vert",LaserScan,vertLaserCB)
 	rospy.Subscriber("/manualSwitcher/flyMode",Int64,modeCB)
