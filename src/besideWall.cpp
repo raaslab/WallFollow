@@ -240,7 +240,6 @@ void getAllParams(ros::NodeHandle n){
 	ros::param::get("~control/max_vel_h",max_vel_h);
 	ros::param::get("~control/max_vel_z",max_vel_z);
 	ros::param::get("~control/nominal_vel",nominal_vel);
-
 	ros::param::get("~control/laser_rf_offset",laser_rf_offset);
 	ros::param::get("~hor/line/threshold",hor_conf_threshold);
 	ros::param::get("~vert/line/threshold",vert_conf_threshold);

@@ -1,5 +1,6 @@
 <launch>
 
+	<rosparam command="load" file="$(find wall_follow)/launch/columnLoopDown_params.yaml"/>
 	<group ns="down">
 	<node pkg="wall_follow" type="wall_follow_columnLoop" name="columnLoop">
 		<rosparam command="load" file="$(find wall_follow)/launch/columnLoopDown_params.yaml"/>
