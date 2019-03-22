@@ -6,7 +6,7 @@
 		<rosparam command="load" file="$(find wall_follow)/launch/columnLoopUp_params.yaml"/>
 		<remap from="/up/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/up/mavros/state" to="/mavros/state"/>
-		<remap from="/columnLoop/vel" to="/up/columnLoopPub"/>
+		<!--remap from="/up/columnLoop/vel" to="/mavros/setpoint_raw/local"/-->
 	</node>
 	</group>
 
