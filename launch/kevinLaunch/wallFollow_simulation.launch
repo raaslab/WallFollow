@@ -25,12 +25,11 @@
 	<!--include file="$(find wall_follow)/launch/besideWall.launch"/-->
 	<include file="$(find wall_follow)/launch/besideWallRight.launch"/>
 	<include file="$(find wall_follow)/launch/besideWallLeft.launch"/>
-	<!-- TODO: need to check if usage of namespace, remapping, and parameter files are used correclty -->
-	<!-- TODO: seems like the parameter files are over writting other parameters once uploaded -->
 
 	<!-- column flight-->
 	<!-- include file="$(find wall_follow)/launch/columnLoop.launch"/-->
 	<include file="$(find wall_follow)/launch/columnLoopUp.launch"/>
 	<include file="$(find wall_follow)/launch/columnLoopDown.launch"/>
+	<!-- TODO: TEST IF DOWN AND UP WORKS -->
 
 </launch>
