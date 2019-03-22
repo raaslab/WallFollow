@@ -16,7 +16,6 @@ float Kd;
 float Ki;
 };
 
-
 enum Prev{Initial,Below,Above};
 Prev prev = Initial;
 
@@ -42,7 +41,6 @@ int vert_conf_threshold = 4;
 float clearance_threshold = 2.0;
 int deck_threshold = 10;
 
-
 // get rid of these
 float hold_error;				// hold errors
 float centering_error;
@@ -62,7 +60,6 @@ float y_rf_hold;
 float x_rf_centering;
 float y_rf_centering;
 
-
 geometry_msgs::PoseStamped local_pose;		// mavros
 mavros_msgs::State current_state;
 
@@ -73,7 +70,6 @@ bool new_hor_data = 0;
 bool new_vert_data = 0;				// flags
 
 using namespace std;
-
 
 
 void state_cb(const mavros_msgs::State::ConstPtr& msg){
@@ -145,7 +141,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 			x_rf_hold = hold_velocity * cos (theta_rf_hold * M_PI / 180.0);
 			y_rf_hold = hold_velocity * sin (theta_rf_hold * M_PI / 180.0);
 
-
 			/*
 			line_length = sqrt(pow((x2[0] - x1[0]), 2) + pow((y2[0] - y1[0]), 2));
 			line_mid_point = line_length/2.0;
@@ -161,13 +156,9 @@ mavros_msgs::PositionTarget computeTargetVel(){
 			x_rf_centering = centering_velocity * cos (theta_rf_centering * M_PI / 180.0);
 			y_rf_centering = centering_velocity * sin (theta_rf_centering * M_PI / 180.0);
 	
-			
 			/*
-
 			centering_error = (hor_lines.x2[0] + hor_lines.x1[0]) / 2.0;
-			
 			centering_velocity = computePID(centering_error, prev_centering_errors, h_pid, max_vel_h);
-
 			int theta_rf_centering = theta_rf_hold - 90;
 			x_rf_centering = centering_velocity * cos (theta_rf_centering * M_PI / 180.0);
 			y_rf_centering = centering_velocity * sin (theta_rf_centering * M_PI / 180.0);
@@ -180,8 +171,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 		}
 		new_hor_data = 0;
 	}
-		
-
 
 	// altitude control:
 
@@ -192,7 +181,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 			altitude_velocity = nominal_vel;
 
 		}
-
 
 																// if close to top, move down
 		else if( ((vert_lines.confidence[1] > vert_conf_threshold) && vert_lines.dist[1] < clearance_threshold) ||  hor_lines.confidence[0] < deck_threshold){
@@ -207,8 +195,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 			
 		new_vert_data = 0;
 	}
-
-
 	
 	// state machine:
 
@@ -221,9 +207,7 @@ mavros_msgs::PositionTarget computeTargetVel(){
 				target_vel.velocity.x = 0;
 				target_vel.velocity.y = 0;
 				target_vel.velocity.z = 0;
-			}
-			
-			
+			}			
 
 	ROS_INFO("altitude_error %f",altitude_error);
 	ROS_INFO("dist_error %f", hold_error);
@@ -281,12 +265,10 @@ int main(int argc, char **argv){
 
 	ros::init(argc, argv, "offb_node");
 	ros::NodeHandle nh;
-
 	getAllParams(nh);
 
 	ros::Subscriber vert_lines_sub = nh.subscribe<wall_follow::Lines>("/vert/ho/li",10,vert_lines_cb);
 	ros::Subscriber hor_lines_sub = nh.subscribe<wall_follow::Lines>("/hor/ho/li",10,hor_lines_cb);
-
 	ros::Publisher velocity_pub = nh.advertise<mavros_msgs::PositionTarget>("columnLoop/vel",10);
 	ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>("mavros/local_position/pose", 10, local_pose_cb);
 	ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
@@ -297,7 +279,6 @@ int main(int argc, char **argv){
 	ros::spinOnce();
 	rate.sleep();
 	}
-
 
 //___________________________________________________________________________________________________________________#dummysetpoints
 
@@ -318,8 +299,6 @@ int main(int argc, char **argv){
 		velocity_pub.publish(target_vel);
 		rate.sleep();
 	}
-
-
 
 //__________________________________________________________________________________________________________________ #mainloop
 
