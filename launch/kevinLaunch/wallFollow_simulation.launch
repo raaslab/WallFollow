@@ -30,6 +30,6 @@
 	<!-- include file="$(find wall_follow)/launch/columnLoop.launch"/-->
 	<include file="$(find wall_follow)/launch/columnLoopUp.launch"/>
 	<include file="$(find wall_follow)/launch/columnLoopDown.launch"/>
-	<!-- TODO: TEST IF DOWN AND UP WORKS -->
+	<!-- TODO: Right and Left do not work with Up and Down-->
 
 </launch>
