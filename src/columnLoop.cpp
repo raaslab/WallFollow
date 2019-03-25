@@ -238,6 +238,7 @@ void getAllParams(ros::NodeHandle n){
 	ros::param::get("~flight/clearance_threshold", clearance_threshold);
 
 
+	ROS_ERROR("=======================================================")
 	ROS_ERROR("Kp: %f", h_pid.Kp);
 	ROS_ERROR("Kd: %f", h_pid.Kd);
 	ROS_ERROR("Ki: %f", h_pid.Ki);
