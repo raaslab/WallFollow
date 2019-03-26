@@ -189,7 +189,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	if(vert_lines.confidence[0] > vert_conf_threshold && hor_lines.confidence[0] > hor_conf_threshold){
 		target_vel.velocity.x = x_rf_hold + x_rf_move;
 		target_vel.velocity.y = y_rf_hold + y_rf_move;
-		ROS_ERROR("BESIDEWALL.CPP");
 	}
 	else{
 		if(hor_lines.confidence[0] > hor_conf_threshold){
