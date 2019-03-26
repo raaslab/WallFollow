@@ -72,39 +72,29 @@ XY r_theta_to_XY(float r, float theta){
 
 void preprocess_cloud(const sensor_msgs::PointCloud2::ConstPtr& msg){
 	//valid_indices.clear();
-	
-	
 	pcl::fromROSMsg (*msg, cloud);								// converting pointcloud2 to cloud of XYZ points
 
 	for(int i = 0; i < cloud.size(); i++){
 	//ROS_INFO("I heard: %d %f %f", i, cloud[i].x, cloud[i].y);
 
-		
 		/*if( sqrt(pow(cloud[i].x,2)  + pow(cloud[i].y,2)) > 1 && sqrt(pow(cloud[i].x,2)  + pow(cloud[i].y,2)) < 15){
 			valid_indices.push_back(i);
 		}*/
 		/*
-
 		if(cloud[i].x < xmax && cloud[i].x > xmin && cloud[i].y < ymax && cloud[i].y > ymin){
 			//if(atan2 is between limits)
 			valid_indices.push_back(i);
-			
-
 		}
-
 		else if(cloud[i].x < -1*xmin && cloud[i].x > -1*xmax && cloud[i].y < -1*ymin && cloud[i].y > -1*ymax){
 			valid_indices.push_back(i);
 		}
-
 		else if(cloud[i].x < xmax && cloud[i].x > xmin && cloud[i].y < -1*xmin && cloud[i].y > -1*xmax){
 			valid_indices.push_back(i);
 		}
-
 		else if(cloud[i].x < -1*xmin && cloud[i].x > -1*xmax && cloud[i].y < ymax && cloud[i].y > ymin){
 			valid_indices.push_back(i);
 		}
 		*/
-
 	}
 
 	//ROS_INFO("xmin:%f xmax:%f ymin:%f ymax:%f",xmin, xmax, ymin, ymax);
@@ -113,19 +103,13 @@ void preprocess_cloud(const sensor_msgs::PointCloud2::ConstPtr& msg){
 }
 
 
-
 void filter_cloud(int id){
-
 	valid_indices.clear();
-
 	for(int i = 0; i < cloud.size(); i++){
 		if( sqrt(pow(cloud[i].x,2)  + pow(cloud[i].y,2)) > 1 && sqrt(pow(cloud[i].x,2)  + pow(cloud[i].y,2)) < 14){
-			
 			if(cloud[i].x < xmax[id] && cloud[i].x > xmin[id] && cloud[i].y < ymax[id] && cloud[i].y > ymin[id]){
 				valid_indices.push_back(i);
-
 			}
-			
 		}
 	}
 }
@@ -137,8 +121,8 @@ void clear_accumulator(){
 		}
 	}
 }
-void compute_r_theta(int line_id){
 
+void compute_r_theta(int line_id){
 	for(int i = 0; i < valid_indices.size(); i++){		
 		for(int iter_theta = lr_theta_min[line_id]; iter_theta < lr_theta_max[line_id]; iter_theta++){
 			int theta;
@@ -146,9 +130,7 @@ void compute_r_theta(int line_id){
 				theta = 360 + iter_theta;		// eg.: -10 transforms to 360 + (-10) = 350; -10 and 350 are the same thing...
 			else
 				theta = iter_theta;
-
 			int r =  round( (cloud[valid_indices[i]].x * cos(theta*M_PI/180.0) + cloud[valid_indices[i]].y * sin(theta*M_PI/180.0)) / resolution);	// scale by resolution because we can't index into an array with floats
-
 			if(r > 0)												// only allow positive values of r to eliminate errors because of duplicates (since we are considering 0 to 360)
 				accumulator[theta][r] = accumulator[theta][r] + 1;
 		}	
@@ -168,25 +150,20 @@ Line find_best_line_and_remove(){
 			}
 		}
 	}
-	
+
 	Line line;
 	line.confidence = max;
 	line.dist =  (acc_max_r) * resolution;
 	line.angle = acc_max_theta;
 	
 	ROS_INFO("dist: %f angle: %d confidence: %d",line.dist, line.angle, line.confidence);
-
 	// throwing away all other similar lines; angle within 30 degrees of best AND distance within 1m of best
-
 	
-
 	for(int theta = acc_max_theta - min_line_sep_angle; theta < acc_max_theta + min_line_sep_angle; theta++){		
 		int temp_theta = theta;
-		
 		if(theta < 0){
 			temp_theta = theta + 360;				
 		}
-
 		else if(theta >= 360){
 			temp_theta = theta - 360;
 		}	
@@ -202,14 +179,11 @@ Line find_best_line_and_remove(){
 	}
 	
 	return line;
-	 	
 }
 
 void hough_transform(){
-
 	//clear_accumulator();
 	//compute_r_theta();
-	
 	visualization_msgs::Marker points;
 	points.header.frame_id = "/laser_frame";
 	points.header.stamp = ros::Time::now();
@@ -220,7 +194,7 @@ void hough_transform(){
 	points.scale.x = 0.2;
 	points.scale.y = 0.2;
 	points.color.g = 1.0;
-    	points.color.a = 1.0;
+    points.color.a = 1.0;
 
 	visualization_msgs::Marker line_list;
 	line_list.header.frame_id = "/laser_frame";
@@ -239,22 +213,15 @@ void hough_transform(){
 	//my_lines.dist[0] = 5;
 	//my_lines.angle[0] = 60;
 	
-
 	for(int i = 0; i < 2; i++){
-
-
 		filter_cloud(i);
-
 		clear_accumulator();
-		
 		compute_r_theta(i);
 
 		Line line1 = find_best_line_and_remove();
-		
 
 		//if(line1.confidence < threshold)
 		//	break;
-
 		my_lines.num_lines++;
 		my_lines.dist[i] = line1.dist;
 		my_lines.angle[i] = line1.angle;
@@ -284,7 +251,6 @@ void hough_transform(){
 					if( cloud[valid_indices[j]].y < ymin )
 						ymin = cloud[valid_indices[j]].y;	
 				}
-				
 		}
 
 		if(line1.angle >= 180) line1.angle = line1.angle - 180;		// tan(180 + theta) = tan(theta)
@@ -315,7 +281,6 @@ void hough_transform(){
 		p2.z = 0;
 		line_list.points.push_back(p1);
 		line_list.points.push_back(p2);
-
 		points.points.push_back(p1);
 		points.points.push_back(p2);
 
@@ -323,8 +288,6 @@ void hough_transform(){
 		my_lines.x2[i] = p2.x;
 		my_lines.y1[i] = p1.y;
 		my_lines.y2[i] = p2.y;
-
-		
 	}
 
 	marker_pub.publish(points);
@@ -333,7 +296,6 @@ void hough_transform(){
 
 	//Line line2 = find_best_line_and_remove();
 	//Line line3 = find_best_line_and_remove();
-
 }
 
 
@@ -341,11 +303,8 @@ void pc_Callback(const sensor_msgs::PointCloud2::ConstPtr& msg){
 	//ros::Time begin = ros::Time::now();
 	preprocess_cloud(msg);
 	hough_transform();
-	
-
 	//ros::Time end = ros::Time::now();
 	//ROS_INFO("callback (line extraction) time = %f", end.toSec() - begin.toSec());
-	
 }
 
 void getAllParams(ros::NodeHandle n){
@@ -354,12 +313,10 @@ void getAllParams(ros::NodeHandle n){
 	n.getParam("sensing/xmax",xmax[0]);
 	n.getParam("sensing/ymin",ymin[0]);
 	n.getParam("sensing/ymax",ymax[0]);
-
 	n.getParam("sensing/xmin2",xmin[1]);
 	n.getParam("sensing/xmax2",xmax[1]);
 	n.getParam("sensing/ymin2",ymin[1]);
 	n.getParam("sensing/ymax2",ymax[1]);
-	
 	n.getParam("line/theta_min",lr_theta_min[0]);
 	n.getParam("line/theta_max",lr_theta_max[0]);
 	n.getParam("line/theta_min2",lr_theta_min[1]);
@@ -373,18 +330,14 @@ void getAllParams(ros::NodeHandle n){
 	ROS_INFO("xmax: %f", xmax[0]);
 	ROS_INFO("ymin: %f", ymin[0]);
 	ROS_INFO("ymax: %f", ymax[0]);
-
 	ROS_INFO("xmin2: %f", xmin[1]);
 	ROS_INFO("xmax2: %f", xmax[1]);
 	ROS_INFO("ymin2: %f", ymin[1]);
 	ROS_INFO("ymax2: %f", ymax[1]);
-	
-	
 	ROS_INFO("line region theta min1: %d",lr_theta_min[0]);
 	ROS_INFO("line region theta max1: %d",lr_theta_max[0]);
 	ROS_INFO("line region theta min2: %d",lr_theta_min[1]);
 	ROS_INFO("line region theta max2: %d",lr_theta_max[1]);
-
 	ROS_INFO("line resolution: %f", resolution);
 	ROS_INFO("line threshold: %d", threshold);
 	ROS_INFO("min_line_sep_dist: %d", min_line_sep_dist);
@@ -393,8 +346,6 @@ void getAllParams(ros::NodeHandle n){
 	r_max = r_lim/resolution;
 	ROS_INFO("r_lim: %d",r_lim);	
 	ROS_INFO("r_max: %d",r_max);
-	
-	
 }
 
 int main(int argc, char **argv){
