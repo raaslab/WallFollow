@@ -112,7 +112,6 @@ float computePID(float error, float prev_error[], PID pid, float max_vel){
 	prev_error[2] = prev_error[1];
 	prev_error[1] = prev_error[0];
 	prev_error[0] = error;
-
 	
 	ROS_INFO("\n P = %f    D = % f \n", P, D);
 	return limit_velocity(P + I + D, max_vel);
@@ -142,7 +141,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 			int theta_rf_move = theta_rf_hold - 90;
 			x_rf_move = nominal_vel * cos (theta_rf_move * M_PI / 180.0);
 			y_rf_move = nominal_vel * sin (theta_rf_move * M_PI / 180.0);
-
 		}
 		else{
 			prev_hold_errors[0] = 0; 	prev_hold_errors[1] = 0; 	prev_hold_errors[2] = 0; 	prev_hold_errors[3] = 0; 	prev_hold_errors[4] = 0;	
@@ -151,10 +149,8 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	}
 
 	// altitude control:
-
 	if(new_vert_data){
 		if(vert_lines.confidence[0] > vert_conf_threshold){
-			
 			float z_offset_from_desired;
 			if(alt_mode == FromAbove){
 				z_offset_from_desired = vert_lines.x2[0] - desired_buffer;
@@ -183,7 +179,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	}
 
 	// state machine:
-	
 	// horizontal:
 	//if(fabs(altitude_error) < move_threshold_vertical && fabs(hold_error) < move_threshold_horizontal && vert_lines.confidence[0] > vert_conf_threshold && hor_lines.confidence[0] > hor_conf_threshold){
 	if(vert_lines.confidence[0] > vert_conf_threshold && hor_lines.confidence[0] > hor_conf_threshold){
@@ -216,7 +211,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	ROS_INFO("altitude_error %f",altitude_error);
 	ROS_INFO("dist_error %f", hold_error);
 	ROS_INFO("target vel x = %f,  y = %f,  z = %f", target_vel.velocity.x, target_vel.velocity.y, target_vel.velocity.z);
-
 
 	return target_vel;
 }
