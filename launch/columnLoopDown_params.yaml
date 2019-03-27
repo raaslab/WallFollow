@@ -52,7 +52,7 @@ control:
   Z_Ki: 0
 
 flight:
-  desired_wall_dist: 3
+  desired_wall_dist: 2
 
   
 
