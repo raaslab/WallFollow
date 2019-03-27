@@ -105,7 +105,7 @@ def main():
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
-		print("Which mode would you like to start with?\n(manualMode = 4, assistedMode = 5)") # obsolete girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3
+		print("Which mode would you like to start with?\n(manualMode = 4, assistedMode = 5, assistedTimed = 7)") # obsolete girderRight = 0, girderLeft = 1, columnUp = 2, columnDown = 3
 		gcmode = int(input()) # get the start input mode from user
 		GCmode.publish(gcmode) # publishing starting mode
 		#if gcmode == 0:	# starting girderRight flight
@@ -126,6 +126,8 @@ def main():
 			okayMode = 3
 		elif gcmode == 6:
 			okayMode = 4
+		elif gcmode == 7:
+			okayMode = 5
 		else:
 			print("Not a valid choice. Re-choose.")
 
@@ -399,6 +401,129 @@ def main():
 				#print("Special Mode\r\n")
 
 				rospy.sleep(0.05)
+
+		while okayMode == 5: # assisted mode with timer for down and up
+			# this mode should be exactly the same as assisted mode, but should follow a predefined set of modes with timming for down then up
+			char = None
+			cleanedListHor = [x for x in horTopic if x != np.inf] # list of all datapoints that are not inf coming from the lidar
+			cleanedListVert = [x for x in vertTopic if x != np.inf]
+			preCLH = cleanedListHor	# previousCleanedListHor
+			preCLV = cleanedListVert # previousCleanedListVert
+			listOfListHor = [[] for x in xrange(counterOfBuffer)] # list of cleaned hor (list of lidar data after cleaned)
+			listOfListVert = [[] for x in xrange(counterOfBuffer)] # list of cleaned vert
+			NLH = [0 for x in xrange(counterOfBuffer)] # list of length of hor (filled with the length of the cleaned list)
+			NLV = [0 for x in xrange(counterOfBuffer)] # list of length of vert
+			checkerH = [[] for x in xrange(counterOfBuffer)] # list of length of hor (filled with -1,0,1 for if current is less,same,more than previous)
+			checkerV = [[] for x in xrange(counterOfBuffer)] # list of length of vert
+
+
+			rospy.sleep(5) # long pause
+			counter = 0 # index of preCLH and preCLV
+			switches = 0 # how many mode switches we have been through
+			counterOfModes = 0 # counter for what mode comes next
+			lidarBuffer = 40 # +- range we give to number of lidar lasers per scan difference
+			confidenceNumber = 7 # number of previous lidar scans that are less,same,more than current
+			timeSwitchLock = 10 # time in seconds that we should wait to relook for a mode switch
+			lock = 0 # lock for mode switching
+			while True:
+				cleanedListHor = [x for x in horTopic if x != np.inf]
+				cleanedListVert = [x for x in vertTopic if x != np.inf]
+				listOfListHor[counter] = cleanedListHor
+				listOfListVert[counter] = cleanedListVert
+				NLH[counter] = len(cleanedListHor)
+				NLV[counter] = len(cleanedListVert)
+				if counter == counterOfBuffer-1:
+					NPCLH = NLH[0]
+					NPCLV = NLV[0]
+				else:
+					NPCLH = NLH[counter+1]
+					NPCLV = NLV[counter+1]
+
+				NCLH = NLH[counter] # current number of horizontal lidar lines
+				NCLV = NLV[counter] # current number of vertical lidar lines
+				#NPCLH = len(preCLH)
+				#NPCLV = len(preCLV)
+
+				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
+					checkerCounter = 0
+					for i in range(0,counterOfBuffer-1):
+						if NCLH > NLH[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerH is 1 in list
+							checkerH[checkerCounter] = 1
+						elif NCLH < NLH[checkerCounter]-lidarBuffer:	# if current is smaller than previous checkerH is -1 in list
+							checkerH[checkerCounter] = -1
+						else:											# if current is within +- lidarBuffer range of previous
+							checkerH[checkerCounter] = 0
+
+						if NCLV > NLV[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerV is 1 in list
+							checkerV[checkerCounter] = 1
+						elif NCLV < NLV[checkerCounter]-lidarBuffer: 	# if current is smaller than previous checkerV is -1 in list
+							checkerV[checkerCounter] = -1
+						else:											# if current is within +- lidarBuffer range of previous
+							checkerV[checkerCounter] = 0
+
+						checkerCounter = checkerCounter + 1
+
+					CH1 = checkerH.count(1) # if current is larger than previous number of laser scans
+					CH0 = checkerH.count(0) # if current is smaller than previous number of laser scans
+					CHn1 = checkerH.count(-1) # if current is similar to previous number of laser scans
+					CV1 = checkerV.count(1) # if current is larger than previous number of laser scans
+					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
+					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
+
+					if lock <= 0:
+						if listOfModes[counterOfModes-1] == 3: # TODO: check to make sure that this section works for timed switching for down up
+							# wait 10 seconds
+							gcmode = listOfModes[counterOfModes]
+							counterOfModes = counterOfModes + 1
+							lock = timeSwitchLock
+						else:	# regular checks for switching between modes
+							if CH1 > confidenceNumber:
+								# going from column to girder
+								gcmode = listOfModes[counterOfModes]
+								counterOfModes = counterOfModes + 1
+								print("change1")
+								lock = timeSwitchLock
+							elif CV1 > confidenceNumber:
+								# going from girder to column
+								gcmode = listOfModes[counterOfModes]
+								counterOfModes = counterOfModes + 1
+								print("change2")
+								lock = timeSwitchLock
+							else:
+								gcmode = listOfModes[counterOfModes-1]
+
+					if lock > 0:
+						lock = lock-1
+
+
+					print("CH1:" + str(CH1))
+					print("CH0:" + str(CH0))
+					print("CHn1:" + str(CHn1))
+					print("counterOfModes:" + str(counterOfModes))
+
+
+				if gcmode == 0:	# starting girderRight flight
+					outputData.publish(rightBesideTopic)
+					#print("Right.")
+				elif gcmode == 1: # starting girderLeft flight
+					outputData.publish(leftBesideTopic)
+					#print("Left.")
+				elif gcmode == 2: # starting columnUp flight
+					outputData.publish(upColumnTopic)
+					#print("Up.")
+				else: # starting columnDown flight. gcmode == 3
+					outputData.publish(downColumnTopic)
+					#print("Down.")
+
+				GCmode.publish(gcmode)
+				if counter == counterOfBuffer - 1:
+					counter = 0
+				counter = counter + 1
+				if counterOfModes == len(listOfModes)-1:
+					print("DONE!!!")
+					_thread.exit()
+					exit()
+				rospy.sleep(0.1)
 
 if __name__ == '__main__':
 	try:
