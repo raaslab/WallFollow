@@ -27,8 +27,6 @@ float y;
 };
 
 //------------------------------------------------------------------------------------------------- Parameters
-
-
 /*float xmin = 0.5;		// for preprocess cloud		
 float xmax = 10;
 float ymin = 0.5;
@@ -49,7 +47,6 @@ int lr_theta_max[2];
 int threshold;
 int min_line_sep_dist = 2; 		//# metres
 int min_line_sep_angle = 45;		//# degrees
-
 
 //------------------------------------------------------------------------------------------------- Global variables
 //tf::getYaw
