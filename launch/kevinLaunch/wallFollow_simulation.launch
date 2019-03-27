@@ -20,6 +20,8 @@
 		<remap from="/vert/laser/scan" to="/laser/scan_vert"/>
 	</node>
 
+
+	<!-- column flight needs to be before girder flight or it will not work correctly -->
 	<!-- column flight-->
 	<!-- include file="$(find wall_follow)/launch/columnLoop.launch"/-->
 	<include file="$(find wall_follow)/launch/columnLoopUp.launch"/>
