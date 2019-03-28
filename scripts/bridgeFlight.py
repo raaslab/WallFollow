@@ -101,7 +101,7 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 10 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [2,0,3,2,0]
+	listOfModes = [3,3,0,3,2,0]
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
@@ -496,10 +496,10 @@ def main():
 						lock = lock-1
 
 
-					print("CH1:" + str(CH1))
-					print("CH0:" + str(CH0))
-					print("CHn1:" + str(CHn1))
-					print("counterOfModes:" + str(counterOfModes))
+					#print("CH1:" + str(CH1))
+					#print("CH0:" + str(CH0))
+					print("MODE:" + str(listOfModes[counterOfModes]))
+					#print("counterOfModes:" + str(counterOfModes))
 
 
 				if gcmode == 0:	# starting girderRight flight
