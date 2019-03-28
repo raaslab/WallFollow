@@ -405,27 +405,26 @@ def main():
 
 		while okayMode == 5: # assisted mode with timer for down and up
 			# this mode should be exactly the same as assisted mode, but should follow a predefined set of modes with timing for down then up
-			char = None
-			cleanedListHor = [x for x in horTopic if x != np.inf] # list of all datapoints that are not inf coming from the lidar
+			cleanedListHor = [x for x in horTopic if x != np.inf] 		# list of all datapoints that are not inf coming from the lidar
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
-			preCLH = cleanedListHor	# previousCleanedListHor
-			preCLV = cleanedListVert # previousCleanedListVert
-			listOfListHor = [[] for x in xrange(counterOfBuffer)] # list of cleaned hor (list of lidar data after cleaned)
-			listOfListVert = [[] for x in xrange(counterOfBuffer)] # list of cleaned vert
-			NLH = [0 for x in xrange(counterOfBuffer)] # list of length of hor (filled with the length of the cleaned list)
-			NLV = [0 for x in xrange(counterOfBuffer)] # list of length of vert
-			checkerH = [[] for x in xrange(counterOfBuffer)] # list of length of hor (filled with -1,0,1 for if current is less,same,more than previous)
-			checkerV = [[] for x in xrange(counterOfBuffer)] # list of length of vert
+			preCLH = cleanedListHor										# previousCleanedListHor
+			preCLV = cleanedListVert 									# previousCleanedListVert
+			listOfListHor = [[] for x in xrange(counterOfBuffer)] 		# list of cleaned hor (list of lidar data after cleaned)
+			listOfListVert = [[] for x in xrange(counterOfBuffer)] 		# list of cleaned vert
+			NLH = [0 for x in xrange(counterOfBuffer)] 					# list of length of hor (filled with the length of the cleaned list)
+			NLV = [0 for x in xrange(counterOfBuffer)] 					# list of length of vert
+			checkerH = [[] for x in xrange(counterOfBuffer)] 			# list of length of hor (filled with -1,0,1 for if current is less,same,more than previous)
+			checkerV = [[] for x in xrange(counterOfBuffer)] 			# list of length of vert
 
 
-			rospy.sleep(5) # long pause
-			counter = 0 # index of preCLH and preCLV
-			switches = 0 # how many mode switches we have been through
-			counterOfModes = 0 # counter for what mode comes next
-			lidarBuffer = 40 # +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 7 # number of previous lidar scans that are less,same,more than current
-			timeSwitchLock = 10 # time in seconds that we should wait to relook for a mode switch
-			lock = 0 # lock for mode switching
+			rospy.sleep(5) 			# long pause
+			counter = 0 			# index of preCLH and preCLV
+			switches = 0 			# how many mode switches we have been through
+			counterOfModes = 0 		# counter for what mode comes next
+			lidarBuffer = 40 		# +- range we give to number of lidar lasers per scan difference
+			confidenceNumber = 7 	# number of previous lidar scans that are less,same,more than current
+			timeSwitchLock = 100 	# time in seconds that we should wait to relook for a mode switch
+			lock = 0 				# lock for mode switching
 			while True:
 				cleanedListHor = [x for x in horTopic if x != np.inf]
 				cleanedListVert = [x for x in vertTopic if x != np.inf]
@@ -519,12 +518,13 @@ def main():
 				GCmode.publish(gcmode)
 				if counter == counterOfBuffer - 1:
 					counter = 0
-				counter = counter + 1
+				else:
+					counter = counter + 1
 				if counterOfModes == len(listOfModes)-1:
 					print("DONE!!!")
-					_thread.exit()
 					exit()
 				rospy.sleep(sleepTime)
+
 
 if __name__ == '__main__':
 	try:
