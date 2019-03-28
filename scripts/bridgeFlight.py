@@ -102,6 +102,7 @@ def main():
 	listBufferTime = 0
 	counterOfBuffer = 10 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
 	listOfModes = [3,3,0,3,2,0]
+	sleepTime = 0.1 # frequency of while loop
 
 	while not rospy.is_shutdown():
 		print("Switch between modes.")
@@ -403,7 +404,7 @@ def main():
 				rospy.sleep(0.05)
 
 		while okayMode == 5: # assisted mode with timer for down and up
-			# this mode should be exactly the same as assisted mode, but should follow a predefined set of modes with timming for down then up
+			# this mode should be exactly the same as assisted mode, but should follow a predefined set of modes with timing for down then up
 			char = None
 			cleanedListHor = [x for x in horTopic if x != np.inf] # list of all datapoints that are not inf coming from the lidar
 			cleanedListVert = [x for x in vertTopic if x != np.inf]
@@ -523,7 +524,7 @@ def main():
 					print("DONE!!!")
 					_thread.exit()
 					exit()
-				rospy.sleep(0.1)
+				rospy.sleep(sleepTime)
 
 if __name__ == '__main__':
 	try:
