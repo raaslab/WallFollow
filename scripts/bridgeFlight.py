@@ -100,7 +100,7 @@ def main():
 
 	okayMode = 0
 	listBufferTime = 0
-	counterOfBuffer = 10 # time buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
+	counterOfBuffer = 20 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
 	listOfModes = [3,3,0,2,3,0]
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
@@ -419,7 +419,7 @@ def main():
 				listOfListVert[counter] = cleanedListVert
 				NLH[counter] = len(cleanedListHor)
 				NLV[counter] = len(cleanedListVert)
-				if counter == counterOfBuffer-1:
+				if counter == counterOfBuffer-1: # getting pervious number of lidar lines
 					NPCLH = NLH[0]
 					NPCLV = NLV[0]
 				else:
@@ -430,6 +430,7 @@ def main():
 				NCLV = NLV[counter] # current number of vertical lidar lines
 				
 				if NCLH != 0 and NCLV != 0 and NPCLH != 0 and NPCLV != 0:
+					# comparing laser scans
 					checkerCounter = 0
 					for i in range(0,counterOfBuffer-1):
 						if NCLH > NLH[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerH is 1 in list
@@ -448,6 +449,7 @@ def main():
 
 						checkerCounter = checkerCounter + 1
 
+					# tallying laser scan comparisons
 					CH1 = checkerH.count(1) # if current is larger than previous number of laser scans
 					CH0 = checkerH.count(0) # if current is smaller than previous number of laser scans
 					CHn1 = checkerH.count(-1) # if current is similar to previous number of laser scans
@@ -455,6 +457,7 @@ def main():
 					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
 					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
 
+					# mode switching
 					if lock <= 0 and counterOfModes-1 != len(listOfModes):
 						if listOfModes[counterOfModes] == 2 and listOfModes[counterOfModes+1] == 3: # TODO: check to make sure that this section works for timed switching for down up
 							counterOfModes = counterOfModes + 1
@@ -477,12 +480,14 @@ def main():
 							else:
 								gcmode = listOfModes[counterOfModes]
 
+					# buffer for not allowing switching of modes
 					if lock > 0:
 						lock = lock-1
 
 					print("MODE:" + str(listOfModes[counterOfModes]))
 					#print("counterOfModes:" + str(counterOfModes))
 
+				# publishing correct flight topic
 				if gcmode == 0:	# starting girderRight flight
 					outputData.publish(rightBesideTopic)
 				elif gcmode == 1: # starting girderLeft flight
@@ -491,12 +496,15 @@ def main():
 					outputData.publish(upColumnTopic)
 				else: # starting columnDown flight. gcmode == 3
 					outputData.publish(downColumnTopic)
-
 				GCmode.publish(gcmode)
+				
+				# reseting counter for NPCLH and NCLH (vert as well)
 				if counter == counterOfBuffer - 1:
 					counter = 0
 				else:
 					counter = counter + 1
+
+				# checking if we've gone through all modes in listOfModes
 				if counterOfModes == len(listOfModes)-1:
 					print("DONE!!!")
 					exit()
