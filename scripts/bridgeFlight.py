@@ -455,27 +455,27 @@ def main():
 					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
 					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
 
-					if lock <= 0:
-						if listOfModes[counterOfModes-1] == 2 and listOfModes[counterOfModes] == 3: # TODO: check to make sure that this section works for timed switching for down up
-							gcmode = listOfModes[counterOfModes]
+					if lock <= 0 and counterOfModes-1 != len(listOfModes):
+						if listOfModes[counterOfModes] == 2 and listOfModes[counterOfModes+1] == 3: # TODO: check to make sure that this section works for timed switching for down up
 							counterOfModes = counterOfModes + 1
+							gcmode = listOfModes[counterOfModes]
 							lock = timeSwitchLock * sleepTime
 							print("change0")
 						else:	# regular checks for switching between modes
 							if CH1 > confidenceNumber:
 								# going from column to girder
-								gcmode = listOfModes[counterOfModes]
 								counterOfModes = counterOfModes + 1
+								gcmode = listOfModes[counterOfModes]
 								lock = timeSwitchLock * sleepTime
 								print("change1")
 							elif CV1 > confidenceNumber:
 								# going from girder to column
-								gcmode = listOfModes[counterOfModes]
 								counterOfModes = counterOfModes + 1
+								gcmode = listOfModes[counterOfModes]
 								lock = timeSwitchLock * sleepTime
 								print("change2")
 							else:
-								gcmode = listOfModes[counterOfModes-1]
+								gcmode = listOfModes[counterOfModes]
 
 					if lock > 0:
 						lock = lock-1
