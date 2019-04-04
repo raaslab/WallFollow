@@ -30,14 +30,6 @@ except ImportError:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
  
-
-
-#def horLineCB(data):
-#	data
-
-#def vertLineCB(data):
-#	data
-
 def rightBesideWallPubCB(data):
 	# print("\n----------rightBesideWallPubCB----------")
 	# rospy.loginfo(data)
@@ -101,7 +93,7 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 20 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [3,3,0,2,3,0]
+	listOfModes = [3,3,0,2,3,0,2,3,0]
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
@@ -410,7 +402,7 @@ def main():
 			counterOfModes = 0 		# counter for what mode comes next
 			lidarBuffer = 40 		# +- range we give to number of lidar lasers per scan difference
 			confidenceNumber = 7 	# number of previous lidar scans that are less,same,more than current
-			timeSwitchLock = 100 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
+			timeSwitchLock = 1000 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
 				cleanedListHor = [x for x in horTopic if x != np.inf]
