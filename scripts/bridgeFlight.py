@@ -64,6 +64,19 @@ def keypress():
 	global char
 	char = getch()
 
+def gradientChecker(data, direction):
+	# check data for decending or ascending
+	sizeData = len(data)
+	if direction == 1:
+		for i in range(0,sizeData-1):
+			if data[i] > data[i+1]:
+				new[i] = 1
+				
+	else:
+
+
+	return 
+
 
 def main():
 	rospy.init_node('bridgeFlight')
@@ -395,14 +408,17 @@ def main():
 			NLV = [0 for x in xrange(counterOfBuffer)] 					# list of length of vert
 			checkerH = [[] for x in xrange(counterOfBuffer)] 			# list of length of hor (filled with -1,0,1 for if current is less,same,more than previous)
 			checkerV = [[] for x in xrange(counterOfBuffer)] 			# list of length of vert
+			gradientH = [[] for x in xrange(counterOfBuffer)]
+			gradientV = [[] for x in xrange(counterOfBuffer)]
+
 
 			rospy.sleep(5) 			# long pause
 			counter = 0 			# index of preCLH and preCLV
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
 			lidarBuffer = 40 		# +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 7 	# number of previous lidar scans that are less,same,more than current
-			timeSwitchLock = 1000 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
+			confidenceNumber = 0.7 	# confidence of changing in %
+			timeSwitchLock = 2000 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
 				cleanedListHor = [x for x in horTopic if x != np.inf]
@@ -442,13 +458,16 @@ def main():
 						checkerCounter = checkerCounter + 1
 
 					# tallying laser scan comparisons
-					CH1 = checkerH.count(1) # if current is larger than previous number of laser scans
-					CH0 = checkerH.count(0) # if current is smaller than previous number of laser scans
-					CHn1 = checkerH.count(-1) # if current is similar to previous number of laser scans
-					CV1 = checkerV.count(1) # if current is larger than previous number of laser scans
-					CV0 = checkerV.count(0) # if current is smaller than previous number of laser scans
-					CVn1 = checkerV.count(-1) # if current is similar to previous number of laser scans
-
+					CH1 = checkerH.count(1) 	# if current is larger than previous number of laser scans
+					gradientH[counter] = CH1 	# list of CH1 (list of number of current greater than past lidar scans)
+					CH0 = checkerH.count(0) 	# if current is smaller than previous number of laser scans
+					CHn1 = checkerH.count(-1) 	# if current is similar to previous number of laser scans
+					CV1 = checkerV.count(1) 	# if current is larger than previous number of laser scans
+					gradientV[counter] = CV1 	# list of CV1 (list of number of current greater than past lidar scans)
+					CV0 = checkerV.count(0) 	# if current is smaller than previous number of laser scans
+					CVn1 = checkerV.count(-1) 	# if current is similar to previous number of laser scans
+					percentLargerH1 = CH1 / (CH1+CH0+CHn1)
+					
 					# mode switching
 					if lock <= 0 and counterOfModes-1 != len(listOfModes):
 						if listOfModes[counterOfModes] == 2 and listOfModes[counterOfModes+1] == 3: # TODO: check to make sure that this section works for timed switching for down up
@@ -457,7 +476,7 @@ def main():
 							lock = timeSwitchLock * sleepTime
 							print("change0")
 						else:	# regular checks for switching between modes
-							if CH1 > confidenceNumber:
+							if percentLargerH1 > confidenceNumber:
 								# going from column to girder
 								counterOfModes = counterOfModes + 1
 								gcmode = listOfModes[counterOfModes]
@@ -476,6 +495,13 @@ def main():
 					if lock > 0:
 						lock = lock-1
 
+					#print("_________________")
+					#print("CH1:" + str(CH1))
+					#print("CH0:" + str(CH0))
+					#print("CHn1:" + str(CHn1))
+					#print("CV1:" + str(CV1))
+					#print("CV0:" + str(CV0))
+					#print("CVn1:" + str(CVn1))
 					print("MODE:" + str(listOfModes[counterOfModes]))
 					#print("counterOfModes:" + str(counterOfModes))
 
