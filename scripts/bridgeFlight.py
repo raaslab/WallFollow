@@ -428,16 +428,16 @@ def main():
 					# comparing laser scans
 					checkerCounter = 0
 					for i in range(0,counterOfBuffer-1):
-						if NCLH > NLH[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerH is 1 in list
+						if NPCLH > NLH[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerH is 1 in list
 							checkerH[checkerCounter] = 1
-						elif NCLH < NLH[checkerCounter]-lidarBuffer:	# if current is smaller than previous checkerH is -1 in list
+						elif NPCLH < NLH[checkerCounter]-lidarBuffer:	# if current is smaller than previous checkerH is -1 in list
 							checkerH[checkerCounter] = -1
 						else:											# if current is within +- lidarBuffer range of previous
 							checkerH[checkerCounter] = 0
 
-						if NCLV > NLV[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerV is 1 in list
+						if NPCLV > NLV[checkerCounter]+lidarBuffer:		# if current is larger than previous checkerV is 1 in list
 							checkerV[checkerCounter] = 1
-						elif NCLV < NLV[checkerCounter]-lidarBuffer: 	# if current is smaller than previous checkerV is -1 in list
+						elif NPCLV < NLV[checkerCounter]-lidarBuffer: 	# if current is smaller than previous checkerV is -1 in list
 							checkerV[checkerCounter] = -1
 						else:											# if current is within +- lidarBuffer range of previous
 							checkerV[checkerCounter] = 0
