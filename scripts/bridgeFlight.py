@@ -64,24 +64,6 @@ def keypress():
 	global char
 	char = getch()
 
-def gradientChecker(data, direction):
-	# check data for decending or ascending
-	# direction = 1, ascending
-	# direction = 0, decending
-	sizeData = len(data)
-	if direction == 1:
-		for i in range(0,sizeData-1):
-			if data[i] > data[i+1]:
-				new[i] = 1
-				
-	elif direction == 0:
-
-	else:
-		print("Not a gradient checker direction!")
-		return 0
-
-	return
-
 
 def main():
 	rospy.init_node('bridgeFlight')
