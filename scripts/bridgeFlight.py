@@ -93,7 +93,7 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 20 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [3,3,0,2,3,0,2,3,0]
+	listOfModes = [3,0,2,3,0,2,3,0]
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
@@ -403,8 +403,8 @@ def main():
 			counter = 0 			# index of preCLH and preCLV
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
-			lidarBuffer = 40 		# +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 0.7 	# confidence of changing in %
+			lidarBuffer = 20 		# +- range we give to number of lidar lasers per scan difference
+			confidenceNumber = 0.5 	# confidence of changing in %
 			timeSwitchLock = 2000 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
@@ -453,7 +453,8 @@ def main():
 					gradientV[counter] = CV1 	# list of CV1 (list of number of current greater than past lidar scans)
 					CV0 = checkerV.count(0) 	# if current is smaller than previous number of laser scans
 					CVn1 = checkerV.count(-1) 	# if current is similar to previous number of laser scans
-					percentLargerH1 = CH1 / (CH1+CH0+CHn1)
+					percentLargerH1 = float(CHn1) / float((CH1+CH0+CHn1))
+					percentLargerV1 = float(CVn1) / float((CV1+CV0+CVn1))
 					
 					# mode switching
 					if lock <= 0 and counterOfModes-1 != len(listOfModes):
@@ -469,7 +470,7 @@ def main():
 								gcmode = listOfModes[counterOfModes]
 								lock = timeSwitchLock * sleepTime
 								print("change1")
-							elif CV1 > confidenceNumber:
+							elif percentLargerV1 > confidenceNumber:
 								# going from girder to column
 								counterOfModes = counterOfModes + 1
 								gcmode = listOfModes[counterOfModes]
@@ -482,15 +483,13 @@ def main():
 					if lock > 0:
 						lock = lock-1
 
-					#print("_________________")
-					#print("CH1:" + str(CH1))
-					#print("CH0:" + str(CH0))
-					#print("CHn1:" + str(CHn1))
-					#print("CV1:" + str(CV1))
-					#print("CV0:" + str(CV0))
-					#print("CVn1:" + str(CVn1))
+					print("_________________")
+					print("CH1:" + str(CH1))
+					print("CH0:" + str(CH0))
+					print("CHn1:" + str(CHn1))
+					print("percentLargerH1:" + str(percentLargerH1))
 					print("MODE:" + str(listOfModes[counterOfModes]))
-					#print("counterOfModes:" + str(counterOfModes))
+					print("counterOfModes:" + str(counterOfModes))
 
 				# publishing correct flight topic
 				if gcmode == 0:	# starting girderRight flight
