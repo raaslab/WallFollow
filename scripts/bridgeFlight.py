@@ -404,7 +404,7 @@ def main():
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
 			lidarBuffer = 20 		# +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 0.5 	# confidence of changing in %
+			confidenceNumber = 0.7 	# confidence of changing in %
 			timeSwitchLock = 2000 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
