@@ -403,9 +403,9 @@ def main():
 			counter = 0 			# index of preCLH and preCLV
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
-			lidarBuffer = 20 		# +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 0.7 	# confidence of changing in %
-			timeSwitchLock = 2000 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
+			lidarBuffer = 13 		# +- range we give to number of lidar lasers per scan difference
+			confidenceNumber = 0.8	# confidence of changing in %
+			timeSwitchLock = 1500 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
 				cleanedListHor = [x for x in horTopic if x != np.inf]
@@ -461,7 +461,7 @@ def main():
 						if listOfModes[counterOfModes] == 2 and listOfModes[counterOfModes+1] == 3: # TODO: check to make sure that this section works for timed switching for down up
 							counterOfModes = counterOfModes + 1
 							gcmode = listOfModes[counterOfModes]
-							lock = timeSwitchLock * sleepTime
+							lock = timeSwitchLock * sleepTime - timeSwitchLock*sleepTime*0.5
 							print("change0")
 						else:	# regular checks for switching between modes
 							if percentLargerH1 > confidenceNumber:
