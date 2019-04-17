@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="bridge3">
+    <link name="link">
+      <inertial>
+        <pose>0 0 0.3683 0 0 0</pose>
+        <mass>4.83076</mass>
+        <inertia>
+          <ixx>8640</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>560.625</iyy>
+          <iyz>0</iyz>
+          <izz>720</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://bridge3/meshes/bridge3.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://bridge3/meshes/bridge3.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>
