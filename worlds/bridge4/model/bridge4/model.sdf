@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="bridge4">
+    <link name="link">
+      <inertial>
+        <pose>0 0 0.3683 0 0 0</pose>
+        <mass>4.83076</mass>
+        <inertia>
+          <ixx>104.12</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>20</iyy>
+          <iyz>0</iyz>
+          <izz>4</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://bridge4/meshes/bridge4.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://bridge4/meshes/bridge4.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>
