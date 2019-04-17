@@ -9,7 +9,7 @@
 function [time,gtspWeightMatrix2, gtspTime, v_Cluster] = testGeneral(numPointsInit, numBatteryLevels, filename, timeTO, timeL, rechargeRate, UGVSpeed, G1, x, y, method, maxDistance, pathName,UGVCapable)
 
 time = 0;
-rotation = 51; % value used for rotating in graphMakingNew, in degrees
+rotation = 0; % value used for rotating in graphMakingNew, in degrees
 nodeArray = [];
 
 for i = 1:numPointsInit*numBatteryLevels
