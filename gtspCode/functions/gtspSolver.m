@@ -24,7 +24,7 @@
 % finalTour = the finished transformed tour
 % problem = means there was an error and this is not a valid run
 
-function [finalMatrix, G_init, weights, finalTour, atspAdjMatrix, v_AdjChecker,v_Type] = gtspSolver(v_Cluster, v_Adj, numPoints, numLevels,method,FDU,groupedPoints, x,y,UGVSpeed,maxDistance,v_Type,F,v_ClusterLevels)
+function [finalMatrix, G_init, weights, finalTour, atspAdjMatrix, v_AdjChecker,v_Type] = gtspSolver(v_Cluster, v_Adj, numPoints, numLevels,method,groupedPoints,x,y,maxDistance,v_Type,v_ClusterLevels)
 
 switch method
     case 0

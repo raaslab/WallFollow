@@ -38,7 +38,7 @@ groupedPoints = num2cell(groupedPoints);
 
 % GTSP solver
 % tic;
-[finalMatrix, G_init, edgeWeightsFinal, finalTour, gtspWeightMatrix, gtspWeightMatrix2,v_Type] = gtspSolver(v_Cluster,v_Adj,numPointsInit,numBatteryLevels,method,FDU,groupedPoints,x1,y1,UGVSpeed,maxDistance,v_Type,F,v_ClusterLevels);
+[finalMatrix, G_init, edgeWeightsFinal, finalTour, gtspWeightMatrix, gtspWeightMatrix2,v_Type] = gtspSolver(v_Cluster,v_Adj,numPointsInit,numBatteryLevels,method,groupedPoints,x1,y1,maxDistance,v_Type,v_ClusterLevels);
 gtspTime = 0;
 
 f = fullfile(pathName, filename);
