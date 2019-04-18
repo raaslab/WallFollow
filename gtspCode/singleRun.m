@@ -19,7 +19,7 @@ timeI = [];
 % polygonCreater(filename4,numBC,100,0,0) % creates random polygons.
 
 % use 'testInput.txt' if you want the file from polygonCreater
-data = readData('/home/catkin_ws/src/WallFollow/gtspCode/input/bridge10.txt'); % get the size and shape from the data (this will tell you number of clusters points and so on)
+data = readData('/home/klyu/lab/WallFollow/gtspCode/input/bridge10.txt'); % get the size and shape from the data (this will tell you number of clusters points and so on)
 [numClusters, ~] = size(data);
 x = [data(:,1), data(:,4)];
 y = [data(:,2), data(:,5)];
@@ -30,11 +30,11 @@ i = numClusters*2; % number of vertices needed to be multiplied by battery level
 
 
 filename1 = sprintf('bridge11');
-filename2 = sprintf('/home/catkin_ws/src/WallFollow/gtspCode/output/bridge12.gtsp');
+filename2 = sprintf('/home/klyu/lab/WallFollow/gtspCode/output/bridge12.gtsp');
 filename3 = sprintf('bridge13');
 
 tic
-pathName = '/home/catkin_ws/src/WallFollow/gtspCode/output';
+pathName = '/home/klyu/lab/WallFollow/gtspCode/output';
 % pathName = '/home/klyu/lab/coverageWork/testForCoverage/errorInstance'; % for error instances
 [ansTime,gtspMatrix,gtspTime, v_Cluster] = testGeneral(i, j, filename1, tTO, tL, rRate, UGVS, G, x, y, method, max_Distance, pathName,UGVCapable);
 

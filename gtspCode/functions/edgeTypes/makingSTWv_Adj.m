@@ -30,7 +30,7 @@ for i = 1:numPoints
     end
 end
 
-allDistancesRounded = ceil(allDistances./maxDistancePerLevel);
+allDistancesRounded = ceil(allDistances);
 % outputv_Adj = v_Adj;
 
 totalPoints = numPoints * numLevels;
