@@ -81,6 +81,6 @@ switch method
         finalTour = 0;
         atspAdjMatrix = 0;
 %                 [v_AdjChecker] = createBaseStationSimple(v_Adj, numPoints, numLevels);
-        [v_AdjChecker,v_Type] = createBaseStationComplex(v_Adj,numPoints,numLevels,FDU,v_Cluster,groupedPoints,x,y,UGVSpeed,maxDistance,v_Type,F,v_ClusterLevels);
+        [v_AdjChecker,v_Type] = createBaseStationComplex(v_Adj,numPoints,numLevels,v_Cluster,groupedPoints,x,y,maxDistance,v_Type,v_ClusterLevels);
         
 end
