@@ -32,8 +32,8 @@ v_UGVCapable = v_UGVCapable';
 % creating flying edges (only UAV and bat' < bat)
 % edge types: These edges are also internal of clusters
 [F, allDistances] = flying(maxDistance, x, y, numPoints, numLevels, v_Cluster, v_ClusterLevels, groupedPoints); % fly
-[FDU] = flyDownUp(numPoints, numLevels, F, v_Cluster, timeTO, timeL, allDistances, v_ClusterLevels, rechargeRate, UGVSpeed, groupedPoints, maxDistance); % flyDownUp
-[DTU] = downTravelUp(numPoints, numLevels, F, v_Cluster, timeTO, timeL, allDistances, v_ClusterLevels, rechargeRate, UGVSpeed, groupedPoints); % downTravelUp
+%[FDU] = flyDownUp(numPoints, numLevels, F, v_Cluster, timeTO, timeL, allDistances, v_ClusterLevels, rechargeRate, UGVSpeed, groupedPoints, maxDistance); % flyDownUp
+%[DTU] = downTravelUp(numPoints, numLevels, F, v_Cluster, timeTO, timeL, allDistances, v_ClusterLevels, rechargeRate, UGVSpeed, groupedPoints); % downTravelUp
 
 sizeOfv_Cluster = size(v_Cluster);
 tempV_Cluster = cell2mat(v_Cluster);
@@ -46,16 +46,16 @@ for i = 1:sizeOfv_Cluster
 end
 v_Cluster = tempV_Cluster(:,1);
 
-FDUNew = checkUGVPossibility(FDU,v_UGVCapable,1);
-DTUNew = checkUGVPossibility(DTU,v_UGVCapable,2);
+%FDUNew = checkUGVPossibility(FDU,v_UGVCapable,1);
+%DTUNew = checkUGVPossibility(DTU,v_UGVCapable,2);
 
 % make these into functions for each type of edge combo
 % edge type combos: These edges are only external edges and the combination of the above edges
 typeAEdge = typeA(v_Cluster, allDistances, numLevels, numPoints, v_ClusterLevels, maxDistance, groupedPoints); % F, F
-typeBEdge = typeB(F, FDUNew, v_Cluster, allDistances, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % F, FDU
-typeCEdge = typeC(FDUNew, v_Cluster, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % FDU, FDU
-typeDEdge = typeD(F, FDUNew, v_Cluster, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % FDU, F
-typeEEdge = typeE(F, DTUNew, v_Cluster, allDistances, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % F, DTU
+%typeBEdge = typeB(F, FDUNew, v_Cluster, allDistances, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % F, FDU
+%typeCEdge = typeC(FDUNew, v_Cluster, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % FDU, FDU
+%typeDEdge = typeD(F, FDUNew, v_Cluster, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % FDU, F
+%typeEEdge = typeE(F, DTUNew, v_Cluster, allDistances, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % F, DTU
 
 % pick the minimum cost edge here
 numOfTotalPoints = numPoints * numLevels;
@@ -64,7 +64,7 @@ v_AdjNew(1:numOfTotalPoints, 1:numOfTotalPoints) = Inf;
 v_Type(1:numOfTotalPoints, 1:numOfTotalPoints) = 0;
 
 for i = 1:numberOfEdges
-    compare = [typeAEdge(i),typeBEdge(i),typeCEdge(i),typeDEdge(i),typeEEdge(i)]; % array of all types of edge
+    compare = [typeAEdge(i)]; % array of all types of edge
     [v_AdjNew(i), v_Type(i)]= min(compare);
 end
 

@@ -5,13 +5,13 @@ clc; clear all; close all;
 
 % numBC = 20;
 
-max_Distance = 1800;   % if max_Distance == j then discharge is unit rate per distance (budget)
-j = 20;
+max_Distance = 2000;   % if max_Distance == j then discharge is unit rate per distance (budget)
+j = 1;				% battery levels
 tTO = 5;           % take off cost
 tL = 45;            % landing cost
 rRate = 2;         % rate of recharge
 UGVS = 1;          % time to travel one unit for the UGV (greater than 1 means UGV is slower)
-method = 1;        % 1 = GLNS, 0 = con  corde
+method = 1;        % 1 = GLNS, 0 = concorde
 timeI = [];
 % changing number of input BC
 
