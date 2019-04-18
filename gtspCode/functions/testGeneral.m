@@ -32,7 +32,7 @@ v_Cluster = num2cell(v_Cluster);
 [groupedPoints] = makingGroupedPoints(numPointsInit, numBatteryLevels);
 groupedPoints = num2cell(groupedPoints);
 
-[v_Adj, v_Type, S1, T1, weights, v_ClusterLevels,FDU,F] = makingSTWv_AdjGeneral(maxDistance, x1, y1, numPointsInit, numBatteryLevels, v_Cluster, timeTO, timeL, rechargeRate, UGVSpeed, groupedPoints,UGVCapable1);
+[v_Adj, v_Type, S1, T1, weights, v_ClusterLevels,FDU,F] = makingSTWv_AdjGeneral(maxDistance, x1, y1, numPointsInit, numBatteryLevels, v_Cluster, groupedPoints,UGVCapable1);
 
 [xOut, yOut] = graphingCluster(x1, y1, numPointsInit, numBatteryLevels, S1, T1, 0, nodeArray, method);            % graph in cluster format
 

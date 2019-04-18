@@ -6,7 +6,7 @@
 % UGVSpeed = the time to travel one unit for the UGV (has to be greater than equal to 1)
 % OUTPUTS
 
-function [v_AdjNew, v_Type, sNew, tNew, weights, v_ClusterLevels, FDU,F] = makingSTWv_AdjGeneral(maxDistance, x, y, numPoints, numLevels, v_Cluster, timeTO, timeL, rechargeRate, UGVSpeed, groupedPoints,UGVCapable)
+function [v_AdjNew, v_Type, sNew, tNew, weights, v_ClusterLevels, FDU,F] = makingSTWv_AdjGeneral(maxDistance, x, y, numPoints, numLevels, v_Cluster, groupedPoints,UGVCapable)
 
 v_ClusterLevels = Inf([1, numPoints*numLevels]);
 counter = 1;
@@ -32,8 +32,6 @@ v_UGVCapable = v_UGVCapable';
 % creating flying edges (only UAV and bat' < bat)
 % edge types: These edges are also internal of clusters
 [F, allDistances] = flying(maxDistance, x, y, numPoints, numLevels, v_Cluster, v_ClusterLevels, groupedPoints); % fly
-%[FDU] = flyDownUp(numPoints, numLevels, F, v_Cluster, timeTO, timeL, allDistances, v_ClusterLevels, rechargeRate, UGVSpeed, groupedPoints, maxDistance); % flyDownUp
-%[DTU] = downTravelUp(numPoints, numLevels, F, v_Cluster, timeTO, timeL, allDistances, v_ClusterLevels, rechargeRate, UGVSpeed, groupedPoints); % downTravelUp
 
 sizeOfv_Cluster = size(v_Cluster);
 tempV_Cluster = cell2mat(v_Cluster);
@@ -52,10 +50,6 @@ v_Cluster = tempV_Cluster(:,1);
 % make these into functions for each type of edge combo
 % edge type combos: These edges are only external edges and the combination of the above edges
 typeAEdge = typeA(v_Cluster, allDistances, numLevels, numPoints, v_ClusterLevels, maxDistance, groupedPoints); % F, F
-%typeBEdge = typeB(F, FDUNew, v_Cluster, allDistances, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % F, FDU
-%typeCEdge = typeC(FDUNew, v_Cluster, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % FDU, FDU
-%typeDEdge = typeD(F, FDUNew, v_Cluster, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % FDU, F
-%typeEEdge = typeE(F, DTUNew, v_Cluster, allDistances, numLevels, numPoints, groupedPoints, typeAEdge, timeTO, timeL, rechargeRate); % F, DTU
 
 % pick the minimum cost edge here
 numOfTotalPoints = numPoints * numLevels;
