@@ -1,4 +1,5 @@
-
+% readData
+% reads input data form algorithm
 
 function [data] = readData(file)
 
