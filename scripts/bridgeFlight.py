@@ -93,7 +93,7 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 20 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [3,0,2,3,0,2,3,0]
+	listOfModes = [1,2,3,1,2,3,1,2,3,1,2,3,1]
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
