@@ -47,6 +47,8 @@ v_Cluster = tempV_Cluster(:,1);
 %FDUNew = checkUGVPossibility(FDU,v_UGVCapable,1);
 %DTUNew = checkUGVPossibility(DTU,v_UGVCapable,2);
 
+impossibleEdges = [1,5;1,16;3,6;13,7;15,18;18,6;12,10;17,4];
+
 % make these into functions for each type of edge combo
 % edge type combos: These edges are only external edges and the combination of the above edges
 typeAEdge = typeA(v_Cluster, allDistances, numLevels, numPoints, v_ClusterLevels, maxDistance, groupedPoints); % F, F
