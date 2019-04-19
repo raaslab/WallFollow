@@ -5,8 +5,8 @@ function [data] = readDataImpossible(file)
 
 fileID = fopen(file,'r');
 % formatSpec = '%f';
-formatSpec = '%f %f %f %f %f %f';
-sizeData = [6 Inf];
+formatSpec = '%f %f';
+sizeData = [2 Inf];
 data = fscanf(fileID,formatSpec,sizeData);
 data = data';
 fclose(fileID);
