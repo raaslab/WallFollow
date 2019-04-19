@@ -7,19 +7,12 @@
 
 function [v_AdjNew, distances] = flying(maxDistance, x, y, numPoints, numLevels, v_Cluster, v_ClusterLevel, groupedPoints)
 
-[sNew, tNew, weights, v_AdjNew, distances] =  makingSTWv_Adj(maxDistance, x, y, numPoints, numLevels, v_Cluster, groupedPoints);
-numberOfEdges = numel(v_AdjNew);
-for i = 1:numberOfEdges
-    if v_AdjNew(i) == 0
-        v_AdjNew(i) = Inf;
-    end
-end
-
-numOfTotalPoints = numPoints*numLevels;
-
-for i = 1:numOfTotalPoints
-    if v_ClusterLevel(i) == numLevels
-        v_AdjNew(:, i) = Inf;
+[v_AdjNew, distances] =  makingSTWv_Adj(maxDistance, x, y, numPoints, numLevels, v_Cluster, groupedPoints);
+for i = 1:numPoints
+    for j = 1:numPoints
+        if i==j
+            v_AdjNew(i,j) = Inf;
+        end
     end
 end
 

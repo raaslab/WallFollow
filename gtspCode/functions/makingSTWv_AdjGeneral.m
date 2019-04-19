@@ -50,15 +50,16 @@ v_Cluster = tempV_Cluster(:,1);
 % make these into functions for each type of edge combo
 % edge type combos: These edges are only external edges and the combination of the above edges
 typeAEdge = typeA(v_Cluster, allDistances, numLevels, numPoints, v_ClusterLevels, maxDistance, groupedPoints); % F, F
+finalEdges = removeImpossibleEdges(typeAEdge,impossibleEdges);
 
 % pick the minimum cost edge here
 numOfTotalPoints = numPoints * numLevels;
-numberOfEdges = numel(typeAEdge);
+numberOfEdges = numel(finalEdges);
 v_AdjNew(1:numOfTotalPoints, 1:numOfTotalPoints) = Inf;
 v_Type(1:numOfTotalPoints, 1:numOfTotalPoints) = 0;
 
 for i = 1:numberOfEdges
-    compare = [typeAEdge(i)]; % array of all types of edge
+    compare = [finalEdges(i)]; % array of all types of edge
     [v_AdjNew(i), v_Type(i)]= min(compare);
 end
 

@@ -12,7 +12,7 @@
 % OUTPUTS
 
 
-function [sNew, tNew, weights, v_AdjNew, allDistances] =  makingSTWv_Adj(maxDistance, x, y, numPoints, numLevels, v_Cluster, groupedPoints)
+function [v_AdjNew, allDistances] =  makingSTWv_Adj(maxDistance, x, y, numPoints, numLevels, v_Cluster, groupedPoints)
 
 % maxDistance = sqrt((area(1)-area(2))^2+(area(3)-area(4))^2);
 maxDistancePerLevel = maxDistance/numLevels;
@@ -50,38 +50,34 @@ for i = 1:numPoints
     end
 end
 
-% pointA = [];
-% pointB = [];
-sNew = [];
-tNew = [];
-weights = [];
-matGroupedPoints = cell2mat(groupedPoints);
-for i = 1:numPoints                     % TODO: this won't for for making the adjacency matrix. Need to find another way
-%     pointA = find(matGroupedPoints == i);
-    for j = 1:numPoints
-        node = find(matGroupedPoints == i, 1);
-        numOfIterations = allDistancesRounded(i, j);
-        % pointB = find(v_Cluster == j);
-        weightIJ = allDistances(i, j);
-        for k = 1:(numLevels-numOfIterations)
-            if numOfIterations == 0 || i == j % you don't need both conditions because they do the same thing, but it helps me remember how things work
-                break;
-            end
-            pointB = find(matGroupedPoints == j);
-            sNew(end+1) = node;
-            pointB = circshift(pointB, -(numOfIterations+k-1));
-            tNew(end+1) = pointB(1);
-            node = node+1;
-            weights(end+1) = weightIJ;
-        end
-    end
-end
+% sNew = [];
+% tNew = [];
+% weights = [];
+% matGroupedPoints = cell2mat(groupedPoints);
+% for i = 1:numPoints
+%     for j = 1:numPoints
+%         node = find(matGroupedPoints == i, 1);
+%         numOfIterations = allDistancesRounded(i, j);
+%         weightIJ = allDistances(i, j);
+%         for k = 1:(numLevels-numOfIterations)
+%             if numOfIterations == 0 || i == j % you don't need both conditions because they do the same thing, but it helps me remember how things work
+%                 break;
+%             end
+%             pointB = find(matGroupedPoints == j);
+%             sNew(end+1) = node;
+%             pointB = circshift(pointB, -(numOfIterations+k-1));
+%             tNew(end+1) = pointB(1);
+%             node = node+1;
+%             weights(end+1) = weightIJ;
+%         end
+%     end
+% end
 
-numOfEdges = numel(sNew);
-v_AdjNew = zeros(totalPoints);
-for i = 1:numOfEdges
-    v_AdjNew(sNew(i), tNew(i)) = weights(i);
-end
+% numOfEdges = numel(sNew);
+v_AdjNew = allDistances;
+% for i = 1:numOfEdges
+%     v_AdjNew(sNew(i), tNew(i)) = weights(i);
+% end
 
 
 end
