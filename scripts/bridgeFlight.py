@@ -92,8 +92,8 @@ def main():
 
 	okayMode = 0
 	listBufferTime = 0
-	counterOfBuffer = 20 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [3,0,1,2,3,1,2,3,1,2,3,1,2,3,1] # [3,0,...] is added at the beginning to get the UAV to the starting location
+	counterOfBuffer = 30 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
+	listOfModes = [1,2,3,1,2,3,1,2,3,1,2,3,1] # [3,0,...] is added at the beginning to get the UAV to the starting location
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
@@ -403,8 +403,8 @@ def main():
 			counter = 0 			# index of preCLH and preCLV
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
-			lidarBuffer = 13 		# +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 0.8	# confidence of changing in %
+			lidarBuffer = 12 		# +- range we give to number of lidar lasers per scan difference
+			confidenceNumber = 0.85	# confidence of changing in %
 			timeSwitchLock = 1500 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
@@ -484,9 +484,7 @@ def main():
 						lock = lock-1
 
 					print("_________________")
-					print("CH1:" + str(CH1))
-					print("CH0:" + str(CH0))
-					print("CHn1:" + str(CHn1))
+					print("percentLargerV1:" + str(percentLargerV1))
 					print("percentLargerH1:" + str(percentLargerH1))
 					print("MODE:" + str(listOfModes[counterOfModes]))
 					print("counterOfModes:" + str(counterOfModes))
@@ -511,9 +509,18 @@ def main():
 				# checking if we've gone through all modes in listOfModes
 				if counterOfModes == len(listOfModes)-1:
 					print("DONE!!!")
-					exit()
+					okayMode = 10
 				rospy.sleep(sleepTime)
 
+		while okayMode == 10: # assisted mode with timer for down and up
+			if gcmode == 0:	# starting girderRight flight
+				outputData.publish(rightBesideTopic)
+			elif gcmode == 1: # starting girderLeft flight
+				outputData.publish(leftBesideTopic)
+			elif gcmode == 2: # starting columnUp flight
+				outputData.publish(upColumnTopic)
+			else: # starting columnDown flight. gcmode == 3
+				outputData.publish(downColumnTopic)
 
 if __name__ == '__main__':
 	try:
