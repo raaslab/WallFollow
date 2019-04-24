@@ -1,9 +1,9 @@
 <launch>
 
-	<rosparam command="load" file="$(find wall_follow)/launch/columnLoopUp_params.yaml"/>
+	<rosparam command="load" file="$(find wall_follow)/launch/mainLaunch/columnLoopUp_params.yaml"/>
 	<group ns="up">
 	<node pkg="wall_follow" type="wall_follow_columnLoop" name="columnLoop">
-		<rosparam command="load" file="$(find wall_follow)/launch/columnLoopUp_params.yaml"/>
+		<rosparam command="load" file="$(find wall_follow)/launch/mainLaunch/columnLoopUp_params.yaml"/>
 		<remap from="/up/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/up/mavros/state" to="/mavros/state"/>
 		<!--remap from="/up/columnLoop/vel" to="/mavros/setpoint_raw/local"/-->
