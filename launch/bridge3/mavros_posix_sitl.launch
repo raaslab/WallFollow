@@ -6,9 +6,9 @@
     <!-- world vtti.world -->
     <!--arg name="x" default="4"/-->
     <!-- world vtti8th.world -->
-    <arg name="x" default="0"/>
-    <arg name="y" default="-20"/>
-    <arg name="z" default="4"/>
+    <arg name="x" default="-3"/>
+    <arg name="y" default="-3"/>
+    <arg name="z" default="0"/>
     <arg name="R" default="0"/>
     <arg name="P" default="0"/>
     <!--arg name="Y" default="0"/-->
