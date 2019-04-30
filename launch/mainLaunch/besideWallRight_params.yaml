@@ -52,13 +52,13 @@ control:
   Z_Ki: 0
 
 flight:
-  desired_wall_dist: 2          # for simulation make sure you can see the wall. Below 5 should be okay.
-  desired_altitude: 4           # overwritten in code when wall found
+  desired_wall_dist: 4          # for simulation make sure you can see the wall. Below 5 should be okay.
+  desired_altitude: 8           # overwritten in code when wall found
   altitude_entry_tolerance: 0.2 # currently unused
   altitude_exit_tolerance: 1    # currently unused
   NO_WALL_THRESHOLD: 5          # number of LIDAR scans without wall that can be tolerated before we switch to discover wall (potentially problematic)
   DESIRED_MOVE_SECONDS: 4
-  DESIRED_BUFFER: 3.0           # metres
+  DESIRED_BUFFER: 10.0           # metres
   LOWER_ALTITUDE_LIMIT: 1.0     # metres
   UPPER_ALTITUDE_LIMIT: 10
   move_threshold_vertical: 0.7
