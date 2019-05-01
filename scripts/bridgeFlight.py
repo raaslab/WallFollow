@@ -93,7 +93,8 @@ def main():
 	okayMode = 0
 	listBufferTime = 0
 	counterOfBuffer = 30 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
-	listOfModes = [1,2,3,1,2,3,1,2,3,1,2,3,1] # [3,0,...] is added at the beginning to get the UAV to the starting location
+	#listOfModes = [1,2,3,1,2,3,1,2,3,1,2,3,1] # bridge1
+	listOfModes = [0,2,3,0,2,3,0,2,3,0,2,3,0] # bridge3
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
@@ -403,8 +404,10 @@ def main():
 			counter = 0 			# index of preCLH and preCLV
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
-			lidarBuffer = 12 		# +- range we give to number of lidar lasers per scan difference
-			confidenceNumber = 0.85	# confidence of changing in %
+			#lidarBuffer = 12 		# +- range we give to number of lidar lasers per scan difference
+			#confidenceNumber = 0.85	# confidence of changing in %
+			lidarBuffer = 5			# higher buffer than you need a bigger change in Lidar scans to detect it
+			confidenceNumber = 0.45		# higher confidence means the more number of lidar scans in a row you need to switch
 			timeSwitchLock = 1500 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
