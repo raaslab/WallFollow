@@ -6,8 +6,8 @@ hor:
     ymax: 10
 
   line:       # Sim (wall in front):[50  130]; Real (wall to the left):[140 220]
-    theta_min: 50 # specify lower to higher w.r.t laser frame
-    theta_max: 130
+    theta_min: 140 # specify lower to higher w.r.t laser frame
+    theta_max: 220
 
 
     resolution: 0.1 # currently hardcoded in code
