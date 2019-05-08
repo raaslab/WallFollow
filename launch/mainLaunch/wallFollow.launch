@@ -2,6 +2,7 @@
 	<rosparam command="load" file="$(find wall_follow)/launch/mainLaunch/wallFollow_params.yaml"/>
 	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="hor"/>
 	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="vert"/>
-	<node pkg="wall_follow" type="wall_follow_velocity_publisher" name="velocity_publisher"/>
-	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall"/>
+	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall">
+		<remap from="/besideWall/vel" to="/mavros/setpoint_raw/local"/>
+	</node>
 </launch>
