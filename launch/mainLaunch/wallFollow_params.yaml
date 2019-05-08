@@ -35,7 +35,7 @@ control:
 
   max_vel_h: 1.0 # max hold (compensation) velocity in hor direction
   max_vel_z: 0.5 # max compensation velocity in Z direction
-  nominal_vel: 1 # nominal velocity independent   of compensation velocity
+  nominal_vel: 10 # nominal velocity independent of compensation velocity
 
   NOMINAL_Z: 0.5    # might not be used
   TAKEOFF_VEL: 0.5  # might not be used
