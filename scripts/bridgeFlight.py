@@ -404,10 +404,12 @@ def main():
 			counter = 0 			# index of preCLH and preCLV
 			switches = 0 			# how many mode switches we have been through
 			counterOfModes = 0 		# counter for what mode comes next
+			# bridge1
 			#lidarBuffer = 12 		# +- range we give to number of lidar lasers per scan difference
 			#confidenceNumber = 0.85	# confidence of changing in %
-			lidarBuffer = 5			# higher buffer than you need a bigger change in Lidar scans to detect it
-			confidenceNumber = 0.45		# higher confidence means the more number of lidar scans in a row you need to switch
+			# bridge3
+			lidarBuffer = 7			# higher buffer than you need a bigger change in Lidar scans to detect it
+			confidenceNumber = 0.7		# higher confidence means the more number of lidar scans in a row you need to switch
 			timeSwitchLock = 1500 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
