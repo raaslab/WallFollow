@@ -23,12 +23,10 @@
 
 	<!-- column flight needs to be before girder flight or it will not work correctly -->
 	<!-- column flight-->
-	<!-- include file="$(find wall_follow)/launch/mainLaunch/columnLoop.launch"/-->
 	<include file="$(find wall_follow)/launch/mainLaunch/columnLoopUp.launch"/>
 	<include file="$(find wall_follow)/launch/mainLaunch/columnLoopDown.launch"/>
 
 	<!-- girder flight-->
-	<!--include file="$(find wall_follow)/launch/mainLaunch/besideWall.launch"/-->
 	<include file="$(find wall_follow)/launch/mainLaunch/besideWallRight.launch"/>
 	<include file="$(find wall_follow)/launch/mainLaunch/besideWallLeft.launch"/>
 
