@@ -1,13 +1,19 @@
 <launch>
 
+	<rosparam command="load" file="$(find wall_follow)/launch/besideWall_params.yaml"/>
+	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="hor"/>
+	<node pkg="wall_follow" type="wall_follow_pc_subscriber" name="pc_subscriber" ns="vert"/>
+	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall"/>
+	<node pkg="wall_follow" type="wall_follow_marker_fix" name="marker_fix" ns="hor"/>
+	<node pkg="wall_follow" type="wall_follow_marker_fix" name="marker_fix" ns="vert"/>
 
 
-	<rosparam command="load" file="$(find wall_follow)/launch/mainLaunch/besideWall_params.yaml"/>
+	<!--rosparam command="load" file="$(find wall_follow)/launch/mainLaunch/besideWall_params.yaml"/>
 	<node pkg="wall_follow" type="wall_follow_besideWall" name="besideWall">
 		<rosparam command="load" file="$(find wall_follow)/launch/mainLaunch/besideWall_params.yaml"/>
 		<remap from="/besideWall/mavros/local_position/pose" to="/mavros/local_position/pose"/>
 		<remap from="/besideWall/mavros/state" to="/mavros/state"/>
 		<remap from="/besideWall/vel" to="/mavros/setpoint_raw/local"/>
-	</node>
+	</node-->
 
 </launch>
