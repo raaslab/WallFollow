@@ -469,13 +469,13 @@ def main():
 							lock = timeSwitchLock * sleepTime - timeSwitchLock*sleepTime*0.5
 							print("change0")
 						else:	# regular checks for switching between modes
-							if percentLargerH1 > confidenceNumber && listOfModes[counterOfModes] == 3:
+							if percentLargerH1 > confidenceNumber and listOfModes[counterOfModes] == 3:
 								# going from column to girder
 								counterOfModes = counterOfModes + 1
 								gcmode = listOfModes[counterOfModes]
 								lock = timeSwitchLock * sleepTime
 								print("change1")
-							elif percentLargerV1 > confidenceNumber && (listOfModes[counterOfModes] == 0 || listOfModes[counterOfModes] == 1):
+							elif percentLargerV1 > confidenceNumber and (listOfModes[counterOfModes] == 0 or listOfModes[counterOfModes] == 1):
 								# going from girder to column
 								counterOfModes = counterOfModes + 1
 								gcmode = listOfModes[counterOfModes]
