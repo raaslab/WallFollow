@@ -71,7 +71,6 @@ bool new_vert_data = 0;				// flags
 
 using namespace std;
 
-
 void state_cb(const mavros_msgs::State::ConstPtr& msg){
     current_state = *msg;
 }
@@ -104,23 +103,20 @@ float computePID(float error, float prev_error[], PID pid, float max_vel){
 	float P = error * pid.Kp;
 	float D = (error - prev_error[0]) * pid.Kd;
 	float I = (prev_error[0] +  prev_error[1] + prev_error[2] + prev_error[3] + prev_error[4]) * pid.Ki;
-	
-	ROS_INFO("cur_error = %f, prev_error = %f, difference = %f", error, prev_error[0], error - prev_error[0]);
 
+	ROS_INFO("cur_error = %f, prev_error = %f, difference = %f", error, prev_error[0], error - prev_error[0]);
 	prev_error[4] = prev_error[3];
 	prev_error[3] = prev_error[2];
 	prev_error[2] = prev_error[1];
 	prev_error[1] = prev_error[0];
 	prev_error[0] = error;
 
-	
 	ROS_INFO("\n P = %f    D = % f \n", P, D);
 	return limit_velocity(P + I + D, max_vel);
-}
+	}
 
+	mavros_msgs::PositionTarget computeTargetVel() {
 
-
-mavros_msgs::PositionTarget computeTargetVel(){
 	mavros_msgs::PositionTarget target_vel;
 	target_vel.header.stamp = ros::Time::now();
 	target_vel.header.frame_id = "local_frame";
@@ -130,7 +126,6 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	int orientation = (int)(tf::getYaw(local_pose.pose.orientation) * 180 / M_PI);
 
 	// horizontal control:	// maybe increase update rate because yaw updates are coming fast???
-	
 	if(new_hor_data){			// else, keep controlling with old values 	
 		if(hor_lines.confidence[0] > hor_conf_threshold){
 			int theta_rf_hold = hor_lines.angle[0] + laser_rf_offset;
@@ -141,29 +136,14 @@ mavros_msgs::PositionTarget computeTargetVel(){
 			x_rf_hold = hold_velocity * cos (theta_rf_hold * M_PI / 180.0);
 			y_rf_hold = hold_velocity * sin (theta_rf_hold * M_PI / 180.0);
 
-			/*
-			line_length = sqrt(pow((x2[0] - x1[0]), 2) + pow((y2[0] - y1[0]), 2));
-			line_mid_point = line_length/2.0;
-			*/
-
 			int theta_rf_centering = theta_rf_hold - 90;
 			float left_point = hor_lines.x1[0] * cos (theta_rf_centering * M_PI / 180.0) + hor_lines.y1[0] * sin (theta_rf_centering * M_PI / 180.0);
 			float right_point = hor_lines.x2[0] * cos (theta_rf_centering * M_PI / 180.0) + hor_lines.y2[0] * sin (theta_rf_centering * M_PI / 180.0);
-			//centering_error = (left_point + right_point) / 2.0;
 			centering_error = (left_point + desired_buffer)	;
 			centering_velocity = computePID(centering_error, prev_centering_errors, h_pid, max_vel_h);
 
 			x_rf_centering = centering_velocity * cos (theta_rf_centering * M_PI / 180.0);
 			y_rf_centering = centering_velocity * sin (theta_rf_centering * M_PI / 180.0);
-	
-			/*
-			centering_error = (hor_lines.x2[0] + hor_lines.x1[0]) / 2.0;
-			centering_velocity = computePID(centering_error, prev_centering_errors, h_pid, max_vel_h);
-			int theta_rf_centering = theta_rf_hold - 90;
-			x_rf_centering = centering_velocity * cos (theta_rf_centering * M_PI / 180.0);
-			y_rf_centering = centering_velocity * sin (theta_rf_centering * M_PI / 180.0);
-			*/
-
 		}
 		else{
 			prev_hold_errors[0] = 0; 	prev_hold_errors[1] = 0; 	prev_hold_errors[2] = 0; 	prev_hold_errors[3] = 0; 	prev_hold_errors[4] = 0;
@@ -173,41 +153,34 @@ mavros_msgs::PositionTarget computeTargetVel(){
 	}
 
 	// altitude control:
-
 	if(new_vert_data){
 		if((vert_lines.confidence[0] > vert_conf_threshold) && vert_lines.dist[0] < clearance_threshold){		// if close to ground, move up
-
 			alt_mode = Upward;	
 			altitude_velocity = nominal_vel;
-
 		}
-
-																// if close to top, move down
+		// if close to top, move down
 		else if( ((vert_lines.confidence[1] > vert_conf_threshold) && vert_lines.dist[1] < clearance_threshold) ||  hor_lines.confidence[0] < deck_threshold){
 			alt_mode = Downward;
 			altitude_velocity = -1 * nominal_vel;
 		}
-
-
 		else{											// continue doing what you were doing till you get to the top or bottom
 			altitude_velocity = altitude_velocity;
 		}
-			
+
 		new_vert_data = 0;
 	}
-	
-	// state machine:
 
-			if(hor_lines.confidence[0] > hor_conf_threshold){
-				target_vel.velocity.x = x_rf_hold + x_rf_centering;
-				target_vel.velocity.y = y_rf_hold + y_rf_centering;
-				target_vel.velocity.z = altitude_velocity;
-			}
-			else{
-				target_vel.velocity.x = 0;
-				target_vel.velocity.y = 0;
-				target_vel.velocity.z = 0;
-			}			
+	// state machine:
+	if(hor_lines.confidence[0] > hor_conf_threshold){
+		target_vel.velocity.x = x_rf_hold + x_rf_centering;
+		target_vel.velocity.y = y_rf_hold + y_rf_centering;
+		target_vel.velocity.z = altitude_velocity;
+	}
+	else{
+		target_vel.velocity.x = 0;
+		target_vel.velocity.y = 0;
+		target_vel.velocity.z = 0;
+	}
 
 	ROS_INFO("altitude_error %f",altitude_error);
 	ROS_INFO("dist_error %f", hold_error);
@@ -236,7 +209,6 @@ void getAllParams(ros::NodeHandle n){
 	ros::param::get("~flight/move_threshold_horizontal", move_threshold_horizontal);
 	ros::param::get("~flight/deck_threshold", deck_threshold);
 	ros::param::get("~flight/clearance_threshold", clearance_threshold);
-
 
 	ROS_INFO("=======================================================");
 	ROS_INFO("Kp: %f", h_pid.Kp);
@@ -273,7 +245,7 @@ int main(int argc, char **argv){
 	ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>("mavros/local_position/pose", 10, local_pose_cb);
 	ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
 	ros::Rate rate(20.0);		//the setpoint publishing rate MUST be faster than 2Hz
-								
+
 	while(ros::ok() && current_state.connected){	// wait for FCU connection	
 	ros::spinOnce();
 	rate.sleep();
@@ -299,12 +271,10 @@ int main(int argc, char **argv){
 	}
 
 //__________________________________________________________________________________________________________________ #mainloop
-
     while(ros::ok()){
         ros::spinOnce();
 		velocity_pub.publish(computeTargetVel());
         rate.sleep();
     }
-
     return 0;
 }
