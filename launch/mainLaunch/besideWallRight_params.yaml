@@ -40,7 +40,7 @@ control:
   laser_rf_offset: 0 # horizontal lidar leads robot x axis (east) by 0 degrees in simulation and 0 degrees on the actual hex
   max_vel_h: 1.0 # max hold (compensation) velocity in hor direction
   max_vel_z: 0.5 # max compensation velocity in Z direction
-  nominal_vel: 0.5 # nominal velocity independent of compensation velocity
+  nominal_vel: 0.75 # nominal velocity independent of compensation velocity
   NOMINAL_Z: 0.5    # might not be used
   TAKEOFF_VEL: 0.5  # might not be used
 
@@ -58,7 +58,7 @@ flight:
   altitude_exit_tolerance: 1    # currently unused
   NO_WALL_THRESHOLD: 5          # number of LIDAR scans without wall that can be tolerated before we switch to discover wall (potentially problematic)
   DESIRED_MOVE_SECONDS: 4
-  DESIRED_BUFFER: 1.0           # metres
+  DESIRED_BUFFER: 2.0           # metres
   LOWER_ALTITUDE_LIMIT: 1.0     # metres
   UPPER_ALTITUDE_LIMIT: 10
   move_threshold_vertical: 0.7
