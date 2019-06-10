@@ -113,9 +113,9 @@ float computePID(float error, float prev_error[], PID pid, float max_vel){
 
 	ROS_INFO("\n P = %f    D = % f \n", P, D);
 	return limit_velocity(P + I + D, max_vel);
-	}
+}
 
-	mavros_msgs::PositionTarget computeTargetVel() {
+mavros_msgs::PositionTarget computeTargetVel() {
 
 	mavros_msgs::PositionTarget target_vel;
 	target_vel.header.stamp = ros::Time::now();
