@@ -153,7 +153,7 @@ mavros_msgs::PositionTarget computeTargetVel() {
 	}
 
 	// altitude control:
-	if(new_vert_data){
+	/*if(new_vert_data){
 		if((vert_lines.confidence[0] > vert_conf_threshold) && vert_lines.dist[0] < clearance_threshold){		// if close to ground, move up
 			alt_mode = Upward;	
 			altitude_velocity = nominal_vel;
@@ -168,6 +168,11 @@ mavros_msgs::PositionTarget computeTargetVel() {
 		}
 
 		new_vert_data = 0;
+	}*/
+	if(new_vert_data){
+		altitude_velocity = nominal_vel;
+		new_vert_data = 0;
+
 	}
 
 	// state machine:

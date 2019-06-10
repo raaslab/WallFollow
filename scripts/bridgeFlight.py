@@ -94,7 +94,7 @@ def main():
 	listBufferTime = 0
 	counterOfBuffer = 30 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
 	#listOfModes = [1,2,3,1,2,3,1,2,3,1,2,3,1] # bridge1
-	listOfModes = [3,0,2,3,0,2,3,0,2,3,0,2,3,0] # bridge4
+	listOfModes = [2,0,3,2,0,3,2,0,3,2,0,3,2,0] # bridge4
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
@@ -463,13 +463,13 @@ def main():
 					
 					# mode switching
 					if lock <= 0 and counterOfModes-1 != len(listOfModes):
-						if listOfModes[counterOfModes] == 2 and listOfModes[counterOfModes+1] == 3: # TODO: check to make sure that this section works for timed switching for down up
+						if listOfModes[counterOfModes] == 3 and listOfModes[counterOfModes+1] == 2: # TODO: check to make sure that this section works for timed switching for down up
 							counterOfModes = counterOfModes + 1
 							gcmode = listOfModes[counterOfModes]
 							lock = timeSwitchLock * sleepTime - timeSwitchLock*sleepTime*0.5
 							print("change0")
 						else:	# regular checks for switching between modes
-							if percentLargerH1 > confidenceNumber and listOfModes[counterOfModes] == 3:
+							if percentLargerH1 > confidenceNumber and listOfModes[counterOfModes] == 2:
 								# going from column to girder
 								counterOfModes = counterOfModes + 1
 								gcmode = listOfModes[counterOfModes]
