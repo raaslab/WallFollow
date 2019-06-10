@@ -94,7 +94,7 @@ def main():
 	listBufferTime = 0
 	counterOfBuffer = 30 # buffer between checking if the LIDAR is getting more data compared to previous LIDAR scan
 	#listOfModes = [1,2,3,1,2,3,1,2,3,1,2,3,1] # bridge1
-	listOfModes = [2,0,3,2,0,3,2,0,3,2,0,3,2,0] # bridge4
+	listOfModes = [2,2,0,3,2,0,3,2,0,3,2,0,3,2,0,3,2] # bridge4
 	sleepTime = 0.1 # amount of time we wait at the end of while loops (used in rospy.sleep(sleepTime))
 
 	while not rospy.is_shutdown():
@@ -408,7 +408,7 @@ def main():
 			#lidarBuffer = 12 		# +- range we give to number of lidar lasers per scan difference
 			#confidenceNumber = 0.85	# confidence of changing in %
 			# bridge3
-			lidarBuffer = 7			# higher buffer than you need a bigger change in Lidar scans to detect it
+			lidarBuffer = 5			# higher buffer than you need a bigger change in Lidar scans to detect it
 			confidenceNumber = 0.7		# higher confidence means the more number of lidar scans in a row you need to switch
 			timeSwitchLock = 1500 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
