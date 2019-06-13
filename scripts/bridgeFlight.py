@@ -407,9 +407,12 @@ def main():
 			# bridge1
 			#lidarBuffer = 12 		# +- range we give to number of lidar lasers per scan difference
 			#confidenceNumber = 0.85	# confidence of changing in %
-			# bridge3
+			# bridge5
+			#lidarBuffer = 5			# higher buffer than you need a bigger change in Lidar scans to detect it
+			#confidenceNumber = 0.7		# higher confidence means the more number of lidar scans in a row you need to switch
+			# bridge2
 			lidarBuffer = 5			# higher buffer than you need a bigger change in Lidar scans to detect it
-			confidenceNumber = 0.7		# higher confidence means the more number of lidar scans in a row you need to switch
+			confidenceNumber = 0.7		# higher confidence means the more number of lidar scans in a row you need to switch			
 			timeSwitchLock = 1500 	# buffer that we should wait to relook for a mode switch (real world time = timeSwitchLock * sleepTime)
 			lock = 0 				# lock for mode switching
 			while True:
