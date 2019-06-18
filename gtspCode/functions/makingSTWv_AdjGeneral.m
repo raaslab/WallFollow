@@ -47,7 +47,7 @@ v_Cluster = tempV_Cluster(:,1);
 %FDUNew = checkUGVPossibility(FDU,v_UGVCapable,1);
 %DTUNew = checkUGVPossibility(DTU,v_UGVCapable,2);
 
-impossibleEdges = readDataImpossible('/home/klyu/lab/WallFollow/gtspCode/input/Impossible10.txt');
+impossibleEdges = readDataImpossible('/home/klyu/lab/WallFollow/gtspCode/input/Impossible50.txt');
 
 % make these into functions for each type of edge combo
 % edge type combos: These edges are only external edges and the combination of the above edges
