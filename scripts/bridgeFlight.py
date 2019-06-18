@@ -466,10 +466,10 @@ def main():
 					
 					# mode switching
 					if lock <= 0 and counterOfModes-1 != len(listOfModes):
-						if listOfModes[counterOfModes] == 3 and listOfModes[counterOfModes+1] == 2: # TODO: check to make sure that this section works for timed switching for down up
+						if listOfModes[counterOfModes] == 3 and listOfModes[counterOfModes+1] == 2: 
 							counterOfModes = counterOfModes + 1
 							gcmode = listOfModes[counterOfModes]
-							lock = timeSwitchLock * sleepTime - timeSwitchLock*sleepTime*0.5
+							lock = timeSwitchLock * sleepTime - timeSwitchLock*sleepTime*0.6
 							print("change0")
 						else:	# regular checks for switching between modes
 							if percentLargerH1 > confidenceNumber and listOfModes[counterOfModes] == 2:
