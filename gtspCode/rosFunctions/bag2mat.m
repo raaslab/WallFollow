@@ -2,20 +2,23 @@
 % look at testing this in ros
 % clear
 close all
-% bag = rosbag('2019-06-17-12-44-21.bag')
-rosbag info '2019-06-17-12-44-21.bag';
+% bag = rosbag('2019-06-18-13-16-07.bag')
+
+% load('/home/klyu/lab/WallFollow/gtspCode/output/bridge51.mat')
+% load('/home/klyu/lab/WallFollow/gtspCode/output/bridge53.mat')
+
 
 bSel = select(bag,'Topic','/mavros/global_position/local');
 msgStructs = readMessages(bSel,'DataFormat','struct');
 msgStructs{[1,1]};
-% ￼
-% ￼
+
+endTime = 27500;
 
 xPoints = cellfun(@(m) double(m.Pose.Pose.Position.X),msgStructs);
 zPoints = cellfun(@(m) double(m.Pose.Pose.Position.Z),msgStructs);
 
-xPoints = xPoints(1:27000);
-zPoints = zPoints(1:27000);
+xPoints = xPoints(1:endTime);
+zPoints = zPoints(1:endTime);
 
 figure(3)
 plot(xPoints,zPoints)
@@ -28,6 +31,9 @@ hold on
 data = readData('/home/klyu/lab/WallFollow/gtspCode/input/bridge5Outline.txt');
 plot(data(:,1),data(:,2))
 hold off
+
+tour = [22, 21, 20, 19, 7, 17, 5, 15, 14, 13, 1, 23];
+graphingClusterOrdered(x, y, numPointsInit, numBatteryLevels, S1, T1, v_Cluster, tour)
 
 
 function [data] = readData(file)
