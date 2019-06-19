@@ -21,7 +21,7 @@ yOut = [];
 
 G = digraph;
 for i = 1:numPoints
-	if i<numPoints/2
+	if i<((numPoints/2)+1)
     	xOut(end+1) = i;
     	yOut(end+1) = 1;
     else
@@ -48,28 +48,31 @@ for i = 1:numOfTour-1
     end
 end
 id(end+1) = numPoints+1
+idNew = [];
+for i = 1:numPoints-1
+    idNew(end+1) = i;
+end
 %-------------------------------------------------------------------------%
-[G, xOut, yOut] = graphMakingWPoints(xOut, yOut, G, id);
+[G, xOut, yOut] = graphMakingWPoints(xOut, yOut, G, idNew);
 [G] = createEdges(G, s, t);
 
-xOut(end+1) = 0;
-yOut(end+1) = 1;
-
 figure(4)                                                            % plots graph
-plot(G, 'XData', xOut, 'YData', yOut, 'LineStyle', '-.', 'LineWidth', 2, 'MarkerSize', 2);
+plot(G, 'XData', xOut, 'YData', yOut, 'LineStyle', '-.', 'LineWidth', 4, 'MarkerSize', 6);
 
-yRec = 0;
+yRec = 0.5;
 wRec = 1;
 hRec = numLevels+1;
-for i = 1:numPoints                                                 % clusters the points
+for i = 1:numPoints/2                                                 % clusters the points
     xRec = i-(wRec/2);                                              % parameters for creating clusters
     pos = [xRec, yRec, wRec, hRec];                                 % creates oval, but needs to be fixed
     rectangle('Position', pos, 'Curvature', [1 1])
-    xStr = num2str(x(tour(i+1)));
-    yStr = num2str(y(tour(i+1)));
-    str = sprintf('%s, %s', xStr, yStr);
-    text(xRec, yRec+hRec-(hRec/16), str, 'Color', 'red', 'Fontsize', 7);
+    xStr = num2str(i);
+    str = sprintf('%s', xStr);
+    text(xRec+(wRec/4), yRec+hRec/2, str, 'Color', 'red', 'Fontsize', 14);
 end
+
+title('GTSP Output')
+
 
 end
 
