@@ -21,11 +21,12 @@ yOut = [];
 
 G = digraph;
 for i = 1:numPoints
-    count = numLevels;
-    for j = 1:numLevels
-        xOut(end+1) = i;
-        yOut(end+1) = count;
-        count = count-1;
+	if i<numPoints/2
+    	xOut(end+1) = i;
+    	yOut(end+1) = 1;
+    else
+    	xOut(end+1) = i - (numPoints/2);
+    	yOut(end+1) = 2;
     end
 end
 %-------------------------------------------------------------------------%
