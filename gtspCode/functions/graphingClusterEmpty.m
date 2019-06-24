@@ -14,7 +14,7 @@
 % this function just plots the cluster so no output is needed
 
 
-function [] = graphingClusterOrdered(x, y, numPoints, numLevels, s, t, v_Cluster, tour)
+function [] = graphingClusterEmpty(x, y, numPoints, numLevels, s, t, v_Cluster, tour, cost)
 
 xOut = [];
 yOut = [];
@@ -49,15 +49,23 @@ for i = 1:numOfTour-1
 end
 id(end+1) = numPoints+1
 idNew = [];
-for i = 1:numPoints-1
+for i = 1:numPoints
     idNew(end+1) = i;
 end
 %-------------------------------------------------------------------------%
-[G, xOut, yOut] = graphMakingWPoints(xOut, yOut, G, idNew);
-[G] = createEdges(G, s, t);
+s = [1,5,3,19,4,8,13,21,7,9,12,15,13];
+t = [2,18,4,5,16,21,5,11,20,21,3,6,4];
 
-figure(4)                                                            % plots graph
-plot(G, 'XData', xOut, 'YData', yOut, 'LineStyle', '-.', 'LineWidth', 4, 'MarkerSize', 6);
+costs = [];
+for i = 1:numel(s)
+    costs(end+1) = cost(s(i), t(i));
+end
+
+[G, xOut, yOut] = graphMakingWPoints(xOut, yOut, G, idNew);
+[G] = createEdges(G, s, t, costs);
+
+figure(5)                                                            % plots graph
+plot(G, 'XData', xOut, 'YData', yOut, 'LineStyle', '-.', 'LineWidth', 4, 'MarkerSize', 6, 'EdgeLabel',G.Edges.Weight);
 
 yRec = 0.5;
 wRec = 1;
@@ -71,7 +79,7 @@ for i = 1:numPoints/2                                                 % clusters
     text(xRec+(wRec/4), yRec+hRec/2, str, 'Color', 'red', 'Fontsize', 14);
 end
 
-title('GTSP Output')
+title('GTSP Input')
 
 
 end

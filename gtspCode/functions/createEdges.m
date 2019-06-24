@@ -24,9 +24,9 @@ switch nargin
         indexOut = findedge(G, S, T);
         sizeOfIndex = numel(indexOut);
         cost = zeros(sizeOfIndex, 1);
-        newWeights = cell2mat(weights);
+%         newWeights = cell2mat(weights);
         for i = 1:sizeOfIndex
-            cost(indexOut(i)) = newWeights(i);
+            cost(indexOut(i)) = weights(i);
         end
         G.Edges.Weight = cost;
     case 3
