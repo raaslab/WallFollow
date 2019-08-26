@@ -1,7 +1,7 @@
 % look at testing this in ros
 % clear
 close all
-% bag = rosbag('2019-06-18-13-16-07.bag')
+bag = rosbag('2019-06-18-13-16-07.bag')
 
 % load('/home/klyu/lab/WallFollow/gtspCode/output/bridge51.mat')
 % load('/home/klyu/lab/WallFollow/gtspCode/output/bridge53.mat')
