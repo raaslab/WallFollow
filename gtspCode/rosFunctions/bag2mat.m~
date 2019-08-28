@@ -28,7 +28,7 @@ zPoints = zPoints(1:endTime);
 % xlabel('X Position')
 % ylabel('Altitude')
 % hold on
-%
+% 
 % data = readData('/home/klyu/lab/WallFollow/gtspCode/input/bridge5Outline.txt');
 % plot(data(:,1),data(:,2))
 % hold off
@@ -36,19 +36,6 @@ zPoints = zPoints(1:endTime);
 tour = [22, 21, 20, 19, 7, 17, 5, 15, 14, 13, 1, 23];
 S = [22,21,20,19,7,17,5,15,14,13];
 T = [21, 20, 19, 7, 17, 5, 15, 14, 13, 1];
-
-    SInit = [];
-    TInit = [];
-for i = 1:numPointsInit
-    for j = 1:numPointsInit
-        temp = gtspMatrix(i,j)
-        if temp ~= -1
-            SInit = [SInit, i];
-            TInit = [TInit, j];
-        end
-    end
-end
-
 graphingClusterOrdered(x, y, numPointsInit, numBatteryLevels, S, T, v_Cluster, tour)
-graphingClusterOrdered(x, y, numPointsInit, numBatteryLevels, SInit, TInit, v_Cluster, tour)
+graphingClusterOrdered(x, y, numPointsInit, numBatteryLevels, SInit, Tini
 
