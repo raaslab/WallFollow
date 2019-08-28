@@ -56,7 +56,8 @@ end
 [G, xOut, yOut] = graphMakingWPoints(xOut, yOut, G, idNew);
 [G] = createEdges(G, s, t);
 
-G = addnode(G,{'22'})
+if G
+G = addnode(G,[22])
 
 figure(4)                                                            % plots graph
 plot(G, 'XData', xOut, 'YData', yOut, 'LineStyle', '-', 'LineWidth', 4, 'MarkerSize', 6);
