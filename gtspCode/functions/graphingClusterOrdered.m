@@ -69,11 +69,11 @@ for i = 1:numPoints/2                                                 % clusters
     pos = [xRec, yRec, wRec, hRec];                                 % creates oval, but needs to be fixed
     rectangle('Position', pos, 'Curvature', [1 1])
     xStr = num2str(i);
-    str = sprintf('%s', xStr);
-    text(xRec+(wRec/4), yRec+hRec/2, str, 'Color', 'red', 'Fontsize', 14);
+%     str = sprintf('%s', xStr);
+%     text(xRec+(wRec/4), yRec+hRec/2, str, 'Color', 'red', 'Fontsize', 14);
 end
 
-title('GTSP Output')
+title('GTSP Input')
 
 
 end

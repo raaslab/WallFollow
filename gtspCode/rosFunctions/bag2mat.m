@@ -42,7 +42,7 @@ T = [21, 20, 19, 7, 17, 5, 15, 14, 13, 1];
 for i = 1:numPointsInit
     for j = 1:numPointsInit
         temp = gtspMatrix(i,j);
-        if temp ~= -1 && i == 3
+        if temp ~= -1 && i == 2
             SInit = [SInit, i];
             TInit = [TInit, j];
         end
