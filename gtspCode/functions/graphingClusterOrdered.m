@@ -74,7 +74,7 @@ for i = 1:numPoints/2                                                 % clusters
 end
 
 title('GTSP Input')
-
+axis off
 
 end
 
